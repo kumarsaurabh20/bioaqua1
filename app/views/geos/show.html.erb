@@ -1,6 +1,3 @@
-<%= javascript_include_tag 'ym4r-gm.js' %>
-<%= GMap.header %>
-
 <%= link_to 'Edit', edit_geo_path(@geo) %> |
 <%= link_to 'Back', geos_path %>
 <br />
@@ -37,9 +34,6 @@
   <%=h @state.name %>
 </p>
 
-
-<%= @map.to_html %>
-<%= @map.div(:width => 600, :height => 400) %>
 <br />
 <%= link_to 'Edit', edit_geo_path(@geo) %> |
 <%= link_to 'Back', geos_path %>

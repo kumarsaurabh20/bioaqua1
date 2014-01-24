@@ -62,7 +62,7 @@ module SessionsHelper
 
   def deny_access_destroy
     flash[:notice] = "Sorry. Only technical manager can delete data. Please, contact Roberto SPURIO to do it."
-    redirect_to request.request_uri
+    redirect_to request_uri
   end
 
   #Friendly forwarding
