@@ -1,0 +1,132 @@
+<table>
+  <tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+      <li><%= link_to "Microarray .GAL", microarraygals_path %></li>
+      <li><%= link_to "Microarray .GPR", microarraygprs_path %></li>
+      <li><%= link_to "Microarray Images", micro_array_images_path %></li>
+      <li><%= link_to "Microarray Analysis files", micro_array_analysis_files_path %></li>
+      <li><%= link_to "Microarray Validations", micro_array_validations_path %></li> 
+    </ul>
+  </td></tr>
+</table>
+
+
+<%= link_to 'Edit', edit_micro_array_image_path(@micro_array_image) %> |
+<%= link_to 'Back', micro_array_images_path %>
+
+<br />
+
+<fieldset><legend class="leg">GENERAL DATA</legend>
+
+<table width="95%">
+   <tr>
+       <td>
+
+  <div class="field select">
+    <b>Microarray image code:</b>
+      <%=h @micro_array_image.icode %>
+  </div>
+       </td>
+       <td>
+  <div class="field num">
+      <b>Name:</b>
+      <%=h @micro_array_image.name %>
+  </div>
+      </td>
+      
+   <tr>
+       <td>
+  <div class="field num">
+      <b>Image:</b><br />
+      <% @micro_array_image.image_assets.each do |image| %>
+      <% unless image.new_record? || !image.photo? %>
+
+     <%= link_to( image_tag(image.photo.url(:small)), image.photo.url(:original)) %>
+
+<% end %>
+<% end %>
+  </div>
+   </td>
+   </tr>
+</table>
+
+
+</fieldset>
+
+<fieldset><legend class="leg">ENVIRONMENTAL DATA</legend>
+
+
+
+  <div class="datas num">
+  <b>Image:</b>
+  <%=h @micro_array_image.image %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii imageid:</b>
+  <%=h @micro_array_image.II_ImageID %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii channel:</b>
+  <%=h @micro_array_image.II_Channel %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii image:</b>
+  <%=h @micro_array_image.II_Image %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii fluorophore:</b>
+  <%=h @micro_array_image.II_Fluorophore %>
+  </div>
+
+  <div class="datas num">
+  <b>Barcode:</b>
+  <%=h @micro_array_image.barcode %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii units:</b>
+  <%=h @micro_array_image.II_Units %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii x units per pixel:</b>
+  <%=h @micro_array_image.II_X_Units_Per_Pixel %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii y units per pixel:</b>
+  <%=h @micro_array_image.II_Y_Units_Per_Pixel %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii x offset:</b>
+  <%=h @micro_array_image.II_X_Offset %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii y offset:</b>
+  <%=h @micro_array_image.II_Y_Offset %>
+  </div>
+
+  <div class="datas num">
+  <b>Ii status:</b>
+  <%=h @micro_array_image.II_Status %>
+  </div>
+
+</fieldset>
+
+  <div class="field num">
+      <b>Note:</b>
+      <%=h @micro_array_image.note %>
+  </div>
+
+<br />
+
+
+<%= link_to 'Edit', edit_micro_array_image_path(@micro_array_image) %> |
+<%= link_to 'Back', micro_array_images_path %>
+

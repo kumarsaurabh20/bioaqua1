@@ -1,0 +1,17 @@
+<%= form_for(@geology) do |f| %>
+  <% if @geology.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@geology.errors.count, "error") %> prohibited this geology from being saved:</h2>
+
+      <ul>
+      <% @geology.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

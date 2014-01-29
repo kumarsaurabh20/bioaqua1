@@ -1,0 +1,17 @@
+<%= form_for(@oligo_sequence) do |f| %>
+  <% if @oligo_sequence.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@oligo_sequence.errors.count, "error") %> prohibited this oligo_sequence from being saved:</h2>
+
+      <ul>
+      <% @oligo_sequence.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

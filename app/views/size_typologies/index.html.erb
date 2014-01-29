@@ -1,0 +1,44 @@
+<table>
+<tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+      <li><%= link_to "land use mapping", land_use_mappings_path %></li>
+      <li><%= link_to "water use", water_uses_path %></li>
+      <li><%= link_to "water type", water_types_path %></li>
+      <li><%= link_to "geo", geos_path %></li>
+      <li><%= link_to "alt. type", altitude_types_path %></li>
+      <li><%= link_to "catchment area", catchment_areas_path %></li>
+      <li><%= link_to "depth", depths_path %></li>
+      <li><%= link_to "size type", size_typologies_path %></li>
+      <li><%= link_to "geology", geologies_path %></li>
+    </ul>
+  </td></tr>
+</table>
+
+
+<h1>Size typologies</h1>
+<%= link_to 'New size_typology', new_size_typology_path %>
+<br />
+<br />
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+
+<% @size_typologies.each do |size_typology| %>
+  <tr>
+    <td><%=h size_typology.name %></td>
+    <td><%=h size_typology.desc_ellipsis %></td>
+    <td><%= link_to 'Show', size_typology %></td>
+    <td><%= link_to 'Edit', edit_size_typology_path(size_typology) %></td>
+    <td><%= link_to 'Destroy', size_typology, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<br />
+<%= link_to 'New size_typology', new_size_typology_path %>
+<br />
+

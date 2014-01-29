@@ -1,0 +1,53 @@
+<% if auth_user(@partner.id) or signed_in_and_master? %>
+    <%= link_to 'Edit', edit_partner_path(@partner) %> |
+<% end %>
+<%= link_to 'Back', partners_path %>
+
+<br />
+
+<div class="show txt">
+  <b>Fp7 number:</b>
+  <%=h @partner.fp7_Number %>
+</div>
+
+<div class="show txt">
+  <b>Name:</b>
+  <%=h @partner.name %>
+</div>
+
+<div class="show cod">
+  <b>State:</b>
+  <%=h @state.name %>
+</div>
+
+<div class="show area">
+  <b>Address:</b>
+  <%=h @partner.address %>
+</div>
+
+<div class="show txt">
+  <b>Phone:</b>
+  <%=h @partner.phone %>
+</div>
+
+<div class="show txt">
+  <b>email:</b>
+  <%=h @partner.email %>
+  <div style="display:none">
+  email_field(:user, :email)
+  email_field(@partner, :email)
+  </div>
+</div>
+
+<div class="show txt">
+  <b>Site:</b>
+  <%=h @partner.site %>
+</div>
+
+<br />
+
+<% if auth_user(@partner.id) or signed_in_and_master? %>
+    <%= link_to 'Edit', edit_partner_path(@partner) %> |
+<% end %>
+<%= link_to 'Back', partners_path %>
+

@@ -1,0 +1,17 @@
+<%= form_for(@data_gpr) do |f| %>
+  <% if @data_gpr.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@data_gpr.errors.count, "error") %> prohibited this data_gpr from being saved:</h2>
+
+      <ul>
+      <% @data_gpr.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

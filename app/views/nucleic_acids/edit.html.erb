@@ -1,0 +1,70 @@
+<table>
+  <tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+        <li><%= link_to "nucleic acid type", nucleic_acid_types_path %></li>
+    </ul>
+  </td></tr>
+</table>
+
+<h1>Editing nucleic acid</h1>
+
+<%= form_for(@nucleic_acid) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="actions">
+    <%= f.submit 'Update' %>
+  </div>
+
+<fieldset><legend class="leg">GENERAL DATA</legend>
+
+<table width="95%"><tr><td>
+
+  <div class="field select">
+    <%= f.label :filter_sample, "Sampling" %><br />
+    <h3><%= @nucleic_acid.filter_sample.sampling.verbose_me %></h3>
+  </div>
+
+  <div class="field select">
+    <%= f.label :filter_sample, "Filter sample" %><br />
+    <h3><%= @nucleic_acid.filter_sample.verbose_me %></h3>
+  </div>
+
+  <div class="field select">
+    <%= f.label :partner, "Partner"  %><br />
+    <h3><%= @nucleic_acid.partner.verbose_me %></h3>
+  </div>
+
+</td><td>
+
+  <div class="field text">
+    <%= f.label :code %><br />
+    <%= f.text_field :code %>
+  </div>
+
+  <div class="field select">
+    <%= f.label :nucleic_acid_type, "Nucleic acid type" %><br />
+    <%= select :nucleic_acid,:nucleic_acid_type_id, NucleicAcidType.all.collect{|p| [p.verbose_me, p.id]}%>
+  </div>
+
+  <div class="field date">
+    <%= f.label :date %><br />
+    <%= f.date_select :date %>
+  </div>
+
+</td><tr></table>
+
+</fieldset>
+
+  <div class="field area">
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Update' %>
+  </div>
+
+<% end %>
+
+<%= link_to 'Show', @nucleic_acid %> |
+<%= link_to 'Back', nucleic_acids_path %>

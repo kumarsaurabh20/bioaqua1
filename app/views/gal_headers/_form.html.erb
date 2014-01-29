@@ -1,0 +1,17 @@
+<%= form_for(@gal_header) do |f| %>
+  <% if @gal_header.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@gal_header.errors.count, "error") %> prohibited this gal_header from being saved:</h2>
+
+      <ul>
+      <% @gal_header.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,46 @@
+<h1>Editing partner</h1>
+
+<%= form_for(@partner) do |f| %>
+  <%= f.error_messages %>
+
+<fieldset><legend class="leg">General data</legend>
+  <div class="field cod">
+    <%= f.label :fp7_Number %><br />
+    <%= f.text_field :fp7_Number %>
+  </div>
+  <div class="field txt">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :country_id, "Select country" %><br />
+    <%= select :partner,:country_id,Country.find(:all).collect{|p| [p.verbose_me, p.id]}%>
+  </div>
+  <div class="field area">
+    <%= f.label :address %><br />
+    <%= f.text_area :address %>
+  </div>
+  <div class="field txt">
+    <%= f.label :phone %><br />
+    <%= f.text_field :phone %>
+  </div>
+  <div class="field txt">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+    email_field(:f, :email)
+  </div>
+  <div class="field txt">
+    <%= f.label :site %><br />
+    <%= f.text_field :site %>
+  </div>
+
+</fieldset>
+
+  <div class="actions">
+    <%= f.submit 'Update' %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @partner %> |
+<%= link_to 'Back', partners_path %>
+

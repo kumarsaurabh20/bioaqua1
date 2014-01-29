@@ -1,0 +1,62 @@
+<table>
+  <tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+        <li><%= link_to "nucleic acid type", nucleic_acid_types_path %></li>
+    </ul>
+  </td></tr>
+</table>
+
+<%= link_to 'Edit', edit_nucleic_acid_path(@nucleic_acid) %> |
+<%= link_to 'Back', nucleic_acids_path %>
+<br />
+<br />
+
+<fieldset><legend class="leg">GENERAL DATA</legend>
+
+<table width="95%"><tr><td>
+
+    <div class="show select">
+      <b>Sampling:</b>
+      <h3><%=h link_to @nucleic_acid.filter_sample.sampling.full_name, sampling_path(@nucleic_acid.filter_sample.sampling) %></h3>
+    </div>
+
+    <div class="show select">
+      <b>Filter sample:</b>
+      <h3><%=h link_to @nucleic_acid.filter_sample.full_name, filter_sample_path(@nucleic_acid.filter_sample) %></h3>
+    </div>
+
+    <div class="show select">
+      <b>Partner:</b>
+      <%=h @nucleic_acid.partner.verbose_me %>
+    </div>
+
+</td><td>
+
+    <div class="show code">
+      <b>Code:</b>
+      <%=h @nucleic_acid.code %>
+    </div>
+
+    <div class="show select">
+      <b>Nucleic acid type:</b>
+      <%=h @nucleic_acid.nucleic_acid_type.verbose_me %>
+    </div>
+
+    <div class="show date">
+      <b>Date:</b>
+      <%=h @nucleic_acid.date.strftime("%A %d %B %Y") %>
+    </div>
+
+</td><tr></table>
+
+</fieldset>
+
+    <div class="show area">
+      <b>Description:</b>
+      <%=h @nucleic_acid.description %>
+    </div>
+
+
+<br />
+<%= link_to 'Edit', edit_nucleic_acid_path(@nucleic_acid) %> |
+<%= link_to 'Back', nucleic_acids_path %>

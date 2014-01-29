@@ -1,0 +1,17 @@
+<%= form_for(@land_use_mapping) do |f| %>
+  <% if @land_use_mapping.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@land_use_mapping.errors.count, "error") %> prohibited this land_use_mapping from being saved:</h2>
+
+      <ul>
+      <% @land_use_mapping.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

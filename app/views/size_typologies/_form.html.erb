@@ -1,0 +1,17 @@
+<%= form_for(@size_typology) do |f| %>
+  <% if @size_typology.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@size_typology.errors.count, "error") %> prohibited this size_typology from being saved:</h2>
+
+      <ul>
+      <% @size_typology.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

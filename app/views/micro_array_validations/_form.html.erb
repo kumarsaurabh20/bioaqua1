@@ -1,0 +1,17 @@
+<%= form_for(@micro_array_validation) do |f| %>
+  <% if @micro_array_validation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@micro_array_validation.errors.count, "error") %> prohibited this micro_array_validation from being saved:</h2>
+
+      <ul>
+      <% @micro_array_validation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,17 @@
+<%= form_for(@nucleic_acid) do |f| %>
+  <% if @nucleic_acid.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@nucleic_acid.errors.count, "error") %> prohibited this nucleic_acid from being saved:</h2>
+
+      <ul>
+      <% @nucleic_acid.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

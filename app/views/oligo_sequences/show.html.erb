@@ -1,0 +1,112 @@
+<table>
+  <tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+        <li><%= link_to "Person", people_path %></li>
+    </ul>
+  </td></tr>
+</table>
+
+
+
+<% if auth_user(@oligo_sequence.partner_id) %>
+  <%= link_to 'Edit', edit_oligo_sequence_path(@oligo_sequence) %> |
+<% end %>
+<%= link_to 'Back', oligo_sequences_path %>
+<br />
+
+<fieldset><legend class="leg">GENERAL DATA</legend>
+
+<table width="95%"><tr><td>
+
+     <div class="show select">
+      <b>Partner:</b>
+      <%=h @oligo_sequence.partner.verbose_me %>
+    </div>
+
+    <div class="show txt">
+      <b>Description:</b>
+      <%=h @oligo_sequence.name %>
+    </div>
+
+    <div class="show cod">
+      <b>Partner code:</b>
+      <%=h @oligo_sequence.code %>
+    </div>
+
+    <div class="show chk">
+      <b>Available:</b>
+      <%=h @oligo_sequence.available %>
+    </div>
+
+</td><td>
+
+    <div class="show select">
+      <b>Partner:</b>
+      <%=h @oligo_sequence.partner.verbose_me %>
+    </div>
+
+    <div class="show select">
+      <b>Person:</b>
+      <%=h @oligo_sequence.people_name %>
+    </div>
+
+    <div class="show date">
+      <b>Date:</b>
+      <%=h @oligo_sequence.oligoDate.strftime("%A %d %B %Y") %>
+    </div>
+
+</td><tr></table>
+
+</fieldset>
+
+<fieldset><legend class="leg">DNA SEQUENCE</legend>
+
+    <div class="show seq">
+      <b title="validation dna seq --> IUPAC code table Nucleotid:  
+A (Adenine) 
+C (Cytosine)    
+G (Guanine) 
+T (Thymine) 
+U (Uracil)  
+R (Purine A or G)   
+Y (Pyrimidine C, T, or U)   
+M (C or A)  
+K (T, U, or G)  
+W (T, U, or A)  
+S (C or G)  
+B (C, T, U, or G not A) 
+D (A, T, U, or G not C)    
+H (A, T, U, or C not G)    
+V (A, C, or G not T, not U) 
+N (Any base A, C, G, T, or U)   ">DNA probe sequence (5'->3'):</b>
+      <h1><%=h @oligo_sequence.dna_sequence %></h1>
+    </div>
+
+</fieldset>
+
+<fieldset><legend class="leg">ORGANISM</legend>
+
+    <div class="show txt">
+      <b>Taxonomy identifier:</b>
+      <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=<%=h @oligo_sequence.taxonomy_id %>' title='Show taxonomy identifier into the NCBI web site'  target='_blank'><%=h @oligo_sequence.taxonomy_id %></a></h3>
+    </div>
+    <div class="show txt">
+      <b>Taxonomy name:</b>
+      <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name=<%=h @oligo_sequence.taxonomy_name %>' title='Show taxonomy definition and lineage into the NCBI web site'  target='_blank'><%=h @oligo_sequence.taxonomy_name %></a></h3>
+    </div>
+    
+
+</fieldset>
+
+<div class="show area">
+  <b>Additional data:</b>
+  <%=h @oligo_sequence.description %>
+</div>
+
+<br />
+
+<% if auth_user(@oligo_sequence.partner_id) %>
+  <%= link_to 'Edit', edit_oligo_sequence_path(@oligo_sequence) %> |
+<% end %>
+<%= link_to 'Back', oligo_sequences_path %>
+

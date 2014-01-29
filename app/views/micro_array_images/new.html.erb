@@ -1,0 +1,198 @@
+<table>
+  <tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+      <li><%= link_to "Microarray .GAL", microarraygals_path %></li>
+      <li><%= link_to "Microarray .GPR", microarraygprs_path %></li>
+      <li><%= link_to "Microarray Images", micro_array_images_path %></li>
+      <li><%= link_to "Microarray Analysis files", micro_array_analysis_files_path %></li>
+      <li><%= link_to "Microarray Validations", micro_array_validations_path %></li> 
+    </ul>
+  </td></tr>
+</table>
+
+<h1>New micro array image</h1>
+
+<%= link_to 'Back', micro_array_images_path %>
+
+<%= form_for(@micro_array_image, :html => {:multipart => true}) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="actions">
+    <%= f.submit 'Create' %>
+  </div>
+
+<fieldset><legend class="leg">GENERAL DATA</legend>
+
+  <div class="field txt">
+    <%= f.label :name, "Image file name" %><br />
+    <%= f.text_field :name %>
+  </div>
+  
+   <div class="field select">
+    <%= f.label :partner_id, "Partner" %><br />
+    <%= select :micro_array_image,:partner_id,Partner.find(:all, :conditions => ["id = ? ", @pt.id]).collect{|p| [p.verbose_me, p.id]}%>
+  </div>
+<br />
+   
+
+  <style>
+
+.actionSubmit {
+                border:3px outset;
+                background-color:#0174DF;
+                color:#ffffff
+}
+
+
+</style>
+
+
+<table>
+       <tr><td>
+		   <div class="add_file_button">
+		   <input type="button" id="add_files" style=" border:3px outset;background-color:#0174DF;color:#ffffff" value="Upload images" />
+		   </div>                  
+           </td>
+           
+       </tr>
+       
+</table> 
+
+ <div class="paperclip">
+    <%= f.fields_for :image_assets do |asset| %>
+
+    <% if asset.object.new_record? %>
+    <br />
+    <%= asset.file_field :photo %><br />
+     <% end %>
+     <% end %>
+  </div>
+
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+$("div.paperclip > input").css("display","none");
+
+$("#add_files").click(function() {$("#micro_array_image_image_assets_attributes_0_photo").toggle("fast");
+
+ //Setup for the second click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#micro_array_image_image_assets_attributes_1_photo").toggle("fast"); 
+//Setup for the third click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#micro_array_image_image_assets_attributes_2_photo").toggle("fast"); 
+//Setup for the fourth click.
+   $(this).off('click');
+   $(this).on('click', function() {alert("Cannot add more files!!"); 
+
+});
+});
+});
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+</fieldset>
+
+<fieldset><legend class="leg">ENVIRONMENTAL DATA</legend>
+
+  <div class="datas  bin">
+    <%= f.label :image %><br />
+    <%= f.text_field :image %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_ImageID, "ImageID" %><br />
+    <%= f.text_field :II_ImageID %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_Channel, "Channel" %><br />
+    <%= f.text_field :II_Channel %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_Image, "Image" %><br />
+    <%= f.text_field :II_Image %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_Fluorophore, "Fluorophore" %><br />
+    <%= f.text_field :II_Fluorophore %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :barcode, "Barcode" %><br />
+    <%= f.text_field :barcode %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_Units, "Units" %><br />
+    <%= f.text_field :II_Units %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_X_Units_Per_Pixel, "X Units Per Pixel" %><br />
+    <%= f.text_field :II_X_Units_Per_Pixel %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_Y_Units_Per_Pixel, "Y Units Per Pixel" %><br />
+    <%= f.text_field :II_Y_Units_Per_Pixel %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_X_Offset, "X Offset" %><br />
+    <%= f.text_field :II_X_Offset %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_Y_Offset, "Y Offset" %><br />
+    <%= f.text_field :II_Y_Offset %>
+  </div>
+  <div class="datas  num">
+    <%= f.label :II_Status, "Status" %><br />
+    <%= f.text_field :II_Status %>
+  </div>
+
+  <div class="field area">
+    <%= f.label :note %><br />
+    <%= f.text_area :note %>
+  </div
+
+</fieldset>
+
+  <div class="actions">
+    <%= f.submit 'Create' %>
+  </div>
+
+<% end %>
+
+<%= link_to 'Back', micro_array_images_path %>
+

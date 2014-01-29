@@ -1,0 +1,117 @@
+<%= jqgrid_stylesheets %>
+<div style="display:none" javascript_include_tag('jqgrid/jquery.js') ></div>
+<%= jqgrid_javascripts %> 
+
+<table>
+      <tr>   
+          <td>
+          <h2>New Samplings Multiple File Upload (*.csv or *.tsv)</h2>
+          </td>
+          <td>               
+          <div>
+          <b><u><a href="<%= '/download_sample_sampling_csv' %>" >Download an example of sampling file</a></u></b>
+          </div>
+          </td>
+      </tr>
+</table>
+
+<%= link_to 'Back', samplings_path %>
+<br /><br />
+
+<%= form_for(@batch_sampling, :html => {:multipart => true}) do |f| %>
+  <%= f.error_messages %>
+
+<style>
+.actionSubmit {
+                border:3px outset;
+                background-color:#0174DF;
+                color:#ffffff
+}
+</style>
+
+<table>
+       <tr><td>
+		   <div class="add_file_button">
+		   <input type="button" id="add_files" style=" border:3px outset;background-color:#0174DF;color:#ffffff" value="Add Files" />
+		   </div>                  
+           </td>
+           <td>
+		   <div class="actions">
+		   <%= f.submit 'Save Files', :class => 'actionSubmit' %>
+		   </div>
+           </td>
+       </tr>
+       
+</table> 
+	       
+   
+	    
+    
+	    <div class="paperclip">
+	    <%= f.fields_for :sampling_assets do |asset| %><br>
+            
+	    <%= asset.file_field :safi %><br>
+            
+	    <% end %>
+	    </div>  
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+$("div.paperclip > input").css("display","none");
+
+$("#add_files").click(function() {$("#batch_sampling_sampling_assets_attributes_0_safi").toggle("fast");
+
+ //Setup for the second click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#batch_sampling_sampling_assets_attributes_1_safi").toggle("fast"); 
+//Setup for the third click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#batch_sampling_sampling_assets_attributes_2_safi").toggle("fast"); 
+//Setup for the fourth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#batch_sampling_sampling_assets_attributes_3_safi").toggle("fast"); 
+//Setup for the fifth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#batch_sampling_sampling_assets_attributes_4_safi").toggle("fast"); 
+//Setup for the sixth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#batch_sampling_sampling_assets_attributes_5_safi").toggle("fast"); 
+//Setup for the seventh click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#batch_sampling_sampling_assets_attributes_6_safi").toggle("fast"); 
+//Setup for the eigth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#batch_sampling_sampling_assets_attributes_7_safi").toggle("fast"); 
+//Setup for the ninth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#batch_sampling_sampling_assets_attributes_8_safi").toggle("fast"); 
+//Setup for the 10th click.
+   $(this).off('click');
+   $(this).on('click', function() {$("#batch_sampling_sampling_assets_attributes_9_safi").toggle("fast");
+  
+//Setup for the 11th click.
+   $(this).off('click');
+   $(this).on('click', function() {alert("Cannot add more files!!");
+   $(this).off('click'); 
+
+});
+});
+});
+});
+});
+});
+});
+});
+});
+});
+});
+
+</script>
+
+<% end %>
+
+<br />
+
+<%= link_to 'Back', samplings_path %>
+

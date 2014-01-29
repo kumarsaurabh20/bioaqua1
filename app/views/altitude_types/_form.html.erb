@@ -1,0 +1,17 @@
+<%= form_for(@altitude_type) do |f| %>
+  <% if @altitude_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@altitude_type.errors.count, "error") %> prohibited this altitude_type from being saved:</h2>
+
+      <ul>
+      <% @altitude_type.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

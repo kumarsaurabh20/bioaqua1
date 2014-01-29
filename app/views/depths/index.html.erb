@@ -1,0 +1,43 @@
+<table>
+<tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+      <li><%= link_to "land use mapping", land_use_mappings_path %></li>
+      <li><%= link_to "water use", water_uses_path %></li>
+      <li><%= link_to "water type", water_types_path %></li>
+      <li><%= link_to "geo", geos_path %></li>
+      <li><%= link_to "alt. type", altitude_types_path %></li>
+      <li><%= link_to "catchment area", catchment_areas_path %></li>
+      <li><%= link_to "depth", depths_path %></li>
+      <li><%= link_to "size type", size_typologies_path %></li>
+      <li><%= link_to "geology", geologies_path %></li>
+    </ul>
+  </td></tr>
+</table>
+
+<h1>Depths</h1>
+<%= link_to 'New depth', new_depth_path %>
+<br />
+<br />
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+
+<% @depths.each do |depth| %>
+  <tr>
+    <td><%=h depth.name %></td>
+    <td><%=h depth.desc_ellipsis %></td>
+    <td><%= link_to 'Show', depth %></td>
+    <td><%= link_to 'Edit', edit_depth_path(depth) %></td>
+    <td><%= link_to 'Destroy', depth, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<br />
+<%= link_to 'New depth', new_depth_path %>
+<br />
+

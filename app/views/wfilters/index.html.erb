@@ -1,0 +1,25 @@
+<h1>Filters</h1>
+<%= link_to 'New wfilter', new_wfilter_path %>
+<br />
+<br />
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+<% @wfilters.each do |wfilter| %>
+  <tr>
+    <td><%=h wfilter.verbose_me %></td>
+    <td><%= link_to 'Show', wfilter %></td>
+    <td><%= link_to 'Edit', edit_wfilter_path(wfilter) %></td>
+    <td><%= link_to 'Delete', wfilter, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<br />
+<%= link_to 'New wfilter', new_wfilter_path %>
+<br />
+

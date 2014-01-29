@@ -1,0 +1,40 @@
+<table>
+  <tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+		  <li><%= link_to "operation", operations_path %></li>
+    </ul>
+  </td></tr>
+</table>
+
+<h1>Protocols</h1>
+<%= link_to 'New protocol', new_protocol_path %>
+<br />
+<br />
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Growth protocol</th>
+    <th>Treatment protocol</th>
+  </tr>
+
+<% @protocols.each do |protocol| %>
+  <tr>
+
+    <td><%=h protocol.name  %></td>
+    <td><%=h truncate(protocol.GrowthProtocol, :length => 25, :omission => '... (continued)')  %></td>
+    <td><%=h truncate(protocol.TreatmentProtocol, :length => 25, :omission => '... (continued)')  %></td>
+    <td><%= link_to 'Show', protocol %></td>
+    <% if auth_sample_user(protocol.sampling_id) or signed_in_and_master? %>
+      <td><%= link_to 'Edit', edit_protocol_path(protocol) %></td>
+      <td><%= link_to 'Delete', protocol, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<br />
+<%= link_to 'New protocol', new_protocol_path %>
+<br />
+

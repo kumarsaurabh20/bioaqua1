@@ -1,0 +1,17 @@
+<%= form_for(@gal_block) do |f| %>
+  <% if @gal_block.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@gal_block.errors.count, "error") %> prohibited this gal_block from being saved:</h2>
+
+      <ul>
+      <% @gal_block.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

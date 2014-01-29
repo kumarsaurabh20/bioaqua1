@@ -1,0 +1,2 @@
+module GalBlocksHelper
+end

@@ -1,0 +1,17 @@
+<%= form_for(@filter_sample_preparation) do |f| %>
+  <% if @filter_sample_preparation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@filter_sample_preparation.errors.count, "error") %> prohibited this filter_sample_preparation from being saved:</h2>
+
+      <ul>
+      <% @filter_sample_preparation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

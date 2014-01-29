@@ -1,0 +1,2 @@
+module GalHeadersHelper
+end

@@ -1,0 +1,26 @@
+<h1>Editing filter</h1>
+
+<%= form_for(@wfilter) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field num">
+    <%= f.label :pore_size, "Pore size filter" %><br />
+    <%= f.text_field :pore_size %>
+  </div>
+  <div class="field txt">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field area">
+    <%= f.label :note %><br />
+    <%= f.text_area :note %>
+  </div>
+<br />
+  <div class="actions">
+    <%= f.submit 'Update' %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @wfilter %> |
+<%= link_to 'Back', wfilters_path %>
+

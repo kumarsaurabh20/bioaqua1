@@ -1,0 +1,23 @@
+<h1>Editing nucleic acid type</h1>
+
+<%= form_for(@nucleic_acid_type) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Update' %>
+  </div>
+
+<% end %>
+
+<%= link_to 'Show', @nucleic_acid_type %> |
+<%= link_to 'Back', nucleic_acid_types_path %>

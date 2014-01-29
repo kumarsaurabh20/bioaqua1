@@ -1,0 +1,299 @@
+<%= javascript_include_tag 'viewxml/XMLDisplayBio.js' %>
+<div class="hide"> = stylesheet_link_tag 'viewxml/XMLDisplay' </div>
+<div class="hide"> javascript_include_tag 'dxhmltree/dhtmlxcommon.js' </div>
+<div class="hide"> javascript_include_tag 'dxhmltree/dhtmlxtree.js' </div>
+<div class="hide"> javascript_include_tag 'dxhmltree/ext/dhtmlxtree_start.js' </div>
+<div class="hide"> stylesheet_link_tag 'dxhmltree/dhtmlxtree' </div> 
+
+<table>
+  <tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+        <li><%= link_to "Person", people_path %></li>
+    </ul>
+  </td></tr>
+</table>
+
+
+<h1>Editing oligo sequence</h1>
+
+<%= link_to 'Show', @oligo_sequence %> |
+<%= link_to 'Back', oligo_sequences_path %>
+<% if auth_user( @oligo_sequence.partner_id) or signed_in_and_master? %>
+ | <%= link_to 'Delete', @oligo_sequence, :confirm => 'Are you sure?', :method => :delete %>
+<% end %>
+<br />
+<br />
+
+
+<%= form_for(@oligo_sequence) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="actions">
+    <%= f.submit 'Update' %>
+  </div>
+
+<fieldset><legend class="leg">GENERAL DATA</legend>
+
+<table width="95%"><tr><td>
+
+  <div class="field select">
+    <%= f.label "Partner" %><br />
+    <h3><%= @pt.verbose_me %></h3>
+  </div>
+   
+  <div class="field txt">
+    <%= f.label :name, "Description" %><br />
+    <h3><%= f.text_field :name %></h3>
+  </div>
+
+  <div class="field txtshort">
+    <%= f.label :code, "Partner code" %><br />
+    <h3><%= f.text_field :code %></h3>
+  </div>
+
+    <div class="field chk">
+      <b>Available:</b>
+      <%= f.check_box :available %>
+    </div>
+
+</td><td>
+
+  <div class="field select">
+    <%= f.label "Partner" %><br />
+    <h3><%= @pt.verbose_me %></h3>
+  </div>
+
+  <div class="field select">
+    <%= f.label "Person" %><br />
+    <h3><%= @peo.verbose_me %></h3>
+  </div>
+
+  <div class="field date">
+    <%= f.label :oligoDate, "Date" %><br />
+    <%= date_select :oligo_sequence, :oligoDate %>
+  </div>
+
+</td><tr></table>
+
+</fieldset>
+
+<fieldset><legend class="leg">DNA SEQUENCE</legend>
+
+    <div class="field ">
+        <%= f.label :dna_sequence, "DNA probe sequence (5'->3')", :title => "validation dna seq --> IUPAC code table Nucleotid:  
+A (Adenine) 
+C (Cytosine)    
+G (Guanine) 
+T (Thymine) 
+U (Uracil)  
+R (Purine A or G)   
+Y (Pyrimidine C, T, or U)   
+M (C or A)  
+K (T, U, or G)  
+W (T, U, or A)  
+S (C or G)  
+B (C, T, U, or G not A) 
+D (A, T, U, or G not C)    
+H (A, T, U, or C not G)    
+V (A, C, or G not T, not U) 
+N (Any base A, C, G, T, or U)   " %><br />
+        <h2><%= f.object.dna_sequence %></h2>
+    </div>
+
+</fieldset>
+
+<fieldset><legend class="leg">ORGANISM</legend>
+
+<table width="95%"><tr><td style="width:20%">
+
+    <div class="field ">
+        <%= f.label :taxonomy_id, "Taxonomy identifier" %><br />
+        <%= f.hidden_field :taxonomy_id %><br />
+        <label class="hide" id="ed_tax_id" name="ed_tax_id"><%=h @oligo_sequence.taxonomy_id %></label>
+        <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=<%=h @oligo_sequence.taxonomy_id %>' title='Show taxonomy identifier into the NCBI web site'  target='_blank'><%=h @oligo_sequence.taxonomy_id %></a></h3>
+    </div>
+    <div class="field ">
+        <%= f.label :taxonomy_name, "Taxonomy name" %><br />
+        <%= f.hidden_field :taxonomy_name %><br />
+        <label class="hide" id="ed_tax_name" name="ed_tax_name"><%=h @oligo_sequence.taxonomy_id %></label><br />
+        <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name=<%=h @oligo_sequence.taxonomy_name %>' title='Show taxonomy definition and lineage into the NCBI web site'  target='_blank'><%=h @oligo_sequence.taxonomy_name %></a></h3>
+    </div>
+
+    <div class="field ">
+        <% if !@oligo_sequence.taxonomy_id.nil? %>
+            <center>
+                <input type="button" onClick="RemoveSelect();" value="remove association" 
+                   title="remove taxonomy name and id associated to this oligo sequence">
+            </center>
+        <% end %>
+    </div>
+
+</td><td style="width:80%">
+
+<script type="text/javascript" >
+
+//Codes in this section doesnt match codes in production enviornment. We do not know the real reason why the codes from //////development doesnt work on production especially for this section. Do not attempt to match or upload this file directly from //the development.
+
+function RemoveSelect() { 
+    try {
+        if (confirm('Remove this taxonomy id(' + $('oligo_sequence_taxonomy_id').value + ') with name ' + $('oligo_sequence_name').value + '?')) {
+            $('oligo_sequence_taxonomy_id').value = '';
+            $('oligo_sequence_taxonomy_name').value = '';
+            $('oligo_sequence_submit').click();
+        }
+    }
+    catch (e){alert('error RemoveSelect: ' + e.message);}
+    return false;
+}
+var biourl = '<%= resolve_dxhtml %>';
+function SetName(req) { 
+    //alert('SetName: ' + req);
+    var str = '';
+    try {
+	reptxt = (req.responseText == 'undefined') ? req : req.responseText;
+        var tmp = new Date().getTime();
+        tmp='';
+        str = LoadEsearchTextDom($('dvName').id, reptxt);
+        $('preName').innerText =  tmp + '<br /> ' + str;
+        //$('dvName').innerText =  tmp + '<br /> ' + str
+        $('taName').value =  tmp + str;
+        str = str.replace('[','').replace(']','').replace(/"/g,'');
+
+    }
+    catch (e){alert('error loading SetName: ' + e.message);}
+
+
+    if (str.indexOf('renew session') == 0) {
+         $('oligo_sequence_submit').click();
+    }
+    else if ((str != '') && (str.indexOf('nothing') != 0)) {
+        try {
+            $('search_tax').value = str;
+            $('btnbiocall').click();
+        }
+        catch (e){alert('error SetName: ' + e.message);}
+    } else { $('search_tax').value = ''; $('treeBox').value = '';}
+
+}
+</script>
+
+    <h5><a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Root" target="_blank">Taxonomy database maintained by NCBI/GenBank</a></h5>
+    <br /><b>Research using taxonomy name:</b>
+    <input type="text" id="search_name"></input>&nbsp;<button type="button" id="btnbiocallname" 
+    text="Browse" title="the name must be an existing word in the database">Find by name</button><br />
+    <div id="dvName" style="width:200;height:200"></div>
+    <pre id="preName"></pre>
+    <textarea id="taName" class="hide bioarea" rows="10" cols="100">
+    </textarea>
+
+<script type="text/javascript" >
+$("#btnbiocallname").click(function() { 
+                var request = $.ajax({
+                
+                url: "/oligo_sequence/esearch",
+                type: "POST",
+                data: "'es=' + $('#search_name').value",
+                });
+       
+                request.done(function(request) { SetName(request) };);
+                request.fail(function(request) { alert(HTTP Error ' + request.status + '!'); };);
+
+                };)
+function SetTaxo2(req) { //alert('SetTaxo: ' + req);
+    //DOM
+    try {
+        var xmlDoc = req.responseXML;
+        LoadXMLDom($('treeBox').id, xmlDoc);
+
+        try {
+            var Xml2String = "";
+            if (xmlDoc.xml) {
+                Xml2String=xmlDoc.xml;  // Converts the xml object to string  (  For IE)
+            }else{
+                Xml2String= new XMLSerializer().serializeToString(xmlDoc); // Converts the xml object to string (For rest browsers, mozilla, etc)
+            }
+            //var Message =req.getAllResponseHeaders()
+            $('resbio').innerHTML = Xml2String;
+        }
+        catch (e){alert('error loading xmlDoc: ' + e.message);}
+
+    }
+    catch (e){alert('error loading XMLDisplay: ' + e.message);}
+}
+
+function RecalTaxo(tax_id) { 
+    try {
+        $('search_tax').value = tax_id;
+        //do javascript click
+        $('btnbiocall').click();
+    }
+    catch (e){alert('error RecalTaxo: ' + e.message);}
+    return false;
+}
+
+function AutoSelect(tax_id, ScientificName) { 
+    try {
+        //$('dialog-confirm').dialog("open"); 
+        if (confirm('Set this taxonomy id(' + tax_id + ') with name ' + ScientificName + '?')) {
+            $('oligo_sequence_taxonomy_id').value = tax_id;
+            $('oligo_sequence_taxonomy_name').value = ScientificName;
+            $('oligo_sequence_submit').click();
+        }
+    }
+    catch (e){alert('error AutoSelect: ' + e.message);}
+    return false;
+}
+</script>
+ <br />
+    <b>Research using taxonomy id:</b>
+    <input type="text" id="search_tax" name=""></input>&nbsp;<button type="button" id="btnbiocall" 
+        ondbclick="lookupBio(); return false;"
+        
+        text="Browse" title="you can add multiple ids separated by virgule">Find by id(s)</button><br />
+<div id="treeBox" style="width:200;height:200"></div>
+    <textarea id="resbio" class="hide bioarea"  rows="10" cols="100">
+        <%= @tree2 %>
+    </textarea> <br />
+    <h5><a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Root" target="_blank">Taxonomy database maintained by NCBI/GenBank</a></h5>
+    <br />
+<%= @tree2 %>
+
+<script type="text/javascript">
+
+$("#btnbiocall").click(function() { 
+                var request = $.ajax({
+                
+                url: "/oligo_sequence/lookup",
+                type: "POST",
+                data: "'st='+$('search_tax').value",
+                });
+       
+                request.done(function(request) { SetTaxo2(request) };);
+                request.fail(function(request) { alert(HTTP Error ' + request.status + '!'); };);
+
+                };)
+
+</script>
+
+</td><tr></table>
+
+</fieldset>
+
+
+  <div class="field area">
+    <%= f.label :description, "Additional data" %><br />
+    <%= f.text_area :description %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Update' %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @oligo_sequence %> |
+<%= link_to 'Back', oligo_sequences_path %>
+<% if auth_user( @oligo_sequence.partner_id) or signed_in_and_master? %>
+ | <%= link_to 'Delete', @oligo_sequence, :confirm => 'Are you sure?', :method => :delete %>
+<% end %>
+
+

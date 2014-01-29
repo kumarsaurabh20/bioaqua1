@@ -1,0 +1,95 @@
+<table>
+  <tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+      <li class="hide" style="display: none;"><%= link_to "code type", code_types_path %></li>
+      <li><%= link_to "protocol filter", wfilters_path %></li>
+      <li><%= link_to "preparation filter", filter_sample_preparations_path %></li>
+    </ul>
+  </td></tr>
+</table>
+
+<% if  auth_sample_user(@filter_sample.sampling_id) or signed_in_and_master? %>
+  <%= link_to 'Edit', edit_filter_sample_path(@filter_sample) %> |
+<% end %>
+<%= link_to 'Back', filter_samples_path %>
+<br />
+<br />
+
+<fieldset><legend class="leg">GENERAL DATA</legend>
+
+<table width="95%"><tr><td>
+
+    <div class="show select">
+      <b>Sampling:</b>
+      <h3><%=h link_to @s.code + ' ' + @s.full_name, sampling_path(@s) %></h3>
+    </div>
+
+    <div class="show cod">
+      <b>Filter Microaqua code:</b>
+      <h3><%=h @filter_sample.code %></h3> 
+    </div>
+
+    <div class="show num">
+      <b>Protocol pore size (μm):</b>
+      <h3><%=h @filter_sample.verbose_me %> µm</h3> 
+    </div>
+
+    <div class="show num">
+      <b>Number of filters:</b>
+      <h3><%=h @filter_sample.num_filters %></h3> 
+    </div>
+
+    <div class="show num">
+      <b>Volume:</b>
+      <h3><%=h @filter_sample.volume %> lt</h3> 
+    </div>
+
+</td><td>
+
+    <div class="show cod">
+      <b>Partner barcode:</b>
+      <h3><%=h @filter_sample.barcode %></h3>
+    </div>
+
+    <div class="show date">
+      <b>Filtering date:</b>
+      <h3><%=h @filter_sample.samplingDate.strftime("%A %d %B %Y") %></h3>
+    </div>
+
+    <div class="show select">
+      <b>Filter sample preparation:</b>
+      <h3><%=h link_to @fsp.verbose_me, filter_sample_preparation_path(@fsp) %></h3>
+    </div>
+    <div class="show txt">
+      <b>Storage:</b>
+      <h3><%=h @filter_sample.storage %></h3>
+    </div>
+
+</td><tr></table>
+
+<p>
+  <b>Note:</b>
+  <%=h @filter_sample.note %>
+</p>
+
+</fieldset>
+
+<fieldset><legend class="leg">ASSOCIATED NUCLEIC ACIDS</legend>
+
+ <% @filter_sample.nucleic_acids.each_with_index do |na, i| %>
+    <div class="datas">
+        <b><%= (i +1).to_s %> --> </b> <%= link_to na.code + '&nbsp;&nbsp;&nbsp;' + na.verbose_me, na %>
+    </div>
+  <% end %>
+
+</fieldset>
+
+
+<br />
+<% if  auth_sample_user(@filter_sample.sampling_id) or signed_in_and_master? %>
+  <%= link_to 'Edit', edit_filter_sample_path(@filter_sample) %> |
+<% end %>
+<%= link_to 'Back', filter_samples_path %>
+
+
+

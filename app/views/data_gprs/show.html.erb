@@ -1,0 +1,384 @@
+<table>
+  <tr class="taleft" width="70%"><td class="taleft">
+    <ul class="navigation round taleft">
+      <li><%= link_to "Microarray .GAL", microarraygals_path %></li>
+      <li><%= link_to "Microarray .GPR", microarraygprs_path %></li>
+      <li><%= link_to "Microarray Images", micro_array_images_path %></li>
+      <li><%= link_to "Microarray Analysis files", micro_array_analysis_files_path %></li>
+      <li><%= link_to "Microarray Validations", micro_array_validations_path %></li> 
+    </ul>
+  </td></tr>
+</table>
+
+
+<%= link_to 'Edit', edit_data_gpr_path(@data_gpr) %> |
+<%= link_to 'Back', data_gprs_path %>
+<br />
+<br />
+
+<fieldset><legend class="leg">Individual .GPR Row Data</legend>
+
+<table width="95%">
+
+<tr><td>
+<div class="show id" style="display:none;">
+<%= @data_gpr.microarraygpr_id  %>
+</div>
+<div class="show cod">
+<b>Array Information:</b>
+<%=h @data_gpr.show_array %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Oligo Name:</b>
+<%=h @data_gpr.oligo_name %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show date">
+<b>Loaded at:</b>
+<%=h @data_gpr.created_at.strftime("%A %d %B %Y") %>
+</div>
+
+</td><td>
+<div class="show date">
+<b>X:</b>
+<%=h @data_gpr.x %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Y:</b>
+<%=h @data_gpr.y %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Diameter:</b>
+<%=h @data_gpr.dia %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Median F635:</b>
+<%=h @data_gpr.f635_median %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Mean F635:</b>
+<%=h @data_gpr.f635_mean %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>SD F635:</b>
+<%=h @data_gpr.f635_sd %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>CV F635:</b>
+<%=h @data_gpr.f635_cv %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Background 635:</b>
+<%=h @data_gpr.b635 %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Median B635:</b>
+<%=h @data_gpr.b635_Median %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Mean B635:</b>
+<%=h @data_gpr.b635_mean %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>SD B635:</b>
+<%=h @data_gpr.b635_sd %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>CV B635:</b>
+<%=h @data_gpr.b635_cv %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>% B635 +1 SD:</b>
+<%=h @data_gpr.percent_b635_1_sd %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>% B635 +2 SD:</b>
+<%=h @data_gpr.percent_b635_2_sd %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>% Sat F635:</b>
+<%=h @data_gpr.f635_perc_sat %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Median F532:</b>
+<%=h @data_gpr.f532_median %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Mean F532:</b>
+<%=h @data_gpr.f532_mean %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>SD F532:</b>
+<%=h @data_gpr.f532_sd %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>CV F532:</b>
+<%=h @data_gpr.f532_cv %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>B532:</b>
+<%=h @data_gpr.b532 %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Median B532:</b>
+<%=h @data_gpr.b532_median %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Mean B532:</b>
+<%=h @data_gpr.b532_mean %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>SD B532:</b>
+<%=h @data_gpr.b532_sd %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>CV B532:</b>
+<%=h @data_gpr.b532_cv %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>% B532 +1 SD:</b>
+<%=h @data_gpr.percent_b532_1_sd %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>% B532 +2 SD:</b>
+<%=h @data_gpr.percent_b532_2_sd %> 
+</div>
+</td></tr>
+
+
+<tr><td>
+<div class="show cod">
+<b>% F532 Sat:</b>
+<%=h @data_gpr.f532_perc_sat %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Ratio of Medians:</b>
+<%=h @data_gpr.ratio_of_medians %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Ratio of Means:</b>
+<%=h @data_gpr.ratio_of_means %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Median of ratios:</b>
+<%=h @data_gpr.median_of_ratios %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Mean of Ratios:</b>
+<%=h @data_gpr.mean_of_ratios %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Ratio's SD:</b>
+<%=h @data_gpr.ratios_sd %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Regression Ratio:</b>
+<%=h @data_gpr.rgn_ratio %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Regression R2:</b>
+<%=h @data_gpr.rgn_r2 %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>F Pixels:</b>
+<%=h @data_gpr.f_pixels %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>B Pixels:</b>
+<%=h @data_gpr.b_pixels %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Circularity:</b>
+<%=h @data_gpr.circularity %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Sum of Medians:</b>
+<%=h @data_gpr.sum_of_medians %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Sum of Means:</b>
+<%=h @data_gpr.sum_of_means %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Log Ratio:</b>
+<%=h @data_gpr.log_ratio %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Median F635 - B635:</b>
+<%=h @data_gpr.f635_median_minus_b635 %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Median F532 - B635:</b>
+<%=h @data_gpr.f532_median_minus_b635 %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Mean F635 - B635:</b>
+<%=h @data_gpr.f635_mean_minus_b635 %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Mean F532 - B635:</b>
+<%=h @data_gpr.f532_mean_minus_b635 %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Total int. F635:</b>
+<%=h @data_gpr.f635_total_intensity %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Total int. F532:</b>
+<%=h @data_gpr.f532_total_intensity %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>SNR 635:</b>
+<%=h @data_gpr.snr_635 %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>SNR 532:</b>
+<%=h @data_gpr.snr_532 %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Flags:</b>
+<%=h @data_gpr.flags %> 
+</div>
+
+</td><td>
+<div class="show date">
+<b>Normalize:</b>
+<%=h @data_gpr.normalize %>
+</div>
+</td></tr>
+
+<tr><td>
+<div class="show cod">
+<b>Autoflag:</b>
+<%=h @data_gpr.autoflag %> 
+</div>
+</td></tr>
+
+</table>
+</fieldset>
+<br />
+
+<%= link_to 'Edit', edit_data_gpr_path(@data_gpr) %> |
+<%= link_to 'Back', data_gprs_path %>

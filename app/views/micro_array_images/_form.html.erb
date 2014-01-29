@@ -1,0 +1,17 @@
+<%= form_for(@micro_array_image) do |f| %>
+  <% if @micro_array_image.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@micro_array_image.errors.count, "error") %> prohibited this micro_array_image from being saved:</h2>
+
+      <ul>
+      <% @micro_array_image.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
