@@ -3,7 +3,7 @@ class MicroarraygalsController < AuthController
 
   respond_to :html,:json
   
-  protect_from_forgery :except => [:post_data]
+  #protect_from_forgery :except => [:post_data]
   
   # Don't forget to edit routes if you're using RESTful routing
   # 
@@ -158,7 +158,7 @@ class MicroarraygalsController < AuthController
   logger.debug "::::::::::::::::::::micro array create action (" + current_user.name + "):::::::::::::::::::: "
     #@microarraygal = Microarraygal.new(params[:microarraygal])
     #@microarraygal = Microarraygal.new(:gal_file => params[:gal_file])
-    @microarraygal = Microarraygal.new(params[:gal_file])
+    @microarraygal = Microarraygal.new(params[:microarraygal])
     @title = "Microarray GAL files"
     directory = "public/microarrays/" 
     @valid = false

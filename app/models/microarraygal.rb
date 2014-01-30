@@ -4,7 +4,8 @@ class Microarraygal < ActiveRecord::Base
 include Rails.application.routes.url_helpers
 include ExperimentHelper
 
-  attr_accessible :gal_file
+  attr_accessible :gal_file, :id, :code, :barcode, :partner_id, :note, :loaded_at, :gal_file_file_name,
+ :gal_file_content_type,:gal_file_file_size, :gal_file_updated_at, :gal_dir, :gal_title 
 
   #validates_presence_of :gal_title, :message => "Can't be empty, field is mandatory. "
   #validates_presence_of :gal_file_title, :message => "Can't be empty, field is mandatory. "
@@ -27,10 +28,10 @@ include ExperimentHelper
       if just_filename =~ /(^\d+)?\s.+$/
         file_part = $1
       end
-      if barcode.empty?
-            return 'GAL-' + self.id.to_s + '-' +  self.code  + '-' + file_part.to_s
+      if self.barcode.blank?
+            return 'GAL-' + self.id.to_s + '-' +  self.code.to_s  + '-' + file_part.to_s
         else
-            return 'GAL-' + self.id.to_s + '-' +  self.code  + '-' + self.barcode  + '-' + file_part.to_s
+            return 'GAL-' + self.id.to_s + '-' +  self.code.to_s  + '-' + self.barcode.to_s  + '-' + file_part.to_s
         end   
   end
 
@@ -59,7 +60,7 @@ include ExperimentHelper
     end
 
     def partner_name
-        Partner.find(partner_id).verbose_me
+        Partner.find(self.partner_id.to_i).verbose_me
     end
 
     def title

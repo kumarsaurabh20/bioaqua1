@@ -19,7 +19,7 @@
 
 <%= link_to 'Back', microarraygals_path %>
 
-<%= form_for @microarraygal, :html => {:multipart => true} do |f| %>
+<%= form_for(@microarraygal, :html => {:multipart => true}) do |f| %>
   <%= f.error_messages %>
 
   <div class="actions">
@@ -29,12 +29,12 @@
 <fieldset><legend class="leg">General data</legend>
   <div class="field select">
     <%= f.label :partner_id %><br />
-    <%= select :microarraygal, :partner_id,Partner.find(:all).collect{|p| [p.verbose_me, p.id]}%>
+    <%= f.select :partner_id, Partner.find(:all).collect{|p| [p.verbose_me, p.id]}%>
   </div>
 
    <div class="field select">
     <%= f.label :code %><br />
-    <%= select :microarraygal, :code, Partner.find(:all).collect{|p| [p.code, p.code]}%>
+    <%= f.select :code, Partner.find(:all).collect{|p| [p.code, p.code]}%>
   </div>
 	 
    <div class="field txt">
