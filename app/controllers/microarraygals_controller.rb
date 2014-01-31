@@ -155,13 +155,17 @@ class MicroarraygalsController < AuthController
   # POST /microarraygals
   # POST /microarraygals.xml
   def create
+  
   logger.debug "::::::::::::::::::::micro array create action (" + current_user.name + "):::::::::::::::::::: "
     #@microarraygal = Microarraygal.new(params[:microarraygal])
     #@microarraygal = Microarraygal.new(:gal_file => params[:gal_file])
+    
     @microarraygal = Microarraygal.new(params[:microarraygal])
     @title = "Microarray GAL files"
     directory = "public/microarrays/" 
     @valid = false
+   
+
     #if @microarraygal.partner_id.nil?
     if !signed_in?
       flash.now[:error] = "No partner found for this microarray .gal upload!!!"

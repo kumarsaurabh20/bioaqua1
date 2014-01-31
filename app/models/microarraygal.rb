@@ -1,6 +1,6 @@
 class Microarraygal < ActiveRecord::Base
 
-#include ActionController::UrlWriter
+#include ActionController::UrlWriter (important for act and edit methods below)
 include Rails.application.routes.url_helpers
 include ExperimentHelper
 

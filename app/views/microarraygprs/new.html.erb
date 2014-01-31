@@ -25,17 +25,21 @@
 <fieldset><legend class="leg">General data</legend>
   <div class="field select">
     <%= f.label :partner_id %><br />
-    <%= select :microarraygpr,:partner_id,Partner.find(:all).collect{|p| [p.verbose_me, p.id]}%>
+    <%= f.select :partner_id,Partner.find(:all).collect{|p| [p.verbose_me, p.id]}%>
   </div>
 
   <div class="field select">
     <%= f.label :code %><br />
-    <%= select :microarraygpr,:code,Partner.find(:all).collect{|p| [p.code, p.code]}%>
+    <%= f.select :code,Partner.find(:all).collect{|p| [p.code, p.code]}%>
   </div>  
 
+   <div class="field txt">
+    <%= f.label :barcode, "Partner barcode" %><br />
+    <%= f.text_field :barcode %>
+  </div>
+
   <div class="field txt">
-    <%= f.label :gpr_file, "Load the grp file" %><br />
-    <%= file_field(:microarraygpr, :gpr_file, :accept => 'text/csv', :multiple => 'true', :name => "microarraygpr[gpr_file]") %>
+    <%= f.file_field :gpr_file %>
   </div>
   <div class="field date">
     <%= f.label :loaded_at, "Uploaded at" %><br />

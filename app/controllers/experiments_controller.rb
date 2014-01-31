@@ -178,8 +178,7 @@ class ExperimentsController < AuthController
     if @pt.nil?
       @mg = Microarraygal.all()
       @gp = Microarraygpr.all()
-      @img = MicroArrayImage.all()
-      
+      @img = MicroArrayImage.all()     
     else
       @mg = Microarraygal.all(:conditions => [ "partner_id = ?", @pt.id])
       @gp = Microarraygpr.all(:conditions => [ "partner_id = ?", @pt.id])

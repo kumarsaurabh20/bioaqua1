@@ -15,7 +15,7 @@
 <br />
 <br />
 
-<%= form_for(@experiment) do |f| %>
+<%= form_for(@experiment, :html => {:multipart => true}) do |f| %>
   <%= f.error_messages %>
 
   <div class="actions">
@@ -29,13 +29,13 @@
     <td>
     <div class="field select">
     <%= f.label :microarraygal_id, "Associate .gal file" %><br />
-    <%= select :experiment,:microarraygal_id, @mg.collect{|p| [p.verbose_me, p.id]}%>
+    <%= f.select :microarraygal_id, @mg.collect{|p| [p.verbose_me, p.id]}%>
     </div>
    </td>
    <td>
     <div class="field select">
     <%= f.label :microarraygpr_id, "Associate .gpr file" %><br />
-    <%= select :experiment,:microarraygpr_id, @gp.collect{|p| [p.verbose_me, p.id]}%>
+    <%= f.select :microarraygpr_id, @gp.collect{|p| [p.verbose_me, p.id]}%>
    </div>
    </td>
  </tr>
@@ -43,25 +43,25 @@
    <td>
    <div class="field select">
    <%= f.label :micro_array_image_id, "Associate image file" %><br />
-   <%= select :experiment, :micro_array_image_id, @img.collect{|p| [p.verbose_me, p.id]}%>
+   <%= f.select :micro_array_image_id, @img.collect{|p| [p.verbose_me, p.id]}%>
    </div>
    </td>
    <td>
    <div class="field select">
   <%= f.label :filter_sample_id, "Filter Sample Code" %><br />
-  <%= select :experiment,:filter_sample_id, FilterSample.find(:all).collect{|p| [p.code, p.id]} %>
+  <%= f.select :filter_sample_id, FilterSample.find(:all).collect{|p| [p.code, p.id]} %>
   </div>
  </td></tr>
 <tr><td>
    <div class="field select">
     <%= f.label :people_id, "Person" %><br />
-    <%= select :experiment,:people_id, peoples_by_partner.collect{|p| [p.verbose_me, p.id]}%>
+    <%= f.select :people_id, peoples_by_partner.collect{|p| [p.verbose_me, p.id]}%>
   </div>
  </td>
   <td>
   <div class="field select">
     <%= f.label :partner_id %><br />
-    <%= select :experiment,:partner_id, Partner.find(:all).collect{|p| [p.verbose_me, p.id]}%>
+    <%= f.select :partner_id, Partner.find(:all).collect{|p| [p.verbose_me, p.id]}%>
     </div>
   </td>
   </tr>

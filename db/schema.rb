@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140129172251) do
+ActiveRecord::Schema.define(:version => 20140131113121) do
 
   create_table "altitude_types", :force => true do |t|
     t.string   "name",        :null => false
@@ -442,16 +442,19 @@ ActiveRecord::Schema.define(:version => 20140129172251) do
   add_index "microarraygals", ["partner_id"], :name => "index_microarraygals_on_partner_id"
 
   create_table "microarraygprs", :force => true do |t|
-    t.string   "gpr_title"
-    t.string   "gpr_file_title"
-    t.binary   "gpr_file"
     t.string   "code"
     t.date     "loaded_at"
     t.string   "barcode"
     t.integer  "partner_id"
     t.text     "note"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.string   "gpr_file_file_name"
+    t.string   "gpr_file_content_type"
+    t.integer  "gpr_file_file_size"
+    t.datetime "gpr_file_updated_at"
+    t.string   "gpr_dir"
+    t.string   "gpr_title"
   end
 
   create_table "microposts", :force => true do |t|

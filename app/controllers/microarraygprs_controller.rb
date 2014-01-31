@@ -1,6 +1,6 @@
 class MicroarraygprsController < AuthController
 
- respond_to :html,:json
+  respond_to :html,:json
   
   protect_from_forgery :except => [:post_data]
   
@@ -22,7 +22,7 @@ class MicroarraygprsController < AuthController
 
   def post_data
     message=""
-    microarraygpr_params = { :id => params[:id],:gpr_title => params[:gpr_title],:gpr_file_title => params[:gpr_file_title],:gpr_file => params[:gpr_file],:code => params[:code],:loaded_at => params[:loaded_at],:barcode => params[:barcode],:partner_id => params[:partner_id],:note => params[:note] }
+    microarraygpr_params = { :id => params[:id],:code => params[:code],:loaded_at => params[:loaded_at],:barcode => params[:barcode],:partner_id => params[:partner_id],:note => params[:note], :gpr_file_file_name => params[:gpr_file_file_name], :gpr_file_content_type => params[:gpr_file_content_type], :gpr_file_file_size => [:gpr_file_file_size], :gpr_file_updated_at => params[:gpr_file_updated_at], :gpr_dir => params[:gpr_dir], :gpr_title => params[:gpr_title] }
     case params[:oper]
     when 'add'
       if params["id"] == "_empty"
@@ -195,7 +195,7 @@ class MicroarraygprsController < AuthController
             path = File.join(directory, name)
             File.open(path, "wb") { |file| file.write(uploaded_io.read) }                                   
             @microarraygpr.gpr_title = name 
-            @microarraygpr.gpr_file_title = directory
+            @microarraygpr.gpr_dir = directory
             @savedFile = true
         end
  
@@ -262,22 +262,24 @@ class MicroarraygprsController < AuthController
       end
       logger.debug "micro array extract data for id " + @microarraygpr.id.to_s
  
-      if @microarraygpr.gpr_file_title == "" or @microarraygpr.gpr_title == ""
-        logger.debug "Microarraygpr file not found. Extraction routine aborted " + @microarraygpr.gpr_title + " => !" +  @microarraygpr.gpr_file_title  
+      if @microarraygpr.gpr_dir == "" or @microarraygpr.gpr_title == ""
+        logger.debug "Microarraygpr file not found. Extraction routine aborted " + @microarraygpr.gpr_title + " => !" +  @microarraygpr.gpr_dir 
         return false
       end
 
       # Open a file in read-only mode and print each line to the console
-      path = File.join(@microarraygpr.gpr_file_title, @microarraygpr.gpr_title)
+      path = File.join(@microarraygpr.gpr_dir, @microarraygpr.gpr_title)
       logger.debug "File extract local path: " + path
-      file = File.open(path , 'r') do |f|   #'afile.txt'
-        f.each do |line|
-          logger.debug "[" + f.lineno.to_s + "]" + line
-          columns = line.split(",")
-#         break if file.lineno > 10
-        end
+      
+      file = File.open(path, 'r') do |f|   #'afile.txt'
+         f.each do |line|
+          
+         logger.debug "[" + f.lineno.to_s + "]" + line
+        
+         columns = line.encode('UTF-16le', :invalid => :replace, :replace => '').encode('UTF-8').split(",")
+         #break if file.lineno > 10
+         end
       end
-
 
     rescue => err
       flash.now[:error] = "Exception extractFile: #{err}..."
@@ -301,17 +303,17 @@ class MicroarraygprsController < AuthController
         return false
       end
       logger.debug "microarray GPR parse data for id " + @microarraygpr.id.to_s
-      if @microarraygpr.gpr_file_title == "" or @microarraygpr.gpr_title == ""
-        logger.debug "microarray GPR file not found. Parsing aborted " + @microarraygpr.gpr_title + " => !" +  @microarraygpr.gpr_file_title  
+      if @microarraygpr.gpr_dir == "" or @microarraygpr.gpr_title == ""
+        logger.debug "microarray GPR file not found. Parsing aborted " + @microarraygpr.gpr_title + " => !" +  @microarraygpr.gpr_dir 
         return false
       end
 
        
        @gpr_header = GprHeader.new(params[:gpr_header])
        
-       path = File.join(@microarraygpr.gpr_file_title, @microarraygpr.gpr_title)
+       path = File.join(@microarraygpr.gpr_dir, @microarraygpr.gpr_title)
        str = IO.read(path)
-       line = str.to_str
+       line = str.to_str.encode('UTF-16le', :invalid => :replace, :replace => '').encode('UTF-8')
        if line =~ /(^ATF\s)(\d)/m 
        	  @gpr_header.gprVersion = $2.to_s
        end
@@ -454,15 +456,17 @@ class MicroarraygprsController < AuthController
         return false
       end
       logger.debug "microarray GPR parse data for id " + @microarraygpr.id.to_s
-      if @microarraygpr.gpr_file_title == "" or @microarraygpr.gpr_title == ""
-        logger.debug "microarray GPR file not found. Parsing aborted " + @microarraygpr.gpr_title + " => !" +  @microarraygpr.gpr_file_title  
+      if @microarraygpr.gpr_dir == "" or @microarraygpr.gpr_title == ""
+        logger.debug "microarray GPR file not found. Parsing aborted " + @microarraygpr.gpr_title + " => !" +  @microarraygpr.gpr_dir  
         return false
       end	
       
        #@microarraygal = Microarraygal.find(params[:id])
-       path = File.join(@microarraygpr.gpr_file_title, @microarraygpr.gpr_title)
+       path = File.join(@microarraygpr.gpr_dir, @microarraygpr.gpr_title)
        str = IO.read(path)
-       line = str.to_str
+       line = str.to_str.encode('UTF-16le', :invalid => :replace, :replace => '').encode('UTF-8') 
+       #used encode to avoid error: invalid byte sequences from strings?
+       #http://stackoverflow.com/questions/8710444/is-there-a-way-in-ruby-1-9-to-remove-invalid-byte-sequences-from-strings
 
    data = line.scan(/(\d{1,2}[\s\t,]\d{1,2}[\s\t,]\d{1,2}[\s\t,].[a-zA-Z0-9_]+.[\s\t,].[a-zA-Z0-9_]+.[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]\d{0,6}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,][\w+\-\d+.\d]{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,]-?\S{0,10}[\s\t,])/).flatten
 
@@ -470,72 +474,72 @@ logger.debug "::::::::::::::::::::micro array download data (" + data.join(',') 
 
               data.each do |line|
            
-               @gpr_datas = GprData.create!(params[:gpr_datas])
+               @gpr_data = DataGpr.new(params[:data_gpr])
         
                if line =~ /(\d{1,2})[\s\t,](\d{1,2})[\s\t,](\d{1,2})[\s\t,].([a-zA-Z0-9_]+).[\s\t,].([a-zA-Z0-9_]+).[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](\d{0,6})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,]([\w+\-\d+.\d]{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})[\s\t,](-?\S{0,10})/
  
-			@gpr_datas.gal_block_id = $1.to_s
-			@gpr_datas.oligo_column = $2.to_s
-			@gpr_datas.oligo_row = $3.to_s
-			@gpr_datas.oligo_name = $4.to_s
-			@gpr_datas.oligo_id = $5
-			@gpr_datas.x = $6.to_s
-			@gpr_datas.y = $7.to_s
-			@gpr_datas.dia = $8.to_s
-			@gpr_datas.f635_median = $9.to_s
-                        @gpr_datas.f635_mean = $10.to_s
-			@gpr_datas.f635_sd = $11.to_s
-			@gpr_datas.f635_cv = $12.to_s
-                        @gpr_datas.b635 = $13.to_s
-			@gpr_datas.b635_Median = $14.to_s
-			@gpr_datas.b635_mean = $15.to_s
-			@gpr_datas.b635_sd = $16.to_s
-			@gpr_datas.b635_cv = $17.to_s
-			@gpr_datas.percent_b635_1_sd = $18.to_s
-                        @gpr_datas.percent_b635_2_sd = $19.to_s
-			@gpr_datas.f635_perc_sat = $20.to_s
-			@gpr_datas.f532_median = $21.to_s
-			@gpr_datas.f532_mean = $22.to_s
-			@gpr_datas.f532_sd = $23.to_s
-			@gpr_datas.f532_cv = $24.to_s
-			@gpr_datas.b532 = $25.to_s
-			@gpr_datas.b532_median = $26.to_s
-			@gpr_datas.b532_mean = $27.to_s
-                        @gpr_datas.b532_sd = $28.to_s
-			@gpr_datas.b532_cv = $29.to_s
-			@gpr_datas.percent_b532_1_sd = $30.to_s
-			@gpr_datas.percent_b532_2_sd = $31.to_s
-			@gpr_datas.f532_perc_sat = $32.to_s
-			@gpr_datas.ratio_of_medians = $33.to_s
-			@gpr_datas.ratio_of_means = $34.to_s
-			@gpr_datas.median_of_ratios = $35.to_s
-			@gpr_datas.mean_of_ratios = $36.to_s
-                        @gpr_datas.ratios_sd = $37.to_s
-			@gpr_datas.rgn_ratio = $38.to_s
-			@gpr_datas.rgn_r2 = $39.to_s
-			@gpr_datas.f_pixels = $40.to_s
-			@gpr_datas.b_pixels = $41.to_s
-			@gpr_datas.circularity = $42.to_s
-			@gpr_datas.sum_of_medians = $43.to_s
-			@gpr_datas.sum_of_means = $44.to_s
-                        @gpr_datas.log_ratio = $45.to_s
-                        @gpr_datas.f635_median_minus_b635 = $46.to_s
-			@gpr_datas.f532_median_minus_b635 = $47.to_s
-			@gpr_datas.f635_mean_minus_b635 = $48.to_s
-			@gpr_datas.f532_mean_minus_b635 = $49.to_s
-			@gpr_datas.f635_total_intensity = $50.to_s
-			@gpr_datas.f532_total_intensity = $51.to_s
-			@gpr_datas.snr_635 = $52.to_s
-			@gpr_datas.snr_532 = $53.to_s
-                        @gpr_datas.flags = $54.to_s
-			@gpr_datas.normalize = $55.to_s
-			@gpr_datas.autoflag = $56.to_s
+			@gpr_data.gal_block_id = $1.to_s
+			@gpr_data.oligo_column = $2.to_s
+			@gpr_data.oligo_row = $3.to_s
+			@gpr_data.oligo_name = $4.to_s
+			@gpr_data.oligo_id = $5
+			@gpr_data.x = $6.to_s
+			@gpr_data.y = $7.to_s
+			@gpr_data.dia = $8.to_s
+			@gpr_data.f635_median = $9.to_s
+                        @gpr_data.f635_mean = $10.to_s
+			@gpr_data.f635_sd = $11.to_s
+			@gpr_data.f635_cv = $12.to_s
+                        @gpr_data.b635 = $13.to_s
+			@gpr_data.b635_Median = $14.to_s
+			@gpr_data.b635_mean = $15.to_s
+			@gpr_data.b635_sd = $16.to_s
+			@gpr_data.b635_cv = $17.to_s
+			@gpr_data.percent_b635_1_sd = $18.to_s
+                        @gpr_data.percent_b635_2_sd = $19.to_s
+			@gpr_data.f635_perc_sat = $20.to_s
+			@gpr_data.f532_median = $21.to_s
+			@gpr_data.f532_mean = $22.to_s
+			@gpr_data.f532_sd = $23.to_s
+			@gpr_data.f532_cv = $24.to_s
+			@gpr_data.b532 = $25.to_s
+			@gpr_data.b532_median = $26.to_s
+			@gpr_data.b532_mean = $27.to_s
+                        @gpr_data.b532_sd = $28.to_s
+			@gpr_data.b532_cv = $29.to_s
+			@gpr_data.percent_b532_1_sd = $30.to_s
+			@gpr_data.percent_b532_2_sd = $31.to_s
+			@gpr_data.f532_perc_sat = $32.to_s
+			@gpr_data.ratio_of_medians = $33.to_s
+			@gpr_data.ratio_of_means = $34.to_s
+			@gpr_data.median_of_ratios = $35.to_s
+			@gpr_data.mean_of_ratios = $36.to_s
+                        @gpr_data.ratios_sd = $37.to_s
+			@gpr_data.rgn_ratio = $38.to_s
+			@gpr_data.rgn_r2 = $39.to_s
+			@gpr_data.f_pixels = $40.to_s
+			@gpr_data.b_pixels = $41.to_s
+			@gpr_data.circularity = $42.to_s
+			@gpr_data.sum_of_medians = $43.to_s
+			@gpr_data.sum_of_means = $44.to_s
+                        @gpr_data.log_ratio = $45.to_s
+                        @gpr_data.f635_median_minus_b635 = $46.to_s
+			@gpr_data.f532_median_minus_b635 = $47.to_s
+			@gpr_data.f635_mean_minus_b635 = $48.to_s
+			@gpr_data.f532_mean_minus_b635 = $49.to_s
+			@gpr_data.f635_total_intensity = $50.to_s
+			@gpr_data.f532_total_intensity = $51.to_s
+			@gpr_data.snr_635 = $52.to_s
+			@gpr_data.snr_532 = $53.to_s
+                        @gpr_data.flags = $54.to_s
+			@gpr_data.normalize = $55.to_s
+			@gpr_data.autoflag = $56.to_s
 
                 end
 
-         @gpr_datas.microarraygpr_id = @microarraygpr.id 
-         @gpr_datas.gpr_header_id = @gpr_header.id
-         @gpr_datas.save
+         @gpr_data.microarraygpr_id = @microarraygpr.id 
+         @gpr_data.gpr_header_id = @gpr_header.id
+         @gpr_data.save
 
          end 
     
@@ -562,7 +566,7 @@ logger.debug "::::::::::::::::::::micro array download data (" + data.join(',') 
       logger.debug "::::::::::::::::::::micro array download data (" + current_user.name + "):::::::::::::::::::: "
 
       @microarraygpr = Microarraygpr.find(params[:id])
-      @filename = File.join(@microarraygpr.gpr_file_title, @microarraygpr.gpr_title)
+      @filename = File.join(@microarraygpr.gpr_dir, @microarraygpr.gpr_title)
 
       if FileTest.exist?(@filename)
         #send_file(@filename, :type => 'text/csv', :x_sendfile => true, :filename => @microarraygpr.gpr_title)
@@ -618,7 +622,7 @@ logger.debug "::::::::::::::::::::micro array download data (" + data.join(',') 
         # --> delete all microarraygpr_datas
         # --> delete all microarraygpr_images
 
-        @filename = File.join(@microarraygpr.gpr_file_title, @microarraygpr.gpr_title)
+        @filename = File.join(@microarraygpr.gpr_dir, @microarraygpr.gpr_title)
         File.delete(@filename) if File.exist?(@filename)
 
         respond_to do |format|
