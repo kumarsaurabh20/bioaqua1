@@ -1,8 +1,6 @@
 Bioaqua1::Application.routes.draw do
 
   resources :microposts
-
-
   resources :data_gprs
   resources :batch_images
   resources :batch_samplings

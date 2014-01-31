@@ -98,7 +98,7 @@ class GalBlocksController < AuthController
 
   def show
 	   @gal_block = GalBlock.find(params[:id])
-           @title = "Microarray GAL file Block entries"
+
 	    respond_to do |format|
 	    format.html # show.html.erb
 	    format.xml  { render :xml => @gal_block }

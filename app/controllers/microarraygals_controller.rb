@@ -3,7 +3,7 @@ class MicroarraygalsController < AuthController
 
   respond_to :html,:json
   
-  #protect_from_forgery :except => [:post_data]
+  protect_from_forgery :except => [:post_data]
   
   # Don't forget to edit routes if you're using RESTful routing
   # 
@@ -315,20 +315,22 @@ class MicroarraygalsController < AuthController
         logger.debug "microarray GAL not saved on database. Block parsing aborted"  
         return false
       end
+
       logger.debug "microarray GAL parse blocks for id " + @microarraygal.id.to_s
-      #if @microarraygal.gal_file_title == "" or @microarraygal.gal_title == ""
-      #  logger.debug "microarray GAL file not found. Parsing aborted " + @microarraygal.gal_title + " => !" +  @microarraygal.gal_file_title  
-       # return false
-      #end
+
+      if @microarraygal.gal_dir == "" or @microarraygal.gal_title == ""
+        logger.debug "microarray GAL file not found. Parsing aborted " + @microarraygal.gal_title + " => !" +  @microarraygal.gal_file_title  
+        return false
+      end
 
        #@microarraygal = Microarraygal.find(params[:id])
        path = File.join(@microarraygal.gal_dir, @microarraygal.gal_title)
        str = IO.read(path)
        line = str.to_str
+       
        #if line =~ /(^Block\d.+)?Block\s/m
-       #logger.debug $1.to_s
         
-       data = line.scan(/(^Block\d.+)?Block\s/).flatten
+       data = line.scan(/(Block\d=.+[\t\n\s])/).flatten
        logger.debug $1.to_s
        data.each do |line|
            
