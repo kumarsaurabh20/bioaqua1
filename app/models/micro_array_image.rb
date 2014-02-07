@@ -14,10 +14,11 @@ include MicroArrayImagesHelper
 
   belongs_to :partner
 
-  has_many :image_assets
+  #has_many :image_assets
 
-  accepts_nested_attributes_for :image_assets, :allow_destroy => true
-
+  #accepts_nested_attributes_for :image_assets, :allow_destroy => true
+  
+  has_attached_file :photo
 
 
 

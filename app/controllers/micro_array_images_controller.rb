@@ -110,6 +110,9 @@ class MicroArrayImagesController < AuthController
     @micro_array_image = MicroArrayImage.find(params[:id])
     @title = "Micro array image"
 
+    @micro_array_image_icode = MicroArrayImage.find(params[:icode])
+
+
     if @micro_array_image.nil?
         redirect_to :action => "index"
     end
@@ -123,7 +126,7 @@ class MicroArrayImagesController < AuthController
   # GET /micro_array_images/new
   # GET /micro_array_images/new.xml
   def new
-    @micro_array_image = MicroArrayImage.new
+    3.times {@micro_array_image = MicroArrayImage.new}
     @title = "Micro array image"
 
     @pt = get_partner
@@ -141,7 +144,8 @@ class MicroArrayImagesController < AuthController
      # @ex = Experiment.all(:conditions => [ "partner_id = ?", @pt.id])
     #end
 
-    3.times {@micro_array_image.image_assets.build}
+    #3.times {@micro_array_image.image_assets.build}
+    #3.times {@micro_array_image.build_micro_array_image}
 
     respond_to do |format|
       format.html # new.html.erb
@@ -151,10 +155,11 @@ class MicroArrayImagesController < AuthController
 
   # GET /micro_array_images/1/edit
   def edit
-    @micro_array_image = MicroArrayImage.find(params[:id])
+    3.times {@micro_array_image = MicroArrayImage.find(params[:id])}
     @title = "Micro array image"
 
-    3.times {@micro_array_image.image_assets.build}
+    #3.times {@micro_array_image.image_assets.build}
+    #3.times {@micro_array_image.build_micro_array_image}
     
   end
 

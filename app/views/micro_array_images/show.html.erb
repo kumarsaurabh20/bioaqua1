@@ -38,7 +38,7 @@
        <td>
   <div class="field num">
       <b>Image:</b><br />
-      <% @micro_array_image.image_assets.each do |image| %>
+      <% @micro_array_image_icode.each do |image| %>
       <% unless image.new_record? || !image.photo? %>
 
      <%= link_to( image_tag(image.photo.url(:small)), image.photo.url(:original)) %>

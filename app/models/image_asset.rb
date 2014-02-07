@@ -14,10 +14,10 @@ class ImageAsset < ActiveRecord::Base
 
                               },
 
-         :default_style => :small                     
+         :default_style => :small,                     
 
-                     #:url => "/:attachment/:basename.:extension",
-                     #:path => ":rails_root/public/:attachment/:basename.:extension"
+                     :url => "/:attachment/:basename.:extension",
+                     :path => ":rails_root/public/:attachment/:basename.:extension"
 
 ##paperclip version 2.7.0 does not work well with imagemagick. it has a dependency of cocaine v=0.3.2. You need to install a fresh cociane gem or install the paperclip version 2.7.4 which has a fix for this dependency.
 

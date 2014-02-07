@@ -1,6 +1,6 @@
 class LandUseMappingsController < AuthController
 
-  layout 'application'
+  #layout 'application'
 
   # GET /land_use_mappings
   # GET /land_use_mappings.xml
