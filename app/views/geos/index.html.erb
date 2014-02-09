@@ -1,56 +1,44 @@
-<table>
-<tr class="taleft" width="70%"><td class="taleft">
-    <ul class="navigation round taleft">
-      <li><%= link_to "land use mapping", land_use_mappings_path %></li>
-      <li><%= link_to "water use", water_uses_path %></li>
-      <li><%= link_to "water type", water_types_path %></li>
-      <li><%= link_to "geo", geos_path %></li>
-      <li><%= link_to "alt. type", altitude_types_path %></li>
-      <li><%= link_to "catchment area", catchment_areas_path %></li>
-      <li><%= link_to "depth", depths_path %></li>
-      <li><%= link_to "size type", size_typologies_path %></li>
-      <li><%= link_to "geology", geologies_path %></li>
-    </ul>
-  </td></tr>
-<tr class="taleft" width="70%"><td class="taleft">
-    <ul class="navigation round taleft">
-      <li><%= link_to "country", countries_path %></li>
-    </ul>
-  </td></tr>
+<%- model_class = Geo -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:lon) %></th>
+      <th><%= model_class.human_attribute_name(:lat) %></th>
+      <th><%= model_class.human_attribute_name(:country_id) %></th>
+      <th><%= model_class.human_attribute_name(:width) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @geos.each do |geo| %>
+      <tr>
+        <td><%= link_to geo.id, geo_path(geo) %></td>
+        <td><%= geo.name %></td>
+        <td><%= geo.lon %></td>
+        <td><%= geo.lat %></td>
+        <td><%= geo.country_id %></td>
+        <td><%= geo.width %></td>
+        <td><%=l geo.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_geo_path(geo), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      geo_path(geo),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<h1>Geographical positions</h1>
-<%= link_to 'New geo', new_geo_path %>
-<br />
-<br />
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Lon</th>
-    <th>Lat</th>
-    <th>Country</th>
-  </tr>
-
-<% @geos.each do |geo| %>
-  <tr>
-    <td><%=h geo.name %></td>
-    <td><%=h geo.lng_name %></td>
-    <td><%=h geo.lat_name %></td>
-    <td><%=h Country.find(geo.country_id).verbose_me %></td>
-    <td><%= link_to 'Show', geo %></td>
-    <td><%= link_to 'Edit', edit_geo_path(geo) %></td>
-    <td><%= link_to 'Delete', geo, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-
-<br />
-<br />
-<%= link_to 'New geo', new_geo_path %>
-<br />
-
-
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_geo_path,
+            :class => 'btn btn-primary' %>

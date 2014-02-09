@@ -1,28 +1,38 @@
-<h1>Listing nucleic acid types</h1>
-<%= link_to 'New nucleic acid type', new_nucleic_acid_type_path %>
-<br />
-<br />
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-  </tr>
-
-<% @nucleic_acid_types.each do |nucleic_acid_type| %>
-  <tr>
-    <td><%=h nucleic_acid_type.name %></td>
-    <td><%=h nucleic_acid_type.desc_ellipsis %></td>
-    <td><%= link_to 'Show', nucleic_acid_type %></td>
-    <td><%= link_to 'Edit', edit_nucleic_acid_type_path(nucleic_acid_type) %></td>
-    <td><%= link_to 'Delete', nucleic_acid_type, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
+<%- model_class = NucleicAcidType -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @nucleic_acid_types.each do |nucleic_acid_type| %>
+      <tr>
+        <td><%= link_to nucleic_acid_type.id, nucleic_acid_type_path(nucleic_acid_type) %></td>
+        <td><%= nucleic_acid_type.name %></td>
+        <td><%= nucleic_acid_type.description %></td>
+        <td><%=l nucleic_acid_type.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_nucleic_acid_type_path(nucleic_acid_type), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      nucleic_acid_type_path(nucleic_acid_type),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-<br />
-<%= link_to 'New nucleic acid type', new_nucleic_acid_type_path %>
-<br />
-
-
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_nucleic_acid_type_path,
+            :class => 'btn btn-primary' %>

@@ -1,21 +1,5 @@
-<h1>Editing land use mapping</h1>
-
-<%= form_for(@land_use_mapping) do |f| %>
-  <%= f.error_messages %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :note, "Description" %><br />
-    <%= f.text_area :note %>
-  </div>
-  <div class="actions">
-    <%= f.submit 'Update' %>
-  </div>
-<% end %>
-
-<%= link_to 'Show', @land_use_mapping %> |
-<%= link_to 'Back to list', land_use_mappings_path %>
-
+<%- model_class = LandUseMapping -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h1>
+</div>
+<%= render :partial => 'form' %>

@@ -126,7 +126,7 @@ class MicroArrayImagesController < AuthController
   # GET /micro_array_images/new
   # GET /micro_array_images/new.xml
   def new
-    3.times {@micro_array_image = MicroArrayImage.new}
+    @micro_array_image = MicroArrayImage.new
     @title = "Micro array image"
 
     @pt = get_partner
@@ -149,13 +149,14 @@ class MicroArrayImagesController < AuthController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @micro_array_image }
+      #format.xml  { render xml: @micro_array_image }
+      format.json { render json: @micro_array_image}
     end
   end
 
   # GET /micro_array_images/1/edit
   def edit
-    3.times {@micro_array_image = MicroArrayImage.find(params[:id])}
+    @micro_array_image = MicroArrayImage.find(params[:id])
     @title = "Micro array image"
 
     #3.times {@micro_array_image.image_assets.build}
@@ -234,9 +235,16 @@ class MicroArrayImagesController < AuthController
          # @savedfile and
        if @micro_array_image.save
 
-        format.html { redirect_to(@micro_array_image, :notice => 'Micro array image was successfully created.') }
-        format.xml  { render :xml => @micro_array_image, :status => :created, :location => @micro_array_image }
-       else
+       format.html { render :json => [@micro_array_image.to_jq_upload].to_json,
+                     :content_type => 'text/html',
+                     :layout => false
+                    }
+       format.json { render json: {files: [@micro_array_image.to_jq_upload]}, status: :created, location: @micro_array_image }
+        
+        #format.html { redirect_to(@micro_array_image, :notice => 'Micro array image was successfully created.') }
+        #format.xml  { render :xml => @micro_array_image, :status => :created, :location => @micro_array_image }
+       
+        else
 
         @pt = get_partner
         # if @pt.nil?
@@ -245,8 +253,8 @@ class MicroArrayImagesController < AuthController
          # @ex = Experiment.all(:conditions => [ "partner_id = ?", @pt.id])
          #end
 
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @micro_array_image.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.json { render json: @micro_array_imag.errors, status: :unprocessable_entity } 
       end
     end
   end
@@ -270,11 +278,12 @@ class MicroArrayImagesController < AuthController
 
     respond_to do |format|
       if @micro_array_image.update_attributes(params[:micro_array_image])
-        format.html { redirect_to(@micro_array_image, :notice => 'MicroArrayImage profile was saved successfully.') }
+        format.html { redirect_to @micro_array_image, notice: 'MicroArrayImage profile was saved successfully.' }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @micro_array_image.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        #format.xml  { render :xml => @micro_array_image.errors, :status => :unprocessable_entity }
+        format.json { render json: @micro_array_image.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -282,11 +291,6 @@ class MicroArrayImagesController < AuthController
   # DELETE /micro_array_images/1
   # DELETE /micro_array_images/1.xml
   def destroy
-#    if !signed_in_and_master?
-#      flash[:notice] = "Sorry. Only technical manager can delete data. Please, contact Roberto SPURIO to do it."
-#      redirect_to water_types_path
-#    else
-
     @title = "Micro array image"
 
     @micro_array_image = MicroArrayImage.find(params[:id])
@@ -297,7 +301,6 @@ class MicroArrayImagesController < AuthController
       format.html { redirect_to micro_array_images_path }
       format.xml  { head :ok }
     end
-#    end
   end
 
   private

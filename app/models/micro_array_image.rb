@@ -20,7 +20,15 @@ include MicroArrayImagesHelper
   
   has_attached_file :photo
 
-
+  def to_jq_upload
+    {
+      "name" => read_attribute(:photo_file_name),
+      "size" => read_attribute(:photo_file_size),
+      "url" => photo.url(:original),
+      "delete_url" => micro_array_image_path(self),
+      "delete_type" => "DELETE" 
+    }
+  end
 
 
   #In order for form_for to work,
@@ -30,8 +38,9 @@ include MicroArrayImagesHelper
 
      #change II_Barcode to barcode
             
-      img = ImageAsset.find_by_micro_array_image_id(id).photo_file_name 
-      basename = img.gsub(/.[(jpg)(png)(tiff)(gif)]/,"")
+      #img = ImageAsset.find_by_micro_array_image_id(id).photo_file_name
+       
+      basename = self.photo_file_name.gsub(/.[(jpg)(png)(tiff)(gif)]/,"")
    
       if barcode.empty?
             return self.icode  + '-' + basename.to_s
@@ -54,8 +63,8 @@ include MicroArrayImagesHelper
     end
 
     def image_code
-	     img = ImageAsset.find_by_micro_array_image_id(id).photo_file_name 
-	     basename = img.gsub(/.[(jpg)(png)(tiff)(gif)]/,"")
+	     #img = ImageAsset.find_by_micro_array_image_id(id).photo_file_name 
+	     basename = self.photo_file_name.gsub(/.[(jpg)(png)(tiff)(gif)]/,"")
 	     pcode = Partner.find(partner_id).code
 
 	     return 'IMG-' + self.id.to_s + '-' +  pcode  + '-' + basename 

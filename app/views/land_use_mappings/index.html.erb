@@ -1,44 +1,38 @@
-<table>
-<tr class="taleft" width="70%"><td class="taleft">
-    <ul class="navigation round taleft">
-      <li><%= link_to "land use mapping", land_use_mappings_path %></li>
-      <li><%= link_to "water use", water_uses_path %></li>
-      <li><%= link_to "water type", water_types_path %></li>
-      <li><%= link_to "geo", geos_path %></li>
-      <li><%= link_to "alt. type", altitude_types_path %></li>
-      <li><%= link_to "catchment area", catchment_areas_path %></li>
-      <li><%= link_to "depth", depths_path %></li>
-      <li><%= link_to "size type", size_typologies_path %></li>
-      <li><%= link_to "geology", geologies_path %></li>
-    </ul>
-  </td></tr>
+<%- model_class = LandUseMapping -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:note) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @land_use_mappings.each do |land_use_mapping| %>
+      <tr>
+        <td><%= link_to land_use_mapping.id, land_use_mapping_path(land_use_mapping) %></td>
+        <td><%= land_use_mapping.name %></td>
+        <td><%= land_use_mapping.note %></td>
+        <td><%=l land_use_mapping.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_land_use_mapping_path(land_use_mapping), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      land_use_mapping_path(land_use_mapping),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-
-<h1>Land use mappings</h1>
-<%= link_to 'New land_use_mapping', new_land_use_mapping_path %>
-<br />
-<br />
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-  </tr>
-
-<% @land_use_mappings.each do |land_use_mapping| %>
-  <tr>
-    <td><%=h land_use_mapping.name %></td>
-    <td><%=h land_use_mapping.desc_ellipsis %></td>
-    <td><%= link_to 'Show', land_use_mapping %></td>
-    <td><%= link_to 'Edit', edit_land_use_mapping_path(land_use_mapping) %></td>
-    <td><%= link_to 'Delete', land_use_mapping, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-<br />
-<%= link_to 'New land_use_mapping', new_land_use_mapping_path %>
-<br />
-
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_land_use_mapping_path,
+            :class => 'btn btn-primary' %>

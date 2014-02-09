@@ -1,44 +1,38 @@
-<table>
-<tr class="taleft" width="70%"><td class="taleft">
-    <ul class="navigation round taleft">
-      <li><%= link_to "land use mapping", land_use_mappings_path %></li>
-      <li><%= link_to "water use", water_uses_path %></li>
-      <li><%= link_to "water type", water_types_path %></li>
-      <li><%= link_to "geo", geos_path %></li>
-      <li><%= link_to "alt. type", altitude_types_path %></li>
-      <li><%= link_to "catchment area", catchment_areas_path %></li>
-      <li><%= link_to "depth", depths_path %></li>
-      <li><%= link_to "size type", size_typologies_path %></li>
-      <li><%= link_to "geology", geologies_path %></li>
-    </ul>
-  </td></tr>
+<%- model_class = Geology -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @geologies.each do |geology| %>
+      <tr>
+        <td><%= link_to geology.id, geology_path(geology) %></td>
+        <td><%= geology.name %></td>
+        <td><%= geology.description %></td>
+        <td><%=l geology.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_geology_path(geology), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      geology_path(geology),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-
-<h1>Geologies</h1>
-<%= link_to 'New geology', new_geology_path %>
-<br />
-<br />
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-  </tr>
-
-<% @geologies.each do |geology| %>
-  <tr>
-    <td><%=h geology.name %></td>
-    <td><%=h geology.desc_ellipsis %></td>
-    <td><%= link_to 'Show', geology %></td>
-    <td><%= link_to 'Edit', edit_geology_path(geology) %></td>
-    <td><%= link_to 'Destroy', geology, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-<br />
-<%= link_to 'New geology', new_geology_path %>
-<br />
-
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_geology_path,
+            :class => 'btn btn-primary' %>

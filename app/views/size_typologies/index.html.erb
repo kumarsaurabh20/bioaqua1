@@ -1,44 +1,38 @@
-<table>
-<tr class="taleft" width="70%"><td class="taleft">
-    <ul class="navigation round taleft">
-      <li><%= link_to "land use mapping", land_use_mappings_path %></li>
-      <li><%= link_to "water use", water_uses_path %></li>
-      <li><%= link_to "water type", water_types_path %></li>
-      <li><%= link_to "geo", geos_path %></li>
-      <li><%= link_to "alt. type", altitude_types_path %></li>
-      <li><%= link_to "catchment area", catchment_areas_path %></li>
-      <li><%= link_to "depth", depths_path %></li>
-      <li><%= link_to "size type", size_typologies_path %></li>
-      <li><%= link_to "geology", geologies_path %></li>
-    </ul>
-  </td></tr>
+<%- model_class = SizeTypology -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @size_typologies.each do |size_typology| %>
+      <tr>
+        <td><%= link_to size_typology.id, size_typology_path(size_typology) %></td>
+        <td><%= size_typology.name %></td>
+        <td><%= size_typology.description %></td>
+        <td><%=l size_typology.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_size_typology_path(size_typology), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      size_typology_path(size_typology),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-
-<h1>Size typologies</h1>
-<%= link_to 'New size_typology', new_size_typology_path %>
-<br />
-<br />
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-  </tr>
-
-<% @size_typologies.each do |size_typology| %>
-  <tr>
-    <td><%=h size_typology.name %></td>
-    <td><%=h size_typology.desc_ellipsis %></td>
-    <td><%= link_to 'Show', size_typology %></td>
-    <td><%= link_to 'Edit', edit_size_typology_path(size_typology) %></td>
-    <td><%= link_to 'Destroy', size_typology, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-<br />
-<%= link_to 'New size_typology', new_size_typology_path %>
-<br />
-
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_size_typology_path,
+            :class => 'btn btn-primary' %>

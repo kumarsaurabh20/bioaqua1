@@ -22,6 +22,16 @@ gem 'rmagick', '2.13.2', :git=>'http://github.com/rmagick/rmagick.git'
 
 gem 'to_xls', '~> 1.0.0'
 
+gem "therubyracer"
+#gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+gem 'jquery-fileupload-rails'
+gem 'twitter-bootstrap-rails', :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git'
+
+
+#for asset pipeline
+#gem 'sprockets', '~> 2.0'
+#gem 'sass-rails', "~> 3.2"
+#gem 'uglifier'
 
 
 # Use unicorn as the web server

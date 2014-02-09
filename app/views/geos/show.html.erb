@@ -1,40 +1,29 @@
-<%= link_to 'Edit', edit_geo_path(@geo) %> |
-<%= link_to 'Back', geos_path %>
-<br />
+<%- model_class = Geo -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<table>
-<tr class="taleft" width="70%"><td class="taleft">
-    <ul class="navigation round taleft">
-      <li><%= link_to "country", countries_path %></li>
-    </ul>
-  </td></tr>
-</table>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @geo.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:lon) %>:</strong></dt>
+  <dd><%= @geo.lon %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:lat) %>:</strong></dt>
+  <dd><%= @geo.lat %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:country_id) %>:</strong></dt>
+  <dd><%= @geo.country_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:width) %>:</strong></dt>
+  <dd><%= @geo.width %></dd>
+</dl>
 
-<p>
-  <b>Name:</b>
-  <%=h @geo.name %>
-</p>
-
-<p>
-  <b>Longitude (Degrees Minutes Seconds):</b>
-  <%=h @geo.lng_name %>
-</p>
-
-<p>
-  <b>Latitude (Degrees Minutes Seconds):</b>
-  <%=h @geo.lat_name %>
-</p>
-
-<p>
-  <b>Width (km):</b>
-  <%=h @geo.width %>
-</p>
-<p>
-  <b>State:</b>
-  <%=h @state.name %>
-</p>
-
-<br />
-<%= link_to 'Edit', edit_geo_path(@geo) %> |
-<%= link_to 'Back', geos_path %>
-
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              geos_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_geo_path(@geo), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              geo_path(@geo),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

@@ -1,45 +1,40 @@
-<table>
-<tr class="taleft" width="70%"><td class="taleft">
-    <ul class="navigation round taleft">
-      <li><%= link_to "land use mapping", land_use_mappings_path %></li>
-      <li><%= link_to "water use", water_uses_path %></li>
-      <li><%= link_to "water type", water_types_path %></li>
-      <li><%= link_to "geo", geos_path %></li>
-      <li><%= link_to "alt. type", altitude_types_path %></li>
-      <li><%= link_to "catchment area", catchment_areas_path %></li>
-      <li><%= link_to "depth", depths_path %></li>
-      <li><%= link_to "size type", size_typologies_path %></li>
-      <li><%= link_to "geology", geologies_path %></li>
-    </ul>
-  </td></tr>
+<%- model_class = WaterUse -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:code) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @water_uses.each do |water_use| %>
+      <tr>
+        <td><%= link_to water_use.id, water_use_path(water_use) %></td>
+        <td><%= water_use.code %></td>
+        <td><%= water_use.name %></td>
+        <td><%= water_use.description %></td>
+        <td><%=l water_use.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_water_use_path(water_use), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      water_use_path(water_use),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<h1>Water uses</h1>
-<%= link_to 'New water_use', new_water_use_path %>
-<br />
-<br />
-
-<table>
-  <tr>
-    <th>Code</th>
-    <th>Name</th>
-    <th>Description</th>
-  </tr>
-
-<% @water_uses.each do |water_use| %>
-  <tr>
-    <td><%=h water_use.code %></td>
-    <td><%=h water_use.name %></td>
-    <td><%=h water_use.desc_ellipsis %></td>
-    <td><%= link_to 'Show', water_use %></td>
-    <td><%= link_to 'Edit', edit_water_use_path(water_use) %></td>
-    <td><%= link_to 'Delete', water_use, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-<br />
-<%= link_to 'New water_use', new_water_use_path %>
-<br />
-
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_water_use_path,
+            :class => 'btn btn-primary' %>

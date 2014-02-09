@@ -1,14 +1,27 @@
-<p>
-  <b>Name:</b>
-  <%=h @wfilter.verbose_me %>
-</p>
+<%- model_class = Wfilter -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <b>Note:</b>
-  <%=h @wfilter.note %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @wfilter.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:pore_size) %>:</strong></dt>
+  <dd><%= @wfilter.pore_size %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:num_filters) %>:</strong></dt>
+  <dd><%= @wfilter.num_filters %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:note) %>:</strong></dt>
+  <dd><%= @wfilter.note %></dd>
+</dl>
 
-
-<%= link_to 'Edit', edit_wfilter_path(@wfilter) %> |
-<%= link_to 'Back', wfilters_path %>
-
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              wfilters_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_wfilter_path(@wfilter), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              wfilter_path(@wfilter),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

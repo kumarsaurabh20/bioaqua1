@@ -1,11 +1,23 @@
-<p>
-  <b>Name:</b>
-  <%=h @size_typology.name %>
-</p>
-<p>
-  <b>Description:</b>
-  <%=h @size_typology.description %>
-</p>
+<%- model_class = SizeTypology -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<%= link_to 'Edit', edit_size_typology_path(@size_typology) %> |
-<%= link_to 'Back', size_typologies_path %>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @size_typology.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
+  <dd><%= @size_typology.description %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              size_typologies_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_size_typology_path(@size_typology), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              size_typology_path(@size_typology),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
