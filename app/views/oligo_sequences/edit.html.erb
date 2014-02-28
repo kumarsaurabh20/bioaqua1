@@ -137,16 +137,15 @@ N (Any base A, C, G, T, or U)   " %><br />
     <button type="button" id="btnbiocallname" text="Browse" title="NCBI Taxonomy db search by name">Find by name</button><br />
     <div id="dvName" style="width:200;height:200"></div>
     <pre id="preName"></pre>
-    <textarea id="taName" class="hide bioarea" rows="10" cols="100">
+    <textarea id="taName" class="hide bioarea" style="resize:none;" rows="2" cols="25" >
     </textarea>
 
 
  <br />
     <b>Research using taxonomy id:</b>
-    <input type="text" id="search_tax" name="" /><button type="button" id="btnbiocall" 
-        ondbclick="lookupBio(); return false;"
-        
-        text="Browse" title="you can add multiple ids separated by virgule">Find by id(s)</button><br />
+    <input type="text" id="search_tax" name="" />
+      <button type="button" id="btnbiocall" text="Browse" title="you can add multiple ids separated by virgule">Find by id(s)</button><br />
+
 <div id="treeBox" style="width:200;height:200"></div>
     <textarea id="resbio" class="hide bioarea"  rows="10" cols="100">
         <%= @tree2 %>
@@ -159,41 +158,53 @@ N (Any base A, C, G, T, or U)   " %><br />
 
 
 <script type="text/javascript">
+
 var biourl = '<%= resolve_dxhtml %>';
 function SetName(response) {
-  //alert($.type(response));
-
- //var list = $(xml).find('string').each(function() {$(this).text();});
- //console.log(list);
-
+  
 var str = '';
     try {
        reptxt = (response == 'undefined') ? response.responseText : response;
+      //console.log(reptxt);
        //alert(reptxt);
-        var tmp = new Date().getTime();
+        //var tmp = new Date().getTime();
        //alert(tmp);
-        tmp='';
-        var elid = $('#taName').attr('id');
+       // tmp='';
+       // var elid = $('#taName').attr('id');
        //alert(elid);
-        str = LoadEsearchTextDom(elid, reptxt);
-       //alert(str);
+        //str = LoadEsearchTextDom(elid, reptxt);
+       //alert($.type(str));
        // $('preName').html(tmp + '<br /> ' + str);
        // $('dvName').html(tmp + '<br /> ' + str);
-        $('#taName').html(tmp + str);
-        $('#taName').slideDown(3000);
-        str = str.replace('[','').replace(']','').replace(/"/g,'');
+       //  $('#search_tax').html(tmp + str);
+        //$('#taName').slideDown(3000);
+   
+       //str = loadXMLString(reptxt);
+
+       var strEl = new Array(),
+           newString = '';
+       str = $(reptxt).find('string').each(function(i, e) {
+               strEl.push($(e).text());
+               newString = strEl.join(',');
+            });
+      
+        $('#search_tax').val(newString);
+        //$('#taName').slideDown(3000);
+     
+
+     //str = str.replace('[','').replace(']','').replace(/"/g,'');
 
     }
     catch (e){alert('error loading SetName: ' + e.message);}
 
 
-    if (str.indexOf('renew session') == 0) {
+    if (newString.indexOf('renew session') == 0) {
          $('oligo_sequence_submit').click();
     }
-    else if ((str != '') && (str.indexOf('nothing') != 0)) {
+    else if ((newString != '') && (newString.indexOf('nothing') != 0)) {
         try {
-            $('search_tax').html(str);
-            $('btnbiocall').click();
+            //$('search_tax').html(str);
+            $('#btnbiocall').click();
         }
         catch (e){alert('error SetName: ' + e.message);}
     } else { $('search_tax').html(''); $('treeBox').html('');}
@@ -218,7 +229,8 @@ function SetTaxo2(response) {
                 Xml2String= new XMLSerializer().serializeToString(xmlDoc); // Converts the xml object to string (For rest browsers, mozilla, etc)
             }
             //var Message =req.getAllResponseHeaders()
-            $('resbio').html(Xml2String);
+            $('#treeBox').html(Xml2String);
+            //$('#resbio').slideDown(2000);
         }
         catch (e){alert('error loading xmlDoc: ' + e.message);}
 
@@ -273,7 +285,7 @@ $('#btnbiocall').click(function() {
              data: "st=" + $('#search_tax').val(),
              dataType: "xml",
              success: function(response) {SetTaxo2(response);},
-             failure: alert('HTTP Error ' + request.status + '!')           
+             failure: function(response) {alert('HTTP Error ' + response.status + '!');}           
              });
 
 });
