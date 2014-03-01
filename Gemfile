@@ -24,8 +24,8 @@ gem 'to_xls', '~> 1.0.0'
 
 gem "therubyracer"
 #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-gem 'jquery-fileupload-rails'
-gem 'twitter-bootstrap-rails', :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git'
+#gem 'jquery-fileupload-rails'
+#gem 'twitter-bootstrap-rails', :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git'
 
 
 #for asset pipeline

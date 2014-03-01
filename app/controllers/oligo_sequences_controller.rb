@@ -1,6 +1,7 @@
 class OligoSequencesController < AuthController 
 
   require 'csv'
+  require 'bio'
   #require 'spreadsheet'
   #require 'to_xls'
 
@@ -41,12 +42,12 @@ class OligoSequencesController < AuthController
             @esearch2 = Bio::NCBI::REST::ESearch.taxonomy(xsearch, 'xml')
             
             respond_to do |format|
-                format.xml  { render :xml => @esearch2 }      
+                format.xml  { render :xml => @esearch2 } 
             end
         rescue Exception => e
             @esearch2 = Bio::NCBI::REST::ESearch.taxonomy(xsearch)
             respond_to do |format|
-                format.json  { render :json => @esearch2 }       
+                format.json  { render :json => @esearch2 }      
             end
         end 
     end       
@@ -364,6 +365,20 @@ class OligoSequencesController < AuthController
       format.xml  { head :ok }
     end
   end
+
+  def shoot    
+
+    @oligo_sequence = OligoSequence.find(params[:id])
+    @oligo_sequence.txonomy_id.destroy
+    @oligo_sequence.txonomy_name.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(oligo_sequences_url) }
+      format.xml  { head :ok }
+    end
+  end
+
+
 
   def export_to_csv      
     data = params['data'].split(',')
