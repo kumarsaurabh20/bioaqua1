@@ -1,9 +1,10 @@
 <%= javascript_include_tag 'viewxml/XMLDisplayBio.js' %>
+<div class="hide"> stylesheet_link_tag 'dxhmltree/dhtmlxtree' </div>
 <div class="hide"> = stylesheet_link_tag 'viewxml/XMLDisplay' </div>
 <div class="hide"> javascript_include_tag 'dxhmltree/dhtmlxcommon.js' </div>
 <div class="hide"> javascript_include_tag 'dxhmltree/dhtmlxtree.js' </div>
 <div class="hide"> javascript_include_tag 'dxhmltree/ext/dhtmlxtree_start.js' </div>
-<div class="hide"> stylesheet_link_tag 'dxhmltree/dhtmlxtree' </div> 
+ 
 
 <table>
   <tr class="taleft" width="70%"><td class="taleft">
@@ -230,7 +231,7 @@ function SetTaxo2(response) {
             }
             //var Message =req.getAllResponseHeaders()
             $('#treeBox').html(Xml2String);
-            //$('#resbio').slideDown(2000);
+
         }
         catch (e){alert('error loading xmlDoc: ' + e.message);}
 
