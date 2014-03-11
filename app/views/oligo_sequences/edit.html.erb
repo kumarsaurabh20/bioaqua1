@@ -1,10 +1,14 @@
 <%= javascript_include_tag 'viewxml/XMLDisplayBio.js' %>
-<div class="hide"> stylesheet_link_tag 'dxhmltree/dhtmlxtree' </div>
-<div class="hide"> = stylesheet_link_tag 'viewxml/XMLDisplay' </div>
-<div class="hide"> javascript_include_tag 'dxhmltree/dhtmlxcommon.js' </div>
-<div class="hide"> javascript_include_tag 'dxhmltree/dhtmlxtree.js' </div>
-<div class="hide"> javascript_include_tag 'dxhmltree/ext/dhtmlxtree_start.js' </div>
- 
+<%= stylesheet_link_tag 'viewxml/XMLDisplay' %>
+<%= stylesheet_link_tag 'jqWidgets/jqx.base' %>
+<%= stylesheet_link_tag 'jqWidgets/jqx.arctic' %> 
+<%= javascript_include_tag 'jqWidgets/jqx-all.js' %>
+<%= javascript_include_tag 'jqWidgets/jqxcore.js' %>
+<%= javascript_include_tag 'jqWidgets/jqxbuttons.js' %>
+<%= javascript_include_tag 'jqWidgets/jqxscrollbar.js' %>
+<%= javascript_include_tag 'jqWidgets/jqxpanel.js' %>
+<%= javascript_include_tag 'jqWidgets/jqxtree.js' %>
+<%= javascript_include_tag 'jqWidgets/jqxexpander.js' %>
 
 <table>
   <tr class="taleft" width="70%"><td class="taleft">
@@ -159,10 +163,9 @@ N (Any base A, C, G, T, or U)   " %><br />
 
 
 <script type="text/javascript">
-
+var xml2String = "";
 var biourl = '<%= resolve_dxhtml %>';
 function SetName(response) {
-  
 var str = '';
     try {
        reptxt = (response == 'undefined') ? response.responseText : response;
@@ -223,44 +226,24 @@ function SetTaxo2(response) {
         LoadXMLDom(el2id, xmlDoc);
 
         try {
-            var Xml2String = "";
+           
             if (xmlDoc.xml) {
-                Xml2String=response.xml; // Converts the xml object to string ( For IE)
+                xml2String = response.xml; // Converts the xml object to string ( For IE)
             }else{
-                Xml2String= new XMLSerializer().serializeToString(xmlDoc); // Converts the xml object to string (For rest browsers, mozilla, etc)
+                xml2String = new XMLSerializer().serializeToString(xmlDoc); // Converts the xml object to string (For rest browsers, mozilla, etc)
             }
             //var Message =req.getAllResponseHeaders()
-            $('#treeBox').html(Xml2String);
 
-        }
+         
+     xml = $.parseXML( xml2String );
+    $('#treeBox').jqxTree( { source:xml, height:'600px', width:'600px'} );
+}
         catch (e){alert('error loading xmlDoc: ' + e.message);}
 
     }
     catch (e){alert('error loading XMLDisplay: ' + e.message);}
 }
 
-function RecalTaxo(tax_id) {
-    try {
-        $('search_tax').html(tax_id);
-        //do javascript click
-        $('btnbiocall').click();
-    }
-    catch (e){alert('error RecalTaxo: ' + e.message);}
-    return false;
-}
-
-function AutoSelect(tax_id, ScientificName) {
-    try {
-        //$('dialog-confirm').dialog("open");
-        if (confirm('Set this taxonomy id(' + tax_id + ') with name ' + ScientificName + '?')) {
-            $('oligo_sequence_taxonomy_id').html(tax_id);
-            $('oligo_sequence_taxonomy_name').html(ScientificName);
-            $('oligo_sequence_submit').click();
-        }
-    }
-    catch (e){alert('error AutoSelect: ' + e.message);}
-    return false;
-}
 
 
 
@@ -273,8 +256,6 @@ $('#btnbiocallname').click(function() {
              dataType: "text",
              success: function(response) {SetName(response);}           
              });
-
-  
 
 });
 
@@ -290,6 +271,7 @@ $('#btnbiocall').click(function() {
              });
 
 });
+
 
 </script>
 
