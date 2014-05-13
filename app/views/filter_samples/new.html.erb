@@ -39,11 +39,6 @@
     <%= select :filter_sample,:wfilter_id, @wf.collect{|p| [p.verbose_me, p.id]}%>
   </div>
 
-  <div class="field num">
-    <%= f.label :num_filters, "Number of filters" %><br />
-    <%= f.text_field :num_filters %>
-  </div>
-
 </td><td>
 
   <div class="field num">

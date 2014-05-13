@@ -155,16 +155,6 @@ class SamplingsController < AuthController
     @sampling = Sampling.new
     @title = "Sampling"
 
-    #Popolate dropdownlist
-    #select(object, method, choices, options = {}, html_options = {})
-    #    <%= select :sampling, :partner_id, Partner.find(:all).collect{|p| [p.fp7_Number.to_s + " " + p.name, p.id]}%>
-    #collection_select(object, method, collection, value_method, text_method, options = {}, html_options = {})
-    #Defined in ActionView::Helpers::FormOptionsHelper
-    #<div class="field cod">
-    #  <%= f.label :selected_type, "Code type" %><br />
-    #  <%= select (:selected_type, :code, @codtypes.map {|u| [u.verbose_me,u.code]}) %>
-    #</div>
-
     @partners = Partner.find(:all)
     @pt = get_partner
     unless @pt.nil?
@@ -178,10 +168,11 @@ class SamplingsController < AuthController
     #used for NESTED Model
     #pre-build another attribute while loading the form
     @wf = Wfilter.all()
-    @wf.count().times { @sampling.filter_samples.build }    
-#    @wf.each do 
-#         3.times { @project.tasks.build }
-#    end 
+    #count = @wf.size
+    #count.times { @sampling.filter_samples.build } 
+
+    10.times {@sampling.filter_samples.build}    
+
     @attr_index = 1
     
     @ss_c = SamplingSite.count()
@@ -196,23 +187,6 @@ class SamplingsController < AuthController
       format.xml  { render :xml => @sampling }
     end
   end
-
-  # GET /samplings/1/edit
-  def edit
-    #@sampling = Sampling.find(params[:id])  --> Yet done in def correct_user
-    @title = "Sampling"
-    @code = @sampling.code
-    #Cannot change the sample site set during creation
-    #<%= select :sampling,:sampling_site_id,SamplingSite.find(:all).collect{|p| [p.code + " " + p.name, p.id]}%>
-    #@ss = SamplingSite.find(params[:id])  --> Yet done in def correct_user
-    #Cannot change the partner
-    #<%= select :sampling, :partner_id,Partner.find(:all).collect{|p| [p.name, p.id]}%>
-
-    #used for NESTED Model
-    @wf = Wfilter.all()
-    @fs = FilterSample.all(:conditions => ['sampling_id = ' +@sampling.id.to_s ])
-
- end
 
   # POST /samplings
   # POST /samplings.xml
@@ -244,18 +218,6 @@ class SamplingsController < AuthController
 
     @title = "Sampling"
     
-#    @new_filter = params[:pfilter]
-#    unless @new_filter.nil? || @new_filter == 0
-#        #create new filter object
-#        #@obj_new_filter = Wfilter.new(:name => @new_filter)
-#        #@obj_new_filter = Wfilter.create(:name => @new_filter)
-#        @obj_new_filter = Wfilter.create(:name => @sampling.code)
-#        if @obj_new_filter.save
-#          #retrieve filter_id and associate to @sampling
-#          sampling.wfilter_id = @obj_new_filter.id
-#        end
-#    end
-
     respond_to do |format|
       if @sampling.save
 
@@ -290,15 +252,27 @@ class SamplingsController < AuthController
     end
   end 
 
+# GET /samplings/1/edit
+  def edit
+    @sampling = Sampling.find(params[:id])
+    @title = "Sampling"
+    #used for NESTED Model
+    @wf = Wfilter.all()    
+    #@fs = FilterSample.all(:conditions => ['sampling_id = ' + @sampling.id.to_s ]) 
+
+ end
+
   # PUT /samplings/1
   # PUT /samplings/1.xml
   def update
-    #@sampling = Sampling.find(params[:id])  --> Yet done in def correct_user
+    @sampling = Sampling.find(params[:id])
     @title = "Sampling"
+    count = @sampling.num_filter
     #@is_Auth = is_current_user(@sampling.partner_id)  --> Yet done in def correct_user
 
     #used for NESTED Model
     @wf = Wfilter.all()
+    @sampling.assign_attributes(params[:sampling])
 
     respond_to do |format|
       if @sampling.update_attributes(params[:sampling])

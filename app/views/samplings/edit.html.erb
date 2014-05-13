@@ -17,7 +17,7 @@
 <br />
 <br />
 
-<%= form_for(@sampling) do |f| %>
+<%= form_for(@sampling, :html => {:multipart => true}) do |f| %>
   <%= f.error_messages %>
 
   <div class="actions">
@@ -48,15 +48,16 @@
     <%= f.text_field :volume %>
   </div>
 
+  <div class="field num">
+    <%= f.label :num_filter, "Number of filters" %><br />
+    <%= f.text_field :num_filter %>
+  </div>
+
 </td><td>
 
   <div class="field date">
     <%= f.label :samplingDate, "Sampling date" %><br />
     <%= date_select :sampling, :samplingDate %>
-  </div>
-  <div class="field select" style="display:none;">
-    <= f.label :protocols ><br />
-    <= select :sampling,:protocol_id,Wfilter.find(:all).collect{|p| [p.name, p.id]} >
   </div>
   <div class="field select">
     <%= f.label :sampling_equipments_id, "Sampling equipment" %><br />
@@ -73,76 +74,6 @@
 
 </td><tr></table>
 
-</fieldset>
-
-<fieldset><legend class="leg">ASSOCIATED FILTER SAMPLES</legend>
-<table width="80%" class="tacenter">
-
-    <tr>
-        <th>
-            <%= f.label :code, "Code" %><br />
-        </th>
-        <th>
-            <%= f.label :pore_size, "Pore size (μ)" %><br />
-        </th>
-        <th>
-            <%= f.label :num_filters, "n° Filter" %><br />
-        </th>
-        <th>
-            <%= f.label :volume, "Volume (lt)" %><br />
-        </th>
-        <th>
-            <%= f.label :barcode, "Partner barcode" %><br />
-        </th>
-        <th>
-            <%= f.label :note, "Note" %><br />
-        </th>
-    </tr>
-
-    <%#, @filter_sample %>
-<% f.fields_for :filter_samples, :filter_sample, @fss do |child_form| %>
-    <tr>
-        <td>
-            <div class="field txtshort">
-               <b> <%= child_form.object.code %> </b>
-            </div>
-        </td>
-        <td>
-            <div class="field num">
-                <%= child_form.collection_select(:wfilter_id , @wf, :id, :verbose_me, {:selected => child_form.object.wfilter_id}) %>
-
-           </div>
-        </td>
-        <td>
-            <div class="field num">
-                <%= child_form.text_field :num_filters %>
-            </div>
-        </td>
-        <td>
-            <div class="field num">
-                <%= child_form.text_field :volume %>
-            </div>
-        </td>
-        <td>
-            <div class="field txtshort">
-                <%= child_form.text_field :barcode %>
-            </div>
-        </td>
-        <td>
-            <div class="field txt">
-                <%= child_form.text_field :note %>
-            </div>
-        </td>
-        <td>
-            <% #unless child_form.object.new_record? %>
-              <% # Don't forget to name both of these '_destroy' in Rails 3 %>
-              <% #= child_form.check_box '_delete' %>
-              <% #= child_form.label '_delete', 'Remove' %>
-            <% #end %>
-        </td>
-    </tr>
-  <% end %>
-</table>
 </fieldset>
 
 <fieldset><legend class="leg">ENVIRONMENTAL DATA</legend>

@@ -1,9 +1,11 @@
 class Wfilter < ActiveRecord::Base
+  
+
   #validates_presence_of :name
   validates_presence_of :pore_size, :message => "Can't be empty, field is mandatory. "
   validates_numericality_of :pore_size, :allow_nil => false, :less_than => 100
 
-  has_many :filter_sample, :class_name => 'FilterSample'
+  belongs_to :filter_sample
   #belongs_to :sampling_site
 
   #In order for form_for to work,

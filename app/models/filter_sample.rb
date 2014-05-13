@@ -31,21 +31,14 @@ class FilterSample < ActiveRecord::Base
   validates_numericality_of :num_filters, :allow_nil => false, :less_than => 100, :greater_than => 0
 
   #name of the model in lowercase
-  belongs_to :sampling #, :class_name => 'Sampling' #, :null => false
-#  has_one :sampling_site, :through => :sampling
-#Mysql::Error: Unknown column 'sampling_sites_filter_samples_join.sampling_id' in 'on clause': SELECT `filter_samples`.* FROM `filter_samples`   INNER JOIN `samplings` ON `samplings`.id = `filter_samples`.sampling_id  INNER JOIN `wfilters` ON `wfilters`.id = `filter_samples`.wfilter_id  INNER JOIN `samplings` sampling_sites_filter_samples_join ON (`filter_samples`.`id` = `sampling_sites_filter_samples_join`.`sampling_id`)  INNER JOIN `sampling_sites` ON (`sampling_sites`.`id` = `sampling_sites_filter_samples_join`.`sampling_site_id`)   LIMIT 0, 20
-#  belongs_to :sampling_site, :include => :sampling
-#Mysql::Error: Unknown column 'filter_samples.sampling_site_id' in 'on clause': SELECT `filter_samples`.* FROM `filter_samples`   INNER JOIN `samplings` ON `samplings`.id = `filter_samples`.sampling_id  INNER JOIN `wfilters` ON `wfilters`.id = `filter_samples`.wfilter_id  INNER JOIN `sampling_sites` ON `sampling_sites`.id = `filter_samples`.sampling_site_id   LIMIT 0, 20
-#    belongs_to :sampling_site, :through => :sampling
-#Unknown key(s): through
-
+  belongs_to :sampling 
 
   #used for NESTED Model
   #validates_presence_of :sampling
 
   #We don't need to call destroy method of child so use delete_all directly
   #has_many :wfilters, :dependent => :delete_all
-  belongs_to :wfilter #, :null => false
+  has_many :wfilter #, :null => false
   validates_presence_of :wfilter
   
   belongs_to :partner

@@ -67,10 +67,11 @@ include SamplingsHelper
   #     Firm#clients (similar to Clients.find :all, :conditions =&gt; [&quot;firm_id = ?&quot;, id])
   #:dependent => :delete_all vs :destroy (call destroy children event)
   has_many :filter_samples, :dependent => :destroy, :class_name => 'FilterSample'
-  accepts_nested_attributes_for :filter_samples, :allow_destroy => true,
-    :reject_if => proc { |attrs| attrs['num_filters'] == '0' or attrs['volume'].blank? }
-    # can also be used on has_one etc.. associations
+  accepts_nested_attributes_for :filter_samples
 
+    #,:allow_destroy => true,
+    #:reject_if => proc { |attrs| attrs['num_filters'] == '0' or attrs['volume'].blank? }
+    # can also be used on has_one etc.. associations
 #  # This will prevent children_attributes with all empty values to be ignored
 #  accepts_nested_attributes_for :children,
 #    :reject_if => proc { |attrs| attrs.all? { |k, v| v.blank? } }

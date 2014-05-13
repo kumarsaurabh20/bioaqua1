@@ -37,14 +37,15 @@
     <%= f.label :partner_id %><br />
     <%= select :sampling,:partner_id,Partner.find(:all).collect{|p| [p.verbose_me, p.id]}%>
   </div>
-  <div class="field select" style="display:none;"> problem strutturale filter --> wfilter
-    <= f.label :wfilter ><br />
-    <= select :sampling,:filter,Wfilter.find(:all).collect{|p| [p.name, p.id]}>
-  </div>
 
   <div class="field num">
     <%= f.label :volume, "Volume (liter)" %><br />
     <%= f.text_field :volume %>
+  </div>
+
+  <div class="field num">
+    <%= f.label :num_filter, "Number of filters" %><br />
+    <%= f.text_field :num_filter %>
   </div>
 
 </td><td>
@@ -70,10 +71,6 @@
 
 </fieldset>
 
-  <div class="actions">
-    <%= f.submit 'Create' %>
-  </div>
-
 <fieldset><legend class="leg">ASSOCIATED FILTER SAMPLES</legend>
 <table width="80%" class="tacenter">
 
@@ -82,7 +79,7 @@
             <%= f.label :pore_size, "Pore size (μ)" %><br />
         </th>
         <th>
-            <%= f.label :num_filters, "n° Filters" %><br />
+            <%= f.label :num_filters, "n° Filter" %><br />
         </th>
         <th>
             <%= f.label :volume, "Volume (lt)" %><br />
@@ -94,57 +91,37 @@
             <%= f.label :note, "Note" %><br />
         </th>
     </tr>
-
- <%#, @filter_sample %>
- <%# f.fields_for :filter_samples, :filter_sample, @fss do |child_form| %>
-
- <%# @wf.each_with_index do |wf, i| %>
-    <%# f.fields_for :filter_sample do |child_form| %> 
-    <%# f.fields_for "sampling[fs_attributes][]" do |child_form|     `@sampling[sampling[fs_attributes]' is not allowed as an instance variable name%> 
-    <%# f.fields_for :fs_attributes do |child_form| %> 
-
- <%# for filter_sample in @sampling.filter_samples %>
- <% @sampling.filter_samples.each_with_index do |filter_sample, i| %>
-    <% fields_for "sampling[fs_attributes][]", filter_sample do |child_form| %>
-        <tr>
-            <td>
-                <%#= child_form.hidden_field :code, :value => @sampling.code + (i + 1) %>
-                <%= child_form.hidden_field :code, :value => @codegen + "-F" + (@attr_index + i ).to_s %>
-                <%= child_form.hidden_field :samplingDate, :value => DateTime.now %>
-
-                <%#= wf.verbose_me %>
-                <% a  = i.to_i + 1 %>
-                <div class="field num">
-                    <%#= select :filter_sample, :wfilter_id, @wf.collect{|p| [p.verbose_me, p.id]}%>
-                    <%#= child_form.select :filter_sample, :wfilter_id, @wf.collect{|p| [p.verbose_me, p.id]}%>
-                    <%= child_form.collection_select(:wfilter_id , @wf, :id, :verbose_me, {:selected => a}) %>
-               </div>
-            </td>
-            <td>
-                <div class="field num">
-                    <%= child_form.text_field :num_filters %>
-                </div>
-            </td>
-            <td>
-                <div class="field num">
-                    <%= child_form.text_field :volume %>
-                </div>
-            </td>
-            <td>
-                <div class="field txtshort">
-                    <%= child_form.text_field :barcode %>
-                </div>
-            </td>
-            <td>
-                <div class="field txt">
-                    <%= child_form.text_field :note %>
-                </div>
-            </td>
-        </tr>
-    <% end %>
-  <% end %>
+    
+    <%= f.fields_for :filter_samples do |child_form| %>
+    <% if child_form.object.new_record? %> 
+    <tr>
+        <td>
+                <%= child_form.select :wfilter_id, @wf.collect{|p| [p.pore_size, p.id]} %>
+        </td>
+        <td>
+                <%= child_form.text_field :num_filters %>
+        </td>
+        <td>
+                <%= child_form.text_field :volume %>
+        </td>
+        <td>
+                <%= child_form.text_field :barcode %>
+        </td>
+        <td>
+                <%= child_form.text_field :note %>
+        </td>
+ </tr>
+ <% end %>
+ <% end %>
 </table>
+
+
+<div class="add_file_button">
+		   <input type="button" id="add_files" style=" border:3px outset;background-color:#0174DF;color:#ffffff" value="Add Filters" />
+		   </div>                  
+
 </fieldset>
+
 
 
 
@@ -253,4 +230,74 @@ The mixing ratio is often recorded in grams of water vapor per kilogram of dry a
 <% end %>
 
 <%= link_to 'Back', samplings_path %>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+$("table.tacenter tr").css("display","none");
+$("table.tacenter tr")[0].id = "tr1";
+$("table.tacenter tr")[1].id = "tr2";
+$("table.tacenter tr")[2].id = "tr3";
+$("table.tacenter tr")[3].id = "tr4";
+$("table.tacenter tr")[4].id = "tr5";
+$("table.tacenter tr")[5].id = "tr6";
+$("table.tacenter tr")[6].id = "tr7";
+$("table.tacenter tr")[7].id = "tr8";
+$("table.tacenter tr")[8].id = "tr9";
+$("table.tacenter tr")[9].id = "tr10";
+$("table.tacenter tr")[10].id = "tr11";
+
+
+$("#add_files").click(function() {
+$("table.tacenter tr:first").fadeIn();
+$("table.tacenter tr#tr2").fadeIn("slow");
+
+//Setup for the second click.
+   $(this).off('click');
+   $(this).on('click', function() {$("table.tacenter tr#tr3").fadeIn("slow"); 
+//Setup for the third click.
+   $(this).off('click');
+   $(this).on('click', function() {$("table.tacenter tr#tr4").fadeIn("slow"); 
+//Setup for the fourth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("table.tacenter tr#tr5").fadeIn("slow"); 
+//Setup for the fifth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("table.tacenter tr#tr6").fadeIn("slow"); 
+//Setup for the sixth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("table.tacenter tr#tr7").fadeIn("slow"); 
+//Setup for the seventh click.
+   $(this).off('click');
+   $(this).on('click', function() {$("table.tacenter tr#tr8").fadeIn("slow"); 
+//Setup for the eigth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("table.tacenter tr#tr9").fadeIn("slow"); 
+//Setup for the ninth click.
+   $(this).off('click');
+   $(this).on('click', function() {$("table.tacenter tr#tr10").fadeIn("slow"); 
+//Setup for the 10th click.
+   $(this).off('click');
+   $(this).on('click', function() {$("table.tacenter tr#tr11").fadeIn("slow");
+  
+//Setup for the 11th click.
+   $(this).off('click');
+   $(this).on('click', function() {alert("Cannot add more filters!!");
+   $(this).off('click'); 
+
+});
+});
+});
+});
+});
+});
+});
+});
+});
+});
+
+
+
+});
+
+</script>
 
