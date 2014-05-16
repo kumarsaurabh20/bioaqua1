@@ -235,19 +235,18 @@ class SamplingsController < AuthController
                 print('----Change childs New code: (-%s)\n' , child.code)
                 child.save()
             end 
-        end 
+         end 
 
-        format.html { redirect_to(@sampling, :notice => 'Sampling was successfully created.') }
-        format.xml  { render :xml => @sampling, :status => :created, :location => @sampling }
+        format.html { 
+        flash[:notice] = 'Sampling was successfully created.'
+        redirect_to :action => "index"  }      
       else
-
         #@partners = Partner.find(:all)
         @codegen = @sampling.code
         @attr_index = 1
         @pt = get_partner
-
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @sampling.errors, :status => :unprocessable_entity }
+        format.html { redirect_to :action => :index } 
+        flash[:notice] = "Sampling was not created!!" 
       end
     end
   end 

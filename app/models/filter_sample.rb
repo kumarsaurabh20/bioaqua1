@@ -1,15 +1,8 @@
-#  create_table "filter_samples", :force => true do |t|
-
-#  end
-
 class FilterSample < ActiveRecord::Base
 
   #include ActionController::UrlWriter
   include Rails.application.routes.url_helpers
 
-  #Filter active record
-  #named_scope :created_after, lambda { |date| {:conditions => ["samplingDate > ?", date]} } 
-  #named_scope has been changed to scope in 3.1.x 
   scope :created_after, lambda { |date| {:conditions => ["samplingDate > ?", date]} }
   scope :created_at, lambda { |date| {:conditions => ["samplingDate = ?", date]} }
   scope :coded, lambda { |name| {:conditions => {:code => name}} }
@@ -17,18 +10,18 @@ class FilterSample < ActiveRecord::Base
   
 
 
-  validates_presence_of :code, :message => "Can't be empty, field is mandatory. "
+  #validates_presence_of :code, :message => "Can't be empty, field is mandatory. "
 
   #http://ar.rubyonrails.org/classes/ActiveRecord/Validations/ClassMethods.html#M000087
-  validates_uniqueness_of :code, :case_sensitive => false
-  validates_length_of :code, :maximum=>19
+  #validates_uniqueness_of :code, :case_sensitive => false
+  #validates_length_of :code, :maximum=>19
   #, :scope => :filter_sample_id --> kappao undefined method `filter_samples_id'
 
-  validates_presence_of :volume, :message => "Can't be empty, field is mandatory. "
+  #validates_presence_of :volume, :message => "Can't be empty, field is mandatory. "
 
-  validates_numericality_of :volume, :allow_nil => false, :less_than => 100
-  validates_presence_of :num_filters, :message => "Can't be empty, field is mandatory. "
-  validates_numericality_of :num_filters, :allow_nil => false, :less_than => 100, :greater_than => 0
+  #validates_numericality_of :volume, :allow_nil => false, :less_than => 100
+  #validates_presence_of :num_filters, :message => "Can't be empty, field is mandatory. "
+  #validates_numericality_of :num_filters, :allow_nil => false, :less_than => 100, :greater_than => 0
 
   #name of the model in lowercase
   belongs_to :sampling 
@@ -39,7 +32,7 @@ class FilterSample < ActiveRecord::Base
   #We don't need to call destroy method of child so use delete_all directly
   #has_many :wfilters, :dependent => :delete_all
   has_many :wfilter #, :null => false
-  validates_presence_of :wfilter
+  #validates_presence_of :wfilter
   
   belongs_to :partner
 

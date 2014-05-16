@@ -96,7 +96,8 @@
     <% if child_form.object.new_record? %> 
     <tr>
         <td>
-                <%= child_form.select :wfilter_id, @wf.collect{|p| [p.pore_size, p.id]} %>
+               <%= child_form.hidden_field :samplingDate, :value => DateTime.now %>
+               <%= child_form.select :wfilter_id, @wf.collect{|p| [p.pore_size, p.id]} %>
         </td>
         <td>
                 <%= child_form.text_field :num_filters %>

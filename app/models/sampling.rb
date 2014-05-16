@@ -1,23 +1,3 @@
-#  create_table "samplings", :force => true do |t|
-#    t.string   "code", :null => false
-#    t.integer  "temperature",      :limit => 10, :precision => 10, :scale => 0
-#    t.integer  "moisture",         :limit => 10, :precision => 10, :scale => 0
-#    t.integer  "pressure",         :limit => 10, :precision => 10, :scale => 0
-#    t.integer  "windSpeed",        :limit => 10, :precision => 10, :scale => 0
-#    t.string   "windDirection"
-#    t.integer  "waterFlow",        :limit => 10, :precision => 10, :scale => 0
-#    t.integer  "lightIntensity",   :limit => 10, :precision => 10, :scale => 0
-#    t.integer  "rainfallEvents",   :limit => 10, :precision => 10, :scale => 0
-#    t.integer  "depth",            :limit => 10, :precision => 10, :scale => 0
-#    t.integer  "sampling_site_id", :null => false
-#    t.integer  "partner_id", :null => false
-#    t.integer  "filter_id", :null => true
-#    t.datetime "samplingDate", :null => false
-#    t.text     "note"
-#    t.datetime "created_at"
-#    t.datetime "updated_at"
-#  end
-
 class Sampling < ActiveRecord::Base
 
 #include ActionController::UrlWriter (deprecated)
@@ -66,12 +46,11 @@ include SamplingsHelper
   #COLLECTION:
   #     Firm#clients (similar to Clients.find :all, :conditions =&gt; [&quot;firm_id = ?&quot;, id])
   #:dependent => :delete_all vs :destroy (call destroy children event)
-  has_many :filter_samples, :dependent => :destroy, :class_name => 'FilterSample'
-  accepts_nested_attributes_for :filter_samples
+  has_many :filter_samples, :dependent => :destroy
+  accepts_nested_attributes_for :filter_samples, :reject_if => lambda {|attrs| attrs[:volume].blank? }, :allow_destroy => true
 
-    #,:allow_destroy => true,
-    #:reject_if => proc { |attrs| attrs['num_filters'] == '0' or attrs['volume'].blank? }
-    # can also be used on has_one etc.. associations
+# can also be used on has_one etc.. associations
+#|attrs| attrs['num_filters'] == '0' or attrs['volume'].blank?
 #  # This will prevent children_attributes with all empty values to be ignored
 #  accepts_nested_attributes_for :children,
 #    :reject_if => proc { |attrs| attrs.all? { |k, v| v.blank? } }
@@ -80,29 +59,10 @@ include SamplingsHelper
 
 
   has_many :protocols, :dependent => :delete_all
-  #has_many :relationships, :class_name => 'Relationship', :finder_sql => %q(
-  #  SELECT DISTINCT relationships.*
-  #  FROM relationships
-  #  WHERE contact_id = #{id}
-  #)
+ 
 
   belongs_to :batch_sampling
-
-  #has_one :sampling_equipments, :null => true
-  #belongs_to :sampling_equipments, :null => true
-  #has_one :sampling_equipments
-#KAPPAO: Association named 'sampling_equipment' was not found; perhaps you misspelled it?
-  #has_one :sampling_equipment
-#Mysql::Error: Unknown column 'sampling_equipments.sampling_id' in 'on clause': SELECT `samplings`.* FROM `samplings`   INNER JOIN `sampling_equipments` ON sampling_equipments.sampling_id = samplings.id  INNER JOIN `partners` ON `partners`.id = `samplings`.partner_id  INNER JOIN `sampling_sites` ON `sampling_sites`.id = `samplings`.sampling_site_id   LIMIT 0, 20
-    #belongs_to :sampling_equipment
-#Mysql::Error: Unknown column 'samplings.sampling_equipment_id' in 'on clause': SELECT `samplings`.* FROM `samplings`   INNER JOIN `sampling_equipments` ON `sampling_equipments`.id = `samplings`.sampling_equipment_id  INNER JOIN `partners` ON `partners`.id = `samplings`.partner_id  INNER JOIN `sampling_sites` ON `sampling_sites`.id = `samplings`.sampling_site_id   LIMIT 0, 20
-    belongs_to :sampling_equipments
-##Add reference to :sampling_equipments for Sampling
-#change_table :samplings do |t|
-#KAPPAO    t.references :sampling_equipments --> have to be sampling_equipment  
-#         create sampling_equipments_id but must be sampling_equipment_id in order to construct the right association
-#end
-
+  belongs_to :sampling_equipments
 
 
   #In order for form_for to work,
@@ -117,35 +77,6 @@ include SamplingsHelper
   def full_name
     return self.code  + ' ' + self.sampling_site.code  + ' ' + self.volume.to_s + 'L'
   end
-
-  #def Sampling.verbose_me
-  #  @@verbose_me ||=  "Kappaooo "
-  #end
-
-  #attr_reader :total_temperature
-#def Sampling.total_temperature
-#  @@total_temperature ||= Sampling.sum(:temperature)
-#end
-#memoize :total_temperature #Undefined method `memoize'
-
-#attr_reader :handle #use as <%= f.text_field :handle %>
-#def handle=(text)
-#  if user = User.find_by_handle(text)
-#    self.user = user
-#  else
-#    errors.add(:base, "User with the handle '#{text}' not found"
-#  end
-#end
-
-##return first of matching products (id only to minimize memory consumption)
-#def self.custom_find_by_name(product_name)
-#  @@product_names ||= Product.all(:select=>'id, name')
-#  @@product_names.select{|p| p.name.downcase == product_name.downcase}.first
-#end
-#remember a way to flush finder cache in case you run this from console
-#def self.flush_custom_finder_cache!
-#  @@product_names = nil
-#end
 
 
     def edit
