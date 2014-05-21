@@ -245,8 +245,9 @@ class SamplingsController < AuthController
         @codegen = @sampling.code
         @attr_index = 1
         @pt = get_partner
-        format.html { redirect_to :action => :index } 
-        flash[:notice] = "Sampling was not created!!" 
+        format.html {   
+        flash[:notice] = "Sampling was not created!!"
+        redirect_to :action => :index } 
       end
     end
   end 
@@ -257,7 +258,8 @@ class SamplingsController < AuthController
     @title = "Sampling"
     #used for NESTED Model
     @wf = Wfilter.all()    
-    #@fs = FilterSample.all(:conditions => ['sampling_id = ' + @sampling.id.to_s ]) 
+    @fs = FilterSample.all(:conditions => ['sampling_id = ' + @sampling.id.to_s ]) 
+    #logger.debug @fs.to_s
 
  end
 
@@ -278,7 +280,8 @@ class SamplingsController < AuthController
         format.html { redirect_to(@sampling, :notice => 'Sampling was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => "show" 
+                      flash[:notice] = "Sampling not updated!"}
         format.xml  { render :xml => @sampling.errors, :status => :unprocessable_entity }
       end
     end

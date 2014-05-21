@@ -76,6 +76,57 @@
 
 </fieldset>
 
+<fieldset><legend class="leg">ASSOCIATED FILTER SAMPLES</legend>
+
+  <table width="80%" class="tacenter">
+
+    <tr>
+        <th>
+            <%= f.label :pore_size, "Pore size (μ)" %><br />
+        </th>
+        <th>
+            <%= f.label :num_filters, "n° Filter" %><br />
+        </th>
+        <th>
+            <%= f.label :volume, "Volume (lt)" %><br />
+        </th>
+        <th>
+            <%= f.label :barcode, "Partner barcode" %><br />
+        </th>
+        <th>
+            <%= f.label :note, "Note" %><br />
+        </th>
+    </tr>
+    
+    <%= f.fields_for :filter_samples, @sampling.filter_samples do |child_form| %>
+       
+    <tr>
+        <td>  
+               <%= child_form.hidden_field :samplingDate, :value => DateTime.now %>
+               <%= child_form.select :wfilter_id, @wf.collect{|p| [p.pore_size, p.id]} %>
+        </td>
+        <td>
+                <%= child_form.text_field :num_filters %>
+        </td>
+        <td>
+                <%= child_form.text_field :volume %>
+        </td>
+        <td>
+                <%= child_form.text_field :barcode %>
+        </td>
+        <td>
+                <%= child_form.text_field :note %>
+        </td>
+   </tr>
+
+  
+ <% end %>
+</table>
+
+
+</fieldset>
+
+
 <fieldset><legend class="leg">ENVIRONMENTAL DATA</legend>
 
   <div class="datas num">
