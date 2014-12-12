@@ -532,7 +532,6 @@ class MicroarraygalsController < AuthController
   end
 
 
-
  private
 
     def correct_user
@@ -543,7 +542,7 @@ class MicroarraygalsController < AuthController
     end
 
     def reroute()
-      flash.now[:notice] = "Only the partner who create the micro array can modify it."
+      flash.now[:notice] = "Only the partner who created the micro array can modify it."
       redirect_to(micro_arrays_path)
     end
 
