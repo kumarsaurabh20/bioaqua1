@@ -107,6 +107,7 @@ class SamplingsController < AuthController
       conditions[:conditions]=filter_by_conditions(index_columns)
     end
     
+    #@fs = FilterSample.all(:conditions => ['sampling_id = ?', @sampling.id ])
     @samplings=Sampling.paginate(conditions)
     total_entries=@samplings.total_entries
     

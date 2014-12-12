@@ -44,9 +44,9 @@ var notice = $('#notice');
     :subgrid=> { 
                 :url => filter_samples_path,
                 :rows_per_page => 20,
-                :sort_column => 'code',
+                :sort_column => 'sampling_id',
                 :sort_order => 'asc',
-                :search => 'false',
+                :search => 'true',
                 :rownumbers => 'false',
                 :columns => [
 		            { :field => "id", :label => "ID", :width => 35, :resizable => false, :sortable => false, :editable => false, :hidden => true, :search => false},

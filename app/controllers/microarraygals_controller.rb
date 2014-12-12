@@ -162,7 +162,7 @@ class MicroarraygalsController < AuthController
     
     @microarraygal = Microarraygal.new(params[:microarraygal])
     @title = "Microarray GAL files"
-    directory = "public/microarrays/" 
+    directory = Rails.root + "public/microarrays/" 
     @valid = false
    
 

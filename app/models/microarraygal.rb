@@ -11,7 +11,6 @@ include ExperimentHelper
   #validates_presence_of :gal_file_title, :message => "Can't be empty, field is mandatory. "
   #validates_presence_of :gal_file, :message => "Can't be empty, field is mandatory. "
 
-  
   has_one :experiment
   belongs_to :partner
   has_many :oligos, :dependent => :destroy
@@ -19,7 +18,14 @@ include ExperimentHelper
   has_many :gal_blocks, :dependent => :destroy
 
   #for paperclip
-  has_attached_file :gal_file
+  has_attached_file :gal_file, :url => "/:attachment/:id/:basename.:extension",
+                   :path => ":rails_root/public/Predict/:attachment/:id/:basename.:extension"
+  #validates_attachment :gal_file, :presence => true,
+  #:content_type => { :content_type => ['text'] },
+  #:size => { :in => 0..50.megabytes }
+
+  #validates_attachment_file_name :gal_file, :matches => [/gal\Z/]
+
 
 
   attr_reader :verbose_me

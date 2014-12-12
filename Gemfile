@@ -8,7 +8,7 @@ gem 'rails', '3.2.13'
 gem 'bio'
 gem 'fastercsv'
 gem 'gravatar'
-gem 'paperclip'
+gem 'paperclip', '3.5.3'
 gem 'mysql2', '>=0.3'
 gem 'rake', '0.8.7'
 
@@ -18,7 +18,7 @@ gem 'columnize'
 gem "will_paginate", "~> 3.0.4" 
 gem 'jquery-rails', '~> 2.1'
 
-gem 'rmagick', '2.13.2', :git=>'http://github.com/rmagick/rmagick.git'
+#gem 'rmagick', '2.13.2', :git=>'http://github.com/rmagick/rmagick.git'
 
 gem 'to_xls', '~> 1.0.0'
 
