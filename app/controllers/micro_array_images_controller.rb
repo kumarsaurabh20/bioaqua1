@@ -110,12 +110,12 @@ class MicroArrayImagesController < AuthController
     @micro_array_image = MicroArrayImage.find(params[:id])
     @title = "Micro array image"
 
-    @micro_array_image_icode = MicroArrayImage.find(params[:icode])
+    #@micro_array_image_icode = MicroArrayImage.find(params[:icode])
 
 
-    if @micro_array_image.nil?
-        redirect_to :action => "index"
-    end
+    #if @micro_array_image.nil?
+     #   redirect_to :action => "index"
+    #end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -144,13 +144,13 @@ class MicroArrayImagesController < AuthController
      # @ex = Experiment.all(:conditions => [ "partner_id = ?", @pt.id])
     #end
 
-    #3.times {@micro_array_image.image_assets.build}
-    #3.times {@micro_array_image.build_micro_array_image}
+    #3.times { @micro_array_image.image_assets.build }
+    
 
     respond_to do |format|
       format.html # new.html.erb
       #format.xml  { render xml: @micro_array_image }
-      format.json { render json: @micro_array_image}
+      format.xml { render xml: @micro_array_image}
     end
   end
 
@@ -159,16 +159,24 @@ class MicroArrayImagesController < AuthController
     @micro_array_image = MicroArrayImage.find(params[:id])
     @title = "Micro array image"
 
-    #3.times {@micro_array_image.image_assets.build}
-    #3.times {@micro_array_image.build_micro_array_image}
+    #3.times { @micro_array_image.image_assets.build }
+    
     
   end
 
   # POST /micro_array_images
   # POST /micro_array_images.xml
   def create
+
     @micro_array_image = MicroArrayImage.new(params[:micro_array_image])
     @title = "Micro array image"
+
+      #aux = []
+      #params[::micro_array_image][:images].each do |f|
+      #aux << {:image => f}
+      #end
+      #params[:post][:photos_attributes] = aux
+      #@gallery = Gallery.new(params[:gallery])
 
     @valid = false
 
@@ -235,11 +243,8 @@ class MicroArrayImagesController < AuthController
          # @savedfile and
        if @micro_array_image.save
 
-       format.html { render :json => [@micro_array_image.to_jq_upload].to_json,
-                     :content_type => 'text/html',
-                     :layout => false
-                    }
-       format.json { render json: {files: [@micro_array_image.to_jq_upload]}, status: :created, location: @micro_array_image }
+       format.html { redirect_to(@micro_array_image, :notice => 'Microarray image was successfully created.') }
+        format.xml  { render :xml => @micro_array_image, :status => :created, :location => @micro_array_image }
         
         #format.html { redirect_to(@micro_array_image, :notice => 'Micro array image was successfully created.') }
         #format.xml  { render :xml => @micro_array_image, :status => :created, :location => @micro_array_image }
@@ -254,7 +259,7 @@ class MicroArrayImagesController < AuthController
          #end
 
         format.html { render action: "new" }
-        format.json { render json: @micro_array_imag.errors, status: :unprocessable_entity } 
+        format.json { render json: @micro_array_image.errors, status: :unprocessable_entity } 
       end
     end
   end

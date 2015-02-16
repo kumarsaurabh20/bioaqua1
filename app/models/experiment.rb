@@ -73,9 +73,8 @@ class Experiment < ActiveRecord::Base
 
      @micro_array_image = MicroArrayImage.find(micro_array_image_id)
 
-   "<a href='" + ImageAsset.find_by_micro_array_image_id(micro_array_image_id).photo.url(:original) + "'><img src='"+ ImageAsset.find_by_micro_array_image_id(micro_array_image_id).photo.url(:minute) +"' /></a>"
-
-#"<img src='" + ImageAsset.find(micro_array_image_id).photo.url(:minute) + "' />"
+  # "<a href='" + ImageAsset.find_by_micro_array_image_id(micro_array_image_id).photo.url(:original) + "'><img src='"+ ImageAsset.find_by_micro_array_image_id(micro_array_image_id).photo.url(:minute) +"' /></a>"
+   "<a href=" + @micro_array_image.image_url.to_s + "><img src=" + @micro_array_image.image_url(:thumb).to_s + " /></a>"
 
     end
    

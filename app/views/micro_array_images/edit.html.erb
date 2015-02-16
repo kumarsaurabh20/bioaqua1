@@ -33,25 +33,7 @@
   <div class="field num">
 
    <%= f.label "Remove image" %><br />
-   <%= f.fields_for :image_assets do |asset|%>
-
-
-         <div class="paperclip">
-
-           <% if asset.object.new_record? %><br />
-           <br />
-            <%= asset.file_field :photo %><br />
-            <% end %>
-          </div>
-    
-        <div class="existingFiles">
-	<% unless asset.object.new_record? || !asset.object.photo? %>           
-<%= link_to(image_tag(asset.object.photo.url(:small)), asset.object.photo.url(:original)) %>           
-	   <%= asset.check_box :_destroy %>
-	  <% end %>
-        </div>
-
-   <% end %>
+   
   </div>
 
 <style>

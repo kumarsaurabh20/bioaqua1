@@ -14,7 +14,7 @@
 
 <%= link_to 'Back', micro_array_images_path %>
 
-<%= form_for MicroArrayImage.new, :html => { :multipart => true, :id => "fileupload" } do |f| %>
+<%= form_for @micro_array_image, :html => { :multipart => true } do |f| %>
   <%= f.error_messages %>
 
   <div class="actions">
@@ -36,15 +36,16 @@
  
  
 <h2>Upload file</h2>
-  <%= f.file_field :photo %>
+
+<div class="carrierwave">
+     <%= f.file_field :image %>
+</div>
+
+
 </fieldset>
 
 <fieldset><legend class="leg">ENVIRONMENTAL DATA</legend>
 
-  <div class="datas  bin">
-    <%= f.label :image %><br />
-    <%= f.text_field :image %>
-  </div>
   <div class="datas  num">
     <%= f.label :II_ImageID, "ImageID" %><br />
     <%= f.text_field :II_ImageID %>

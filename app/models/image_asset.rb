@@ -2,6 +2,7 @@ class ImageAsset < ActiveRecord::Base
 
 
   #belongs_to :batch_image
+  attr_accessible :photo
 
   belongs_to :micro_array_image
 
@@ -26,20 +27,20 @@ class ImageAsset < ActiveRecord::Base
   #validates_attachment_content_type :photo, :content_type => ['image/jpeg', 'image/png', 'image/tiff', 'image/gif']
 
 
-  before_validation :destroy_image?
+  #before_validation :destroy_image?
 
-  def image_delete
-    @image_delete ||= "0"
-  end
+  #def image_delete
+   # @image_delete ||= "0"
+  #end
 
-  def image_delete=(value)
-    @image_delete = value
-  end
+  #def image_delete=(value)
+  #  @image_delete = value
+  #end
 
-  private
-  def destroy_image?
-   self.photo.clear if @image_delete == "1" && !photo.dirty?
-  end
+  #private
+  #def destroy_image?
+  # self.photo.clear if @image_delete == "1" && !photo.dirty?
+  #end
 
 
 

@@ -11,7 +11,10 @@ gem 'gravatar'
 gem 'paperclip', '3.5.3'
 gem 'mysql2', '>=0.3'
 gem 'rake', '0.8.7'
-
+gem "rmagick"
+#gem "carrierwave"
+gem 'carrierwave', :git=>'https://github.com/carrierwaveuploader/carrierwave.git'
+gem 'json'
 gem 'rdoc'
 gem 'columnize'
 #gem 'jrails'

@@ -6,31 +6,21 @@ include Rails.application.routes.url_helpers
 include MicroArrayImagesHelper
 
 
- validates_presence_of :name, :message => "Can't be empty, field is mandatory. "
- validates_length_of   :name, :maximum => 50
+ #validates_presence_of :name, :message => "Can't be empty, field is mandatory. "
+ #validates_length_of   :name, :maximum => 50
 
   
   has_many :experiments
 
   belongs_to :partner
 
+  mount_uploader :image, ImageUploader
+
+
   #has_many :image_assets
 
   #accepts_nested_attributes_for :image_assets, :allow_destroy => true
   
-  has_attached_file :photo
-
-  def to_jq_upload
-    {
-      "name" => read_attribute(:photo_file_name),
-      "size" => read_attribute(:photo_file_size),
-      "url" => photo.url(:original),
-      "delete_url" => micro_array_image_path(self),
-      "delete_type" => "DELETE" 
-    }
-  end
-
-
   #In order for form_for to work,
 
   attr_reader :verbose_me
@@ -40,7 +30,7 @@ include MicroArrayImagesHelper
             
       #img = ImageAsset.find_by_micro_array_image_id(id).photo_file_name
        
-      basename = self.photo_file_name.gsub(/.[(jpg)(png)(tiff)(gif)]/,"")
+      basename = self.image #.gsub(/.[(jpg)(png)(tiff)(gif)]/,"")
    
       if barcode.empty?
             return self.icode  + '-' + basename.to_s
@@ -62,14 +52,14 @@ include MicroArrayImagesHelper
         return self.created_at.to_s
     end
 
-    def image_code
-	     #img = ImageAsset.find_by_micro_array_image_id(id).photo_file_name 
-	     basename = self.photo_file_name.gsub(/.[(jpg)(png)(tiff)(gif)]/,"")
-	     pcode = Partner.find(partner_id).code
+    #def image_code
+	  #   #img = ImageAsset.find_by_micro_array_image_id(id).photo_file_name 
+	  #   basename = self.image #.gsub(/.[(jpg)(png)(tiff)(gif)]/,"")
+	  #   pcode = Partner.find(partner_id).code
 
-	     return 'IMG-' + self.id.to_s + '-' +  pcode  + '-' + basename 
+	  #   return 'IMG-' + self.id.to_s + '-' +  pcode  + '-' + basename 
 
-    end
+    #end
 
 
 
