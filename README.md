@@ -16,15 +16,15 @@ Installation
 3. Provide the username and password under the development environment. Make sure to follow the style while write the uasername and password. 'Username{colon}{space}<username>'.
 4. check the database name (in development environment) in the database.yml file and create a database with the same name on your locally installed mysql database.
 5. run rake db:migrate or bundle exec rake db:migrate
-6. run rake db:schema:load or bundle exec rake db:schema:load
-7. run rails dbconsole < *.sql
+6. Please drop an email to kumarsaurabh20@gmail.com asking for seed data. Users are required to provide enough credentials to prove their genuinity.
+7. Once recieved, place the seed.rb file in bioaqua1/db/ folder.
+8. Run 'rake db:seed' or 'bundle exec rake db:seed'
 8. launch the application on http://localhost:3000 and login as partner1 with password p1.
 
 OR
 
 for linux users, simply download the install.sh file and run in with adminitrative privilages in the system.
 
-sudo ./install.sh
-
+sudo ./install.sh <seed.rb>
 
 
