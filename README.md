@@ -12,12 +12,13 @@ Installation
 =============
 
 1. Clone the repository
-2. Rename the database2.yml file to database.yml in the bioaqua1/config directory
-3. check the database name (in development environment) in the database.yml file and create a database with the same name.
-4. run rake db:migrate or bundle exec rake db:migrate
-4. run rake db:schema:load or bundle exec rake db:schema:load
-5. run rails dbconsole < *.sql
-6. launch the application on http://localhost:3000 and login as partner1 with password p1.
+2. Move the database.yml file from application root to bioaqua1/config directory
+3. Provide the username and password under the development environment. Make sure to follow the style while write the uasername and password. 'Username{colon}{space}<username>'.
+4. check the database name (in development environment) in the database.yml file and create a database with the same name on your locally installed mysql database.
+5. run rake db:migrate or bundle exec rake db:migrate
+6. run rake db:schema:load or bundle exec rake db:schema:load
+7. run rails dbconsole < *.sql
+8. launch the application on http://localhost:3000 and login as partner1 with password p1.
 
 OR
 
