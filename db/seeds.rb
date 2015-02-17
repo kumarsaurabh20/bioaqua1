@@ -45,10 +45,6 @@ Depth.create!([
   {name: "3 to 15 m", description: nil},
   {name: ">15 m", description: nil}
 ])
-Experiment.create!([
-  {filter_sample_id: 111, microarraygal_id: 1, partner_id: 1, ecode: "E01-150213-01", barcode: "test", experiment_date: "2015-02-13", note: "", people_id: "1", microarraygpr_id: 1, micro_array_image_id: 1, check: false},
-  {filter_sample_id: 213, microarraygal_id: 1, partner_id: 1, ecode: "E01-150213-02", barcode: "", experiment_date: "2015-02-13", note: "", people_id: "1", microarraygpr_id: 1, micro_array_image_id: 1, check: false}
-])
 FilterSamplePreparation.create!([
   {name: "?", description: "Not defined"},
   {name: "DNA/RNA", description: "expose sample preparation for DNA/RNA extraction"},
@@ -345,15 +341,6 @@ FilterSample.create!([
   {sampling_id: 32, samplingDate: "2012-04-03 00:00:00", partner_id: nil, wfilter_id: 12, pore_size: "0.0", num_filters: 2, avg_qta: "0.0", volume: "0.0", barcode: " FR3120403CA_1/_2 viruses", code: "P03-120403-01-F09", note: "", storage: "", filter_sample_preparations_id: 1},
   {sampling_id: 25, samplingDate: "2012-08-26 00:00:00", partner_id: nil, wfilter_id: 10, pore_size: "0.0", num_filters: 1, avg_qta: "0.0", volume: "80.0", barcode: "TEST", code: "P01-120517-02-F01", note: "test for microarray experiment", storage: "", filter_sample_preparations_id: 2}
 ])
-GalBlock.create!([
-  {block_number: "1", xOrigin: "7000", yOrigin: "6650", feature_diameter: "200", xFeatures: "25", xSpacing: "300", yFeatures: "40", ySpacing: "300", gal_header_id: 1, microarraygal_id: 1},
-  {block_number: "2", xOrigin: "22500", yOrigin: "6650", feature_diameter: "200", xFeatures: "25", xSpacing: "300", yFeatures: "40", ySpacing: "300", gal_header_id: 1, microarraygal_id: 1},
-  {block_number: "3", xOrigin: "38000", yOrigin: "6650", feature_diameter: "200", xFeatures: "25", xSpacing: "300", yFeatures: "40", ySpacing: "300", gal_header_id: 1, microarraygal_id: 1},
-  {block_number: "4", xOrigin: "53500", yOrigin: "6650", feature_diameter: "200", xFeatures: "25", xSpacing: "300", yFeatures: "40", ySpacing: "300", gal_header_id: 1, microarraygal_id: 1}
-])
-GalHeader.create!([
-  {gal_version_info: "1", number_data_column: nil, gal_row_count: "25", gal_column_count: "40", block_type: "0", block_count: "4", supplier: "Scienion", microarraygal_id: 1}
-])
 Geology.create!([
   {name: "undefined", description: nil},
   {name: "calcareous", description: nil},
@@ -383,9 +370,6 @@ Geo.create!([
   {name: "Aniene", lon: "12.5681539", lat: "41.9214595", country_id: 1, width: "0.0"},
   {name: "Tiber (Castelgiubileo)", lon: "12.499817", lat: "41.987333", country_id: 1, width: "0.0"}
 ])
-GprHeader.create!([
-  {gprVersion: "1", number_data_column: nil, gprtype: "GenePix Results 3", datetime: "2012/10/19 14:17:23", settings: "\"\r\n", galfile: "X:\\Funded Projects\\FP7-Microaqua\\Aqua-Array-01-LindaM\\Gal-files\\-aqua_Toxine_17092012.gal", pixelsize: "5", wavelengths: "635\t532", imagefiles: "X:\\Funded Projects\\FP7-Microaqua\\Aqua-Array-01-LindaM\\Hybridisiert\\2012_10_17\\Toxin 2_rotated.tif 1\tX:\\Funded Projects\\FP7-Microaqua\\Aqua-Array-01-LindaM\\Hybridisiert\\2012_10_17\\Toxin 2_rotated.tif 2", normalizationmethod: "None", normalizationfactors: "1\t1", jpegimage: "\"\r\n", stddev: "Type 1", ratioformulations: "W1/W2 (635/532)", featuretype: "Circular", barcode: "\"\r\n", backgroundsubtraction: "LocalFeature", imageorigin: "2080, 4440", jpegorigin: "2590, 5045", creator: "GenePix Pro 5.1.0.19", scanner: "GenePix 4200A 01 Autoloader", focusposition: "", temp: "29", linesavg: "1", comment: "\"\r\n", pmtgain: "330\t330", scanpower: "100\t100", laserpower: "2.31\t2.5", filters: "Standard Red\tStandard Green", scanregion: "416,888,8536,3736", supplier: "Scienion AG", microarraygpr_id: 1}
-])
 LandUseMapping.create!([
   {name: "Grazing land", note: "Grazing land"},
   {name: "Fields", note: "Fields"},
@@ -399,15 +383,6 @@ LandUseMapping.create!([
   {name: "Wetland", note: "wetland"},
   {name: "Water bodies", note: "water bodies.(Corine Land Cover)"},
   {name: "Urban", note: "Urban/municipal settlement in close proximity (<500 m) of sampling point "}
-])
-MicroArrayImage.create!([
-  {note: "", name: "test", II_ImageID: nil, II_Channel: "", II_Image: "", II_Fluorophore: "", barcode: "", II_Units: "", II_X_Units_Per_Pixel: nil, II_Y_Units_Per_Pixel: nil, II_X_Offset: nil, II_Y_Offset: nil, II_Status: "", icode: "Image-01-150213-01", partner_id: 1, image: "2-A1-01a_R1.jpg"}
-])
-Microarraygal.create!([
-  {code: "UniCam", loaded_at: "2014-12-12", barcode: "TEST", partner_id: 1, note: "", gal_file_file_name: "µ-aqua_Toxine_mod.gal", gal_file_content_type: "application/octet-stream", gal_file_file_size: 1182, gal_file_updated_at: "2014-12-12 16:12:44", gal_dir: "--- !ruby/object:Pathname\npath: /home/jarvis/bioaqua1/public/microarrays/\n", gal_title: "20141212161244 _-aqua_Toxine_mod.gal"}
-])
-Microarraygpr.create!([
-  {code: "UniCam", loaded_at: "2014-12-13", barcode: "test", partner_id: 1, note: "", gpr_file_file_name: "Toxin_I.gpr", gpr_file_content_type: "application/octet-stream", gpr_file_file_size: 2319, gpr_file_updated_at: "2014-12-13 14:13:26", gpr_dir: "public/Microarraygprs/", gpr_title: "20141213141326 Toxin_I.gpr"}
 ])
 NucleicAcidType.create!([
   {name: "DNA", description: "deoxyribonucleic acid"},
@@ -440,39 +415,6 @@ OligoSequence.create!([
   {dna_sequence: "GTAGTATTTATTAGATGGAAACCAA", name: "Variants within the genus Navicula", code: "SSU_03", description: "Lenght: 25, Tm: 60,8, GC Content: 28    Genus level    ", partner_id: 1, people_id: 3, partner_people_id: nil, taxonomy_id: nil, taxonomy_name: nil, oligoDate: "2012-05-25 00:00:00", available: true},
   {dna_sequence: "TCCCTTACTACTTGGATAACCGTAG", name: "Variants within the genus Navicula", code: "SSU_04", description: "Lenght: 25, Tm: 67,2, GC Content: 44    Genus level    ", partner_id: 1, people_id: 3, partner_people_id: nil, taxonomy_id: nil, taxonomy_name: nil, oligoDate: "2012-05-25 00:00:00", available: true},
   {dna_sequence: "AATTCTTGGATTTCTGGAAGACGAACTA", name: "Variants within the genus Navicula", code: "SSU_05", description: "Lenght: 28, Tm: 68,7, GC Content: 35,7    Genus level    ", partner_id: 1, people_id: 3, partner_people_id: nil, taxonomy_id: nil, taxonomy_name: nil, oligoDate: "2012-05-25 00:00:00", available: true}
-])
-Oligo.create!([
-  {code: "AMP_COF_P29", oligo_id: "AMP_COF_P29", gal_header_id: 1, gal_block_id: 1, row_number: "1", column_number: "1", microarraygal_id: 1},
-  {code: "AMP_COF_P29_R", oligo_id: "AMP_COF_P29_R", gal_header_id: 1, gal_block_id: 1, row_number: "2", column_number: "1", microarraygal_id: 1},
-  {code: "Amp_COF_P22", oligo_id: "Amp_COF_P22", gal_header_id: 1, gal_block_id: 1, row_number: "3", column_number: "1", microarraygal_id: 1},
-  {code: "Amp_COF_P22_R", oligo_id: "Amp_COF_P22_R", gal_header_id: 1, gal_block_id: 1, row_number: "4", column_number: "1", microarraygal_id: 1},
-  {code: "Amp_COF_P25", oligo_id: "Amp_COF_P25", gal_header_id: 1, gal_block_id: 1, row_number: "5", column_number: "1", microarraygal_id: 1},
-  {code: "Amp_COF_P25_R", oligo_id: "Amp_COF_P25_R", gal_header_id: 1, gal_block_id: 1, row_number: "6", column_number: "1", microarraygal_id: 1},
-  {code: "AMP_COF_P20", oligo_id: "AMP_COF_P20", gal_header_id: 1, gal_block_id: 1, row_number: "7", column_number: "1", microarraygal_id: 1},
-  {code: "AMP_COF_P20_R", oligo_id: "AMP_COF_P20_R", gal_header_id: 1, gal_block_id: 1, row_number: "8", column_number: "1", microarraygal_id: 1},
-  {code: "AMP_COF_P21", oligo_id: "AMP_COF_P21", gal_header_id: 1, gal_block_id: 1, row_number: "9", column_number: "1", microarraygal_id: 1},
-  {code: "AMP_COF_P21_R", oligo_id: "AMP_COF_P21_R", gal_header_id: 1, gal_block_id: 1, row_number: "10", column_number: "1", microarraygal_id: 1},
-  {code: "NIT_DIS_P24", oligo_id: "NIT_DIS_P24", gal_header_id: 1, gal_block_id: 1, row_number: "11", column_number: "1", microarraygal_id: 1},
-  {code: "NIT_DIS_P24_R", oligo_id: "NIT_DIS_P24_R", gal_header_id: 1, gal_block_id: 1, row_number: "12", column_number: "1", microarraygal_id: 1},
-  {code: "NIT_DIS_P27", oligo_id: "NIT_DIS_P27", gal_header_id: 1, gal_block_id: 1, row_number: "13", column_number: "1", microarraygal_id: 1},
-  {code: "NIT_DIS_P27_R", oligo_id: "NIT_DIS_P27_R", gal_header_id: 1, gal_block_id: 1, row_number: "14", column_number: "1", microarraygal_id: 1},
-  {code: "NIT_SIG_P21", oligo_id: "NIT_SIG_P21", gal_header_id: 1, gal_block_id: 1, row_number: "15", column_number: "1", microarraygal_id: 1},
-  {code: "NIT_SIG_P21_R", oligo_id: "NIT_SIG_P21_R", gal_header_id: 1, gal_block_id: 1, row_number: "16", column_number: "1", microarraygal_id: 1},
-  {code: "NIT_SIG_P26", oligo_id: "NIT_SIG_P26", gal_header_id: 1, gal_block_id: 1, row_number: "17", column_number: "1", microarraygal_id: 1},
-  {code: "NIT_SIG_P26_R", oligo_id: "NIT_SIG_P26_R", gal_header_id: 1, gal_block_id: 1, row_number: "18", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_01", oligo_id: "SSU_01", gal_header_id: 1, gal_block_id: 1, row_number: "19", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_02", oligo_id: "SSU_02", gal_header_id: 1, gal_block_id: 1, row_number: "20", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_03", oligo_id: "SSU_03", gal_header_id: 1, gal_block_id: 1, row_number: "21", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_04", oligo_id: "SSU_04", gal_header_id: 1, gal_block_id: 1, row_number: "22", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_05", oligo_id: "SSU_05", gal_header_id: 1, gal_block_id: 1, row_number: "23", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_06", oligo_id: "SSU_06", gal_header_id: 1, gal_block_id: 1, row_number: "24", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_07", oligo_id: "SSU_07", gal_header_id: 1, gal_block_id: 1, row_number: "25", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_08", oligo_id: "SSU_08", gal_header_id: 1, gal_block_id: 1, row_number: "26", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_09", oligo_id: "SSU_09", gal_header_id: 1, gal_block_id: 1, row_number: "27", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_10", oligo_id: "SSU_10", gal_header_id: 1, gal_block_id: 1, row_number: "28", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_11", oligo_id: "SSU_11", gal_header_id: 1, gal_block_id: 1, row_number: "29", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_12", oligo_id: "SSU_12", gal_header_id: 1, gal_block_id: 1, row_number: "30", column_number: "1", microarraygal_id: 1},
-  {code: "SSU_13", oligo_id: "SSU_13", gal_header_id: 1, gal_block_id: 1, row_number: "31", column_number: "1", microarraygal_id: 1}
 ])
 PartnerPerson.create!([
   {partner_id: 1, person_id: 1, IsPrincipalInvestigator: false, IsAdministratorResponsable: true},
@@ -507,22 +449,22 @@ Partner.create!([
   {fp7_Number: 12, code: "SCIE", name: "SCIENION AG", address: "", phone: "", email: "weigel@scienion.de", site: "http://www.scienion.de/", logo: nil, user_id: 12, country_id: 6}
 ])
 Person.create!([
-  {firstname: "DE SIMONE", lastname: "Simona", phone: "", email: "simona.desimone@unicam.it", town: "CAMERINO", avatar: nil},
-  {firstname: "GUALERZI", lastname: "Claudio", phone: "", email: "claudio.gualerzi@unicam.it", town: "CAMERINO", avatar: nil},
-  {firstname: "SPURIO", lastname: "Roberto", phone: "", email: "roberto.spurio@unicam.it", town: "CAMERINO", avatar: nil},
-  {firstname: "HAYES", lastname: "Paul Kelvin", phone: "", email: "paul.hayes@port.ac.uk", town: "PORTSMOUTH", avatar: nil},
-  {firstname: "MEDLIN", lastname: "Linda", phone: "", email: "medlin@obs-banyuls.fr", town: "BANYULS", avatar: nil},
-  {firstname: " GUILLEBAULT", lastname: "Delphine", phone: "", email: "delphine.guillebault@obs-banyuls.fr", town: "BANYULS", avatar: nil},
-  {firstname: "HELMI", lastname: "Karim", phone: "", email: "karim.helmi@veolia.com", town: "PARIS", avatar: nil},
-  {firstname: "MANCINI", lastname: "Laura", phone: "", email: "laura.mancini@iss.it", town: "ROMA", avatar: nil},
-  {firstname: "HOLDEN", lastname: "Nicholas", phone: "", email: "nick.holden@ucd.ie", town: "DUBLIN", avatar: nil},
-  {firstname: "PANAIOTOV", lastname: "Stefan", phone: "", email: "spanaiotov@yahoo.com", town: "SOFIA", avatar: nil},
-  {firstname: "ELLIOTT", lastname: "Christopher", phone: "", email: "chris.elliott@qub.ac.uk", town: "BELFAST", avatar: nil},
-  {firstname: "MEYER", lastname: "Thomas", phone: "", email: "tmeyer@marilim.de", town: "TIEV", avatar: nil},
-  {firstname: "ALBAY", lastname: "MERIÇ", phone: "", email: "albay.hermano@gmail.com", town: "ISTANBUL", avatar: nil},
-  {firstname: "AMPARO", lastname: "Alfonso", phone: "", email: "amparo.alfonso@usc.es", town: "SANTIAGO DE COMPOSTELA", avatar: nil},
-  {firstname: "WEIGEL", lastname: "Wilfried", phone: "", email: "weigel@scienion.de", town: "BERLIN", avatar: nil},
-  {firstname: "DEZY", lastname: "dezy", phone: "", email: "dezy.dezy@unicam.it", town: "CAMERINO", avatar: nil}
+  {firstname: "DE SIMONE", lastname: "Simona", phone: "", email: "test1@test1.it", town: "CAMERINO", avatar: nil},
+  {firstname: "GUALERZI", lastname: "Claudio", phone: "", email: "test2@test2.it", town: "CAMERINO", avatar: nil},
+  {firstname: "SPURIO", lastname: "Roberto", phone: "", email: "test3@test3.it", town: "CAMERINO", avatar: nil},
+  {firstname: "HAYES", lastname: "Paul Kelvin", phone: "", email: "test4@test4.it", town: "PORTSMOUTH", avatar: nil},
+  {firstname: "MEDLIN", lastname: "Linda", phone: "", email: "test5@test5.fr", town: "BANYULS", avatar: nil},
+  {firstname: " GUILLEBAULT", lastname: "Delphine", phone: "", email: "test6@test4.it", town: "BANYULS", avatar: nil},
+  {firstname: "HELMI", lastname: "Karim", phone: "", email: "test7@test4.it", town: "PARIS", avatar: nil},
+  {firstname: "MANCINI", lastname: "Laura", phone: "", email: "test8@test4.it", town: "ROMA", avatar: nil},
+  {firstname: "HOLDEN", lastname: "Nicholas", phone: "", email: "test9@test4.it", town: "DUBLIN", avatar: nil},
+  {firstname: "PANAIOTOV", lastname: "Stefan", phone: "", email: "test10@test4.it", town: "SOFIA", avatar: nil},
+  {firstname: "ELLIOTT", lastname: "Christopher", phone: "", email: "test11@test4.it", town: "BELFAST", avatar: nil},
+  {firstname: "MEYER", lastname: "Thomas", phone: "", email: "test12@test4.it", town: "TIEV", avatar: nil},
+  {firstname: "ALBAY", lastname: "MERIÇ", phone: "", email: "test13@test4.it", town: "ISTANBUL", avatar: nil},
+  {firstname: "AMPARO", lastname: "Alfonso", phone: "", email: "test14@test4.it", town: "SANTIAGO DE COMPOSTELA", avatar: nil},
+  {firstname: "WEIGEL", lastname: "Wilfried", phone: "", email: "test15@test4.it", town: "BERLIN", avatar: nil},
+  {firstname: "DEZY", lastname: "dezy", phone: "", email: "test16@test4.it", town: "CAMERINO", avatar: nil}
 ])
 SamplingEquipment.create!([
   {name: "?", description: "Not defined"},
@@ -607,20 +549,20 @@ SizeTypology.create!([
   {name: ">100 kmÂ²", description: nil}
 ])
 User.create!([
-  {name: "partner1", email: "claudio.gualerzi@unicam.it", encrypted_password: "a05ff639252ef6e84a8d178f76b27b2b2545740488298893f486f4ed73129753", salt: "de033593ceff5e7af13729b4f1770c260d420cc6b4eaea94ed6c0bdf99e2f9f2", remember_token: "3ab5a570227318105f4b582a33a428ade2ab9346d983a52d105c01dfc3abd23c"},
-  {name: "partner2", email: "paul.hayes@port.ac.uk", encrypted_password: "aa55a92643f24db4eb2d1e4b73e1f3bda8e7d41fa307b1e3d22a5155ec5290e9", salt: "f6d1b7130d8d4ccafac6c34d95900c5671d161e8098403950d2e66598b75f6fb", remember_token: "3782186f35ea63e9aedbeb5db39549e245ff5b8b3d9b2b87ed6e9bfe1e192365"},
-  {name: "partner3", email: "medlin@obs-banyuls.fr", encrypted_password: "621217f4ce4817f091dafd870cf9101c002accd5cb187cbcc70f594ea517ef09", salt: "453e506e80d59bd49d44ad859639dd0596a61e2b0267f124c2efef736577e818", remember_token: "32eb6d9219f4771f99bc20b8377da4ca19bf26932871f4a10c7e57048a4860bc"},
-  {name: "partner4", email: "karim.helmi@veolia.com", encrypted_password: "a680f77f5ffeab7e51b3960b2cc6cf26455b2b085cf26cfe7266c31ff6e9d728", salt: "5913b9eb65ee8e4620fa1f457e30c0363809efdeee13cd7d80198752bd001a01", remember_token: "580f8beed74dfd0fdbe095e408b33427658d0b7fc8ce32fa0c36ccc099faf3d4"},
-  {name: "partner5", email: "laura.mancini@iss.it", encrypted_password: "51392110f6fd6f456a6b97ef61ba133b7031964a3e6346cc05acb7458224f6e9", salt: "bb79e8c506cf7df593e61c7a17eb442df736f1b2783906fccaf622538be7e257", remember_token: "56b2349819867e53b21e7c9a792ac469644f326df8de1252c7792dcafdcc083e"},
-  {name: "partner6", email: "Nick.Holden@ucd.ie", encrypted_password: "a240066f7721cf152b4abcf8ec4eaf8152c74662b082786abb6d04d4ef5b1c6f", salt: "64c2d4528214f3359eff1b240c3c5c61ec0b375056a705da8528b9d8cc9c8135", remember_token: "62a28d8a43dfd0f9cfc0445761d195ad2b34bbb9cd59c6a9f8c55bc8700de4fc"},
-  {name: "partner7", email: "spanaiotov@yahoo.com", encrypted_password: "82389f620387a9882d8a774262a385542b491e7a6071772e615ab1d3ff93c7a5", salt: "82ef40f964892dcce105d1dca974c8d61dda48943b0c832f18bad3455b2a25de", remember_token: nil},
-  {name: "partner8", email: "Chris.Elliott@qub.ac.uk", encrypted_password: "e8f1ff56a0a9231923a68b3d848666a46048c557cfa111979dd81031d6890e9a", salt: "d2e03c707f35050f0dbcf38e56e5e768d5e27fe03bec0764523d24cb8038d6e5", remember_token: nil},
-  {name: "partner9", email: "tmeyer@marilim.de", encrypted_password: "2cc2b1d7f8f3396fe73088f96e63cca8653e29fadd6b0e46430afb8c811eaea8", salt: "0415087b451c2f3c6f3178a2c7c108c460dfdc1885145418295b8c5e79ea5b17", remember_token: "e4395fced07ed6141e57b9b98e894075cbdaa50de2b28b16737b2e5a56023263"},
-  {name: "partner10", email: "dalbay.hermano@gmail.com", encrypted_password: "3b83d036140b243c8dae10ff6a7f7298f7099dcd3fdf07b947eaf0f9b13677a5", salt: "f64c2bfa419d4b0480e99253395a6414d1b66d21fa207acdf8d4fa7f7500a470", remember_token: "fccb5e634abe9ea8e93830a6ad779ff5e8564ff38ca71c14c16bd9d671ddf1fd"},
-  {name: "partner11", email: "amparo.alfonso@usc.es", encrypted_password: "9413b8de7c3202f42c59afbadb47892666c2814a2a5bc69e96d3f7c1b3daa19c", salt: "12ae6d37fb6394c228df653d4fc5caa4fe41bd8328064035e17c8526d241f7f7", remember_token: nil},
-  {name: "partner12", email: "weigel@scienion.de", encrypted_password: "52e3590a4a9a769b5abb041f19aa6cf045d25bb2244abe012d489ca55f7707a1", salt: "10d153fecc8cce2755e2cdf34c0cc6d71d55ccb3122e9b2e8fbd2410716905dc", remember_token: "7b2e2fcb4b8204fc195bb993b0f2d4a410d22923bcb056059d274f5bea81e23f"},
-  {name: "admin_microaqua", email: "dom.thual@engeebee.com", encrypted_password: "9e402ec7648eb49555cf6643888c08af094f28637e858ea3fcc43d62a828842c", salt: "cf65be1ccc2800642b859751c8e022423fc55ad47187852ced27c6609033f2c2", remember_token: "2a619f7c5b787d8e9d8fe2c63c3bfb1e0a080e1bd8a7fac8e940f1254d297ed9"},
-  {name: "roberto", email: "roberto.spurio@unicam.it", encrypted_password: "453e9ed126009d25d160db74d90853b27d3f44d9e1861faf3c5930198aee7285", salt: "7e4d373a30d67f9753c4adea9f54176ba622f3f6d826046aa072daafc15ce00e", remember_token: nil}
+  {name: "partner1", email: "test1@test1.it", encrypted_password: "a05ff639252ef6e84a8d178f76b27b2b2545740488298893f486f4ed73129753", salt: "de033593ceff5e7af13729b4f1770c260d420cc6b4eaea94ed6c0bdf99e2f9f2", remember_token: "3ab5a570227318105f4b582a33a428ade2ab9346d983a52d105c01dfc3abd23c"},
+  {name: "partner2", email: "test2@test1.it", encrypted_password: "aa55a92643f24db4eb2d1e4b73e1f3bda8e7d41fa307b1e3d22a5155ec5290e9", salt: "f6d1b7130d8d4ccafac6c34d95900c5671d161e8098403950d2e66598b75f6fb", remember_token: "3782186f35ea63e9aedbeb5db39549e245ff5b8b3d9b2b87ed6e9bfe1e192365"},
+  {name: "partner3", email: "test3@test1.it", encrypted_password: "621217f4ce4817f091dafd870cf9101c002accd5cb187cbcc70f594ea517ef09", salt: "453e506e80d59bd49d44ad859639dd0596a61e2b0267f124c2efef736577e818", remember_token: "32eb6d9219f4771f99bc20b8377da4ca19bf26932871f4a10c7e57048a4860bc"},
+  {name: "partner4", email: "test4@test1.it", encrypted_password: "a680f77f5ffeab7e51b3960b2cc6cf26455b2b085cf26cfe7266c31ff6e9d728", salt: "5913b9eb65ee8e4620fa1f457e30c0363809efdeee13cd7d80198752bd001a01", remember_token: "580f8beed74dfd0fdbe095e408b33427658d0b7fc8ce32fa0c36ccc099faf3d4"},
+  {name: "partner5", email: "test5@test1.it", encrypted_password: "51392110f6fd6f456a6b97ef61ba133b7031964a3e6346cc05acb7458224f6e9", salt: "bb79e8c506cf7df593e61c7a17eb442df736f1b2783906fccaf622538be7e257", remember_token: "56b2349819867e53b21e7c9a792ac469644f326df8de1252c7792dcafdcc083e"},
+  {name: "partner6", email: "test6@test1.it", encrypted_password: "a240066f7721cf152b4abcf8ec4eaf8152c74662b082786abb6d04d4ef5b1c6f", salt: "64c2d4528214f3359eff1b240c3c5c61ec0b375056a705da8528b9d8cc9c8135", remember_token: "62a28d8a43dfd0f9cfc0445761d195ad2b34bbb9cd59c6a9f8c55bc8700de4fc"},
+  {name: "partner7", email: "test7@test1.it", encrypted_password: "82389f620387a9882d8a774262a385542b491e7a6071772e615ab1d3ff93c7a5", salt: "82ef40f964892dcce105d1dca974c8d61dda48943b0c832f18bad3455b2a25de", remember_token: nil},
+  {name: "partner8", email: "test8@test1.it", encrypted_password: "e8f1ff56a0a9231923a68b3d848666a46048c557cfa111979dd81031d6890e9a", salt: "d2e03c707f35050f0dbcf38e56e5e768d5e27fe03bec0764523d24cb8038d6e5", remember_token: nil},
+  {name: "partner9", email: "test9@test1.it", encrypted_password: "2cc2b1d7f8f3396fe73088f96e63cca8653e29fadd6b0e46430afb8c811eaea8", salt: "0415087b451c2f3c6f3178a2c7c108c460dfdc1885145418295b8c5e79ea5b17", remember_token: "e4395fced07ed6141e57b9b98e894075cbdaa50de2b28b16737b2e5a56023263"},
+  {name: "partner10", email: "test10@test1.it", encrypted_password: "3b83d036140b243c8dae10ff6a7f7298f7099dcd3fdf07b947eaf0f9b13677a5", salt: "f64c2bfa419d4b0480e99253395a6414d1b66d21fa207acdf8d4fa7f7500a470", remember_token: "fccb5e634abe9ea8e93830a6ad779ff5e8564ff38ca71c14c16bd9d671ddf1fd"},
+  {name: "partner11", email: "test11@test1.it", encrypted_password: "9413b8de7c3202f42c59afbadb47892666c2814a2a5bc69e96d3f7c1b3daa19c", salt: "12ae6d37fb6394c228df653d4fc5caa4fe41bd8328064035e17c8526d241f7f7", remember_token: nil},
+  {name: "partner12", email: "test12@test1.it", encrypted_password: "52e3590a4a9a769b5abb041f19aa6cf045d25bb2244abe012d489ca55f7707a1", salt: "10d153fecc8cce2755e2cdf34c0cc6d71d55ccb3122e9b2e8fbd2410716905dc", remember_token: "7b2e2fcb4b8204fc195bb993b0f2d4a410d22923bcb056059d274f5bea81e23f"},
+  {name: "admin_microaqua", email: "test13@test1.it", encrypted_password: "9e402ec7648eb49555cf6643888c08af094f28637e858ea3fcc43d62a828842c", salt: "cf65be1ccc2800642b859751c8e022423fc55ad47187852ced27c6609033f2c2", remember_token: "2a619f7c5b787d8e9d8fe2c63c3bfb1e0a080e1bd8a7fac8e940f1254d297ed9"},
+  {name: "roberto", email: "test14@test1.it", encrypted_password: "453e9ed126009d25d160db74d90853b27d3f44d9e1861faf3c5930198aee7285", salt: "7e4d373a30d67f9753c4adea9f54176ba622f3f6d826046aa072daafc15ce00e", remember_token: nil}
 ])
 WaterType.create!([
   {code: "S", name: "Surface water", description: nil},
