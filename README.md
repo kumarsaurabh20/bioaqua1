@@ -11,15 +11,16 @@ This application is based on ruby (-v=1.9.3p547) and rails (-v=3.2.13) framework
 Installation
 =============
 
-1. Clone the repository
-2. Move the database.yml file from application root to bioaqua1/config directory.
-3. Provide the username and password under the development environment. Make sure to follow the style while write the uasername and password. 'Username{colon}{space}<username>'.
-4. check the database name (in development environment) in the database.yml file and create a database with the same name on your locally installed mysql database.
-5. run 'rake db:migrate' or 'bundle exec rake db:migrate', just to make sure if the database connection is working fine.
-6. Run 'rake db:schema:load' or 'bundle exec rake db:schema:load'.
-6. Run 'rake db:seed' or 'bundle exec rake db:seed'.
-7. launch the application on http://localhost:3000 and login as partner1 with password p1.
-8. If you come across any installation related issue please contact on kumarsaurabh20@gmail.com or post your query on:  https://github.com/kumarsaurabh20/bioaqua1/issues 
+1. Make sure you have ruby, rails and mysql installed with the defined versions.
+2. Clone the repository
+3. Move the database.yml file from application root to bioaqua1/config directory.
+4. Provide the username and password under the development environment. Make sure to follow the style while write the uasername and password. For example, 'Username{colon}{space}<username>'.
+5. check the database name (in development environment) in the database.yml file and create a database with the same name on your locally installed mysql database.
+6. run 'rake db:migrate' or 'bundle exec rake db:migrate', just to make sure if the database connection is working fine.
+7. Run 'rake db:schema:load' or 'bundle exec rake db:schema:load'.
+8. Run 'rake db:seed' or 'bundle exec rake db:seed'.
+9. launch the application on http://localhost:3000 and login as partner1 with password p1.
+10. If you come across any installation related issue please contact on kumarsaurabh20@gmail.com or post your query on:  https://github.com/kumarsaurabh20/bioaqua1/issues 
 
 OR
 
