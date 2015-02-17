@@ -171,7 +171,7 @@ class MicroArrayImagesController < AuthController
     @micro_array_image = MicroArrayImage.new(params[:micro_array_image])
     @title = "Micro array image"
 
-      #aux = []
+      #aux = []MicroArrayImage
       #params[::micro_array_image][:images].each do |f|
       #aux << {:image => f}
       #end
