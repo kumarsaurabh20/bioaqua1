@@ -104,17 +104,20 @@ cat << HEAD
 PLATFORMS
   ruby
 
-DEPENDENCIES
-  bio
+dependencies
+  carrierwave!
   columnize
   fastercsv
   gravatar
   jquery-rails (~> 2.1)
+  json
   mysql2 (>= 0.3)
   paperclip (= 3.5.3)
   rails (= 3.2.13)
   rake (= 0.8.7)
   rdoc
+  rmagick
+  seed_dump
   therubyracer
   to_xls (~> 1.0.0)
   will_paginate (~> 3.0.4)
@@ -126,5 +129,21 @@ Keep Imagemagick in your rails path.
 
 HEAD 
 
-
+echo "moving in to the repository folder.."
+cd bioaqua1/
+mv database.yml ./config/
+echo "moved database.yml file to config folder!!"
+echo "Please update database.yml with proper username and password!"
+echo "Create a database in mysql with a name, bioaqua1_development"
+echo "Enter your mysql root password now: "
+mysql -u root -p -e "create database bioaqua1";
+echo "A database named bioaqua1 is successfully created in your local mysql environment!!"
+echo "Now configuring the application and database connection..."
+bundle exec rake db:migrate
+bundle exec rake db:schema:load
+echo "database schema uploaded!"
+bundle exec rake db:seed
+echo "bioaqua is populated with seed data!"
+echo "bioaqua1 installation completed!"
+echo "Launch the program from the browser by entering http://localhost:3000"
 
