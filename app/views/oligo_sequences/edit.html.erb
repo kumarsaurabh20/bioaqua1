@@ -114,27 +114,26 @@ N (Any base A, C, G, T, or U)   " %><br />
 
     <div class="field ">
         <%= f.label :taxonomy_id, "Taxonomy identifier" %><br />
-        <%= f.hidden_field :taxonomy_id %><br />
-        <%= f.text_field :taxonomy_id, id: "TaxonomyID" %><br />
-        <label class="hide" id="ed_tax_id" name="ed_tax_id"><%= @oligo_sequence.taxonomy_id %></label>
-        <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=<%=h @oligo_sequence.taxonomy_id %>' title='Show taxonomy identifier into the NCBI web site'  target='_blank'><%=h @oligo_sequence.taxonomy_id %></a></h3>
+       
+       <%= f.text_field :taxonomy_id, id: "TaxonomyID" %><br />
+    <!--     <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=<%=h @oligo_sequence.taxonomy_id %>' title='Show taxonomy identifier into the NCBI web site'  target='_blank'><%=h @oligo_sequence.taxonomy_id %></a></h3> -->
     </div>
     <div class="field ">
         <%= f.label :taxonomy_name, "Taxonomy name" %><br />
-        <%= f.hidden_field :taxonomy_name %><br />
+       
         <%= f.text_field :taxonomy_name, id: "TaxonomyName" %><br />
-        <label class="hide" id="ed_tax_name" name="ed_tax_name"><%= @oligo_sequence.taxonomy_name %></label><br />
-        <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name=<%=h @oligo_sequence.taxonomy_name %>' title='Show taxonomy definition and lineage into the NCBI web site'  target='_blank'><%= @oligo_sequence.taxonomy_name %></a></h3>
-    </div>
+    <!--     <label class="hide" id="ed_tax_name" name="ed_tax_name"><%= @oligo_sequence.taxonomy_name %></label><br />
+        <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name=<%=h @oligo_sequence.taxonomy_name %>' title='Show taxonomy definition and lineage into the NCBI web site'  target='_blank'><%= @oligo_sequence.taxonomy_name %></a></h3> -->
+    </div> 
 
-    <div class="field ">
-        <% if !@oligo_sequence.taxonomy_id.nil? %>
+  <!--  <div class="field ">
+        <% #if !@oligo_sequence.taxonomy_id.nil? %>
             <center>
                 <input type="button" onClick=removeSelect(); value="Remove association" 
                    title="remove taxonomy name and id associated to this oligo sequence" />
             </center>
-        <% end %>
-    </div>
+        <% #end %>
+    </div> -->
 
 </td><td style="width:80%">
 
@@ -166,6 +165,20 @@ N (Any base A, C, G, T, or U)   " %><br />
 
 
 <script type="text/javascript">
+
+//function removeSelect() { 
+//    try {
+//        if (confirm('Remove this taxonomy id(' + $('oligo_sequence_taxonomy_id').value + ') with name ' + $('oligo_sequence_taxonomy_name').value + '?')) {
+//            $('oligo_sequence_taxonomy_id').value = '';
+//            $('oligo_sequence_taxonomy_name').value = '';
+//            $('oligo_sequence_submit').click();
+//        }
+//    }
+//    catch (e){alert('error RemoveSelect: ' + e.message);}
+//    return false;
+//}
+
+
 var xml2String = "";
 var biourl = '<%= resolve_dxhtml %>';
 function SetName(response) {
