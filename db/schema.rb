@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150213151220) do
+ActiveRecord::Schema.define(:version => 20150513102303) do
 
   create_table "altitude_types", :force => true do |t|
     t.string   "name",        :null => false
@@ -501,6 +501,7 @@ ActiveRecord::Schema.define(:version => 20150213151220) do
     t.text     "description"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
+    t.string   "dol"
   end
 
   add_index "nucleic_acids", ["filter_sample_id"], :name => "index_nucleic_acids_on_filter_sample_id"

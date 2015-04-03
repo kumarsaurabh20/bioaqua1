@@ -15,7 +15,7 @@ class NucleicAcidsController < AuthController  #ApplicationController
 
   def post_data
     message=""
-    nucleic_acid_params = { :id => params[:id],:filter_sample_id => params[:filter_sample_id],:nucleic_acid_type_id => params[:nucleic_acid_type_id],:date => params[:date],:partner_id => params[:partner_id],:code => params[:code],:description => params[:description] }
+    nucleic_acid_params = { :id => params[:id],:filter_sample_id => params[:filter_sample_id], :nucleic_acid_type_id => params[:nucleic_acid_type_id],:date => params[:date], :dol => params[:dol], :partner_id => params[:partner_id],:code => params[:code],:description => params[:description] }
     case params[:oper]
     when 'add'
       if params["id"] == "_empty"
@@ -94,7 +94,7 @@ class NucleicAcidsController < AuthController  #ApplicationController
     #end
 
 
-  index_columns ||= [:id, :act, :code, :sampling_name, :filter_sample_name, :nucleic_acid_type_name, :partner_name, :date, :edit]
+  index_columns ||= [:id, :act, :code, :sampling_name, :filter_sample_name, :nucleic_acid_type_name, :dol, :partner_name, :date, :edit]
     current_page = params[:page] ? params[:page].to_i : 1
     rows_per_page = params[:rows] ? params[:rows].to_i : 10
 

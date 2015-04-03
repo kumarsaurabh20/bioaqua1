@@ -25,6 +25,11 @@
     <%= select :nucleic_acid,:filter_sample_id, @fs.collect{|p| [p.code + ' ' + p.verbose_me, p.id]}%>
   </div>
 
+  <div class="field dol">
+    <%= f.label :dol, "Degree of Labelling (DOL)" %><br />
+    <%= f.text_field :dol %>
+  </div>
+
 </td><td>
 
   <div class="field code">
