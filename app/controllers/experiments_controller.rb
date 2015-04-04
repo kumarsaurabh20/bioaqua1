@@ -296,6 +296,8 @@ class ExperimentsController < AuthController
             logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_tsi.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"
 	    logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_snr.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"	 
             @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id, probe: @probeNames, tsi: @sorted_tsi, snr: @sorted_snr)
+
+
       end  
 
       respond_to do |format|    

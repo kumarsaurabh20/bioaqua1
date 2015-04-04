@@ -1,5 +1,6 @@
 class MicroArrayAnalysisFilesController < ApplicationController
 
+
   #only Requiring the right user to change own contents
   before_filter :correct_user, :only => [:edit, :update]
 
@@ -8,6 +9,16 @@ class MicroArrayAnalysisFilesController < ApplicationController
   def index
     @micro_array_analysis_files = MicroArrayAnalysisFile.all
     @title = "List of micro array analysis files"
+		
+	@probes, @tsi, @snr = [], [], []	
+	@micro_array_analysis_files.each_with_index do |entry, index|
+		@probes[index] = entry.probe 
+		@tsi[index] = entry.probe
+		@snr[index] = entry.probe
+	end
+
+	#logger.debug "##############" + @probes.inspect + "##############"
+
 
     respond_to do |format|
       format.html # index.html.erb

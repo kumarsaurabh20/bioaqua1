@@ -17,16 +17,20 @@
 
 <table>
   <tr>
-    <th>Microarray</th>
-    <th>Miane standard</th>
-    <th>Note</th>
+    <th>ID</th>
+    <th>Probes</th>
+    <th>Signal to Noise Ratio (SNR)</th>
+    <th>Total Signal Intensity (TSI)</th>
+    <th>MIAME standard</th>
   </tr>
 
 <% @micro_array_analysis_files.each do |micro_array_analysis_file| %>
   <tr>
     <td><%=h micro_array_analysis_file.id %></td>
+    <td><%= micro_array_analysis_file.probe %></td>
+    <td><%= micro_array_analysis_file.snr %></td>
+    <td><%= micro_array_analysis_file.tsi %></td>
     <td><%=h micro_array_analysis_file.MIAME_Standard %></td>
-    <td><%=h truncate(micro_array_analysis_file.note, :length => 25, :omission => '... (continued)') %></td>
     <td><%= link_to 'Show', micro_array_analysis_file %></td>
     <% if auth_ma_user(micro_array_analysis_file.experiment_id) or signed_in_and_master? %>
       <td><%= link_to 'Edit', edit_micro_array_analysis_file_path(micro_array_analysis_file) %></td>
