@@ -51,11 +51,6 @@ class MicroArrayAnalysisFilesController < ApplicationController
 
 	end
 
-
-
-	#logger.debug "##############" + @probes.inspect + "##############"
-
-
     respond_to do |format|
       format.html # index.html.erb
       format.json  { render :json => @micro_array_analysis_files }
