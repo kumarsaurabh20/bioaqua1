@@ -294,8 +294,13 @@ class ExperimentsController < AuthController
 	@probeNames, @sorted_tsi, @sorted_snr = readGpr(path) 
             logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @probeNames.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"
             logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_tsi.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"
-	    logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_snr.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"	 
-            @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id, probe: @probeNames, tsi: @sorted_tsi, snr: @sorted_snr)
+	    logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_snr.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"
+
+
+	@gpr_code = Microarraygpr.find(@experiment.microarraygpr_id).verbose_me
+
+	 
+            @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id, probe: @probeNames, tsi: @sorted_tsi, snr: @sorted_snr, gprcode: @gpr_code, ecode: @experiment.ecode)
 
 
       end  

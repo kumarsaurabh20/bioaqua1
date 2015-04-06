@@ -1,5 +1,6 @@
 class MicroArrayAnalysisFilesController < ApplicationController
 
+  require 'json'
 
   #only Requiring the right user to change own contents
   before_filter :correct_user, :only => [:edit, :update]
@@ -10,19 +11,14 @@ class MicroArrayAnalysisFilesController < ApplicationController
     @micro_array_analysis_files = MicroArrayAnalysisFile.all
     @title = "List of micro array analysis files"
 		
-	@probes, @tsi, @snr = [], [], []	
-	@micro_array_analysis_files.each_with_index do |entry, index|
-		@probes[index] = entry.probe 
-		@tsi[index] = entry.probe
-		@snr[index] = entry.probe
-	end
+	@analysed_object = @micro_array_analysis_files.to_json
 
 	#logger.debug "##############" + @probes.inspect + "##############"
 
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @micro_array_analysis_files }
+      format.json  { render :json => @micro_array_analysis_files }
     end
   end
 

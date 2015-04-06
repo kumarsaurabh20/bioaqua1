@@ -9,7 +9,7 @@ class MicroArrayAnalysisFile < ActiveRecord::Base
  before_save :make_array_snr	
  
  belongs_to :experiment
-
+ belongs_to :microarraygpr
 
 
  def make_array_probe
@@ -32,5 +32,6 @@ class MicroArrayAnalysisFile < ActiveRecord::Base
   def verbose_me
     return self.MIANE_Standard
   end
+
 end
 

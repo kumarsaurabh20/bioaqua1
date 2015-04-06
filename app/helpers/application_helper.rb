@@ -12,6 +12,10 @@ module ApplicationHelper
     end
   end
 
+ def uploadLogo
+	image_tag("upload.gif", :alt => "upload", :class => "round", :size => "150x150")
+ end		
+
   #LOGO
   def appHelperLogo
     #image_tag("logo.png", :alt => "Sample App", :class => "round")

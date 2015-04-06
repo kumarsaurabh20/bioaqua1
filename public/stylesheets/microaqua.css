@@ -109,3 +109,6 @@ textarea.bioarea{height: 800px;}
 border-left: 2px solid #1E3681;margin-right: 10px; }
 .AttributeName{float:left; padding-left: 5px;}
 
+.upload { position: absolute;top:50%;left:50%;margin-top: -50px;margin-left: -50px;width: 100px;height: 100px; }​
+
+
