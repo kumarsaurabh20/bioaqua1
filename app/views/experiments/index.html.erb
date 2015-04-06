@@ -19,7 +19,7 @@
 <tr>
 <td style="float=left"><b><%= link_to 'New microarray experiment', new_experiment_path %></b></td>
 <td></td>
-<td><button type="button" id="normalize">Analyze Selected Experiment</button></td>
+<td><b><a href="" onclick="analyze(); return false;">Analyze Selected Experiment</a></b></td>
 </tr> 
 </table>
 <br />
@@ -100,10 +100,6 @@ $.ajax({
             }
       }); 
 };
-
-
-$('#normalize').click(function () { analyze();
-                                   $('#preloader').show(); });
 
 </script>
 

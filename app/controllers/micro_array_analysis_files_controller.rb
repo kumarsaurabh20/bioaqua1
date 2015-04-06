@@ -11,7 +11,47 @@ class MicroArrayAnalysisFilesController < ApplicationController
     @micro_array_analysis_files = MicroArrayAnalysisFile.all
     @title = "List of micro array analysis files"
 		
-	@analysed_object = @micro_array_analysis_files.to_json
+	@analysis_object = @micro_array_analysis_files.to_json
+	@mainData = []
+	@analysed_data = []
+	@analyzed_raw_data = []
+	@id, @probe, @snr, @tsi = [], [], [], []
+	@mainTableData = []
+	@micro_array_analysis_files.each do |entry|
+
+		@id = entry.id
+		
+
+		@ecode = entry.ecode
+		@gprcode = entry.gprcode
+		@date = entry.created_at
+		@note = entry.note
+		@mainData = [@id, @ecode, @gprcode, @date, @note]
+		@main_hash = { id: @mainData[0], ecode: @mainData[1], gprcode: @mainData[2], date: @mainData[3].to_s, note: @mainData[4]  }
+
+		@mainTableData.push(@main_hash)
+
+
+		@probe = entry.probe		
+		@snr = entry.snr
+		@tsi = entry.tsi
+		subData = [@probe, @snr, @tsi]		
+		subData2 = subData.transpose		
+		subData3 = subData2.each do |row|
+			row.unshift(@id)
+		end
+
+		subData3.each do |element|
+
+		@hash_new = { id: element[0], probe: element[1], snr: element[2], tsi: element[3] }
+
+		@analysed_data.push(@hash_new)
+			
+		end
+
+	end
+
+
 
 	#logger.debug "##############" + @probes.inspect + "##############"
 
