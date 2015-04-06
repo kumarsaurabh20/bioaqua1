@@ -17,7 +17,8 @@
 <br />
 <table>
 <tr>
-<td style="float=left"><%= link_to 'New microarray experiment', new_experiment_path %></td>
+<td style="float=left"><b><%= link_to 'New microarray experiment', new_experiment_path %></b></td>
+<td><b><a href="" onclick="analyze(); return false;">Analyze Selected Experiment</a></b></td>
 </tr>       
 </table>
 <br />
@@ -72,6 +73,26 @@
 <br />
 
 <script type="text/javascript" >
+
+function analyze() {
+
+var obj = $("input:checked").map(function () { return $(this).parents('tr').attr('id'); })
+
+var result = null;
+     var arr = jQuery.makeArray(obj);
+     var data = arr.join(',');
+     //alert(ids);
+
+$.ajax({
+        url : '<%= url_for :controller => "experiments", :action => "analyze_experiment" %>',
+        type : 'POST',
+        data : {data:data},
+        dataType : 'html',
+        success : function(response) { 
+             window.location = "<%= 'micro_array_analysis_files' %>";
+            }
+      }); 
+};
 
 </script>
 

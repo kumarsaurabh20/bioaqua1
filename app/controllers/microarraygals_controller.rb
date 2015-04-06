@@ -228,7 +228,7 @@ class MicroarraygalsController < AuthController
         self.parse_oligo_data
        
         format.html { 
-            flash[:notice] = 'Microarray GAL file is successfully saved. Upload GPR file or Create new Microarray Experiment by associating your GAL file!!!'
+      flash[:notice] = 'Microarray GAL file is successfully saved. Upload GPR file or Create new Microarray Experiment by associating your GAL file!!!'
       redirect_to :controller => "microarraygprs", :action => "new" }
         format.xml  { render :xml => @microarraygal, :status => :created, :location => @microarraygal }
       else

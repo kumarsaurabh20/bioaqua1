@@ -267,6 +267,21 @@ class ExperimentsController < AuthController
     end
   end
 
+  #Function to initiate analysis of individual or multiple experiments 
+  def analyze_experiment
+    data = params['data']
+    #redirect_to micro_array_analysis_file_path
+    
+    respond_to do |format|
+    
+    #render :js => "window.location = '#{micro_array_analysis_files_path}'"  
+      
+    format.html { redirect_to micro_array_analysis_files_path }
+        
+    end
+  end  
+
+
   # DELETE /experiments/1
   # DELETE /experiments/1.xml
   def destroy

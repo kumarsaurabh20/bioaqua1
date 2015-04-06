@@ -71,6 +71,7 @@ Bioaqua1::Application.routes.draw do
   match '/download_sample_sampling_csv' => 'batch_samplings#download_sample_sampling_csv'
   match '/export_to_csv' => 'oligo_sequences#export_to_csv'
   match '/export_all_xls.xls' => 'oligo_sequences#export_all_xls'
+  match '/analyze_experiment' => 'experiments#analyze_experiment', via: [:get, :post]
 
 
 

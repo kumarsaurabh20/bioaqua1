@@ -25,6 +25,8 @@ class Experiment < ActiveRecord::Base
 
   belongs_to :micro_array_image
 
+  belongs_to :micro_array_analysis_file
+
 
   attr_reader :verbose_me
   def verbose_me
