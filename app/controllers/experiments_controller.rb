@@ -284,18 +284,18 @@ class ExperimentsController < AuthController
             data.each do |id|
                 @experiment = Experiment.find(id)
                 path = get_paths(id)
-                @probeNames, @sorted_list = readGpr(path)
-                #@micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
+                @probeNames, @sorted_tsi, @sorted_snr = readGpr(path)
+                @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id, probe: @probeNames, tsi: @sorted_tsi, snr: @sorted_snr)
             end  
       else
-            @experiment = Experiment.find(data[0]) 
-            path = get_paths(data[0])
+	@experiment = Experiment.find(data[0]) 
+	path = get_paths(data[0])
             #logger.debug "&&&&&&&&&&&&&&&&&&&&&" + path.to_s + "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-            @probeNames, @sorted_tsi, @sorted_snr = readGpr(path) 
+	@probeNames, @sorted_tsi, @sorted_snr = readGpr(path) 
             logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @probeNames.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"
             logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_tsi.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"
 	    logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_snr.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"	 
-            #@micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
+            @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id, probe: @probeNames, tsi: @sorted_tsi, snr: @sorted_snr)
       end  
 
       respond_to do |format|    

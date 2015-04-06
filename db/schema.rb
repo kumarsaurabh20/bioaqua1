@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150513102303) do
+ActiveRecord::Schema.define(:version => 20150518191830) do
 
   create_table "altitude_types", :force => true do |t|
     t.string   "name",        :null => false
@@ -384,6 +384,9 @@ ActiveRecord::Schema.define(:version => 20150513102303) do
     t.string   "MIAME_Standard"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "tsi"
+    t.string   "probe"
+    t.string   "snr"
   end
 
   add_index "micro_array_analysis_files", ["experiment_id"], :name => "index_micro_array_analysis_files_on_experiment_id"

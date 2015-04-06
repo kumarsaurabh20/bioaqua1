@@ -1,4 +1,9 @@
 class MicroArrayAnalysisFile < ActiveRecord::Base
+
+  serialize :probe, Array	
+  serialize :tsi, Array
+  serialize :snr, Array 	
+
   belongs_to :experiment
 
   #In order for form_for to work,
