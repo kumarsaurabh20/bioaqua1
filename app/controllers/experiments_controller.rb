@@ -277,15 +277,18 @@ class ExperimentsController < AuthController
       data = params['data'].split(",")
       logger.debug "=============================" + data.inspect + "=============================="
    
-
       if data.size > 1
             data.each do |id|
                 @experiment = Experiment.find(id)
-                @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
+                path = get_paths(id)
+                @probeNames, @sorted_list = readGpr(path)
+                #@micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
             end  
       else
-            @experiment = Experiment.find(data[0])  
-            @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
+            @experiment = Experiment.find(data[0]) 
+            path = get_paths(is)
+            @probeNames, @sorted_list = readGpr(path)  
+            #@micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
       end  
 
       respond_to do |format|    
@@ -296,7 +299,7 @@ class ExperimentsController < AuthController
 
       e.message
       e.backtrace
-      raise NoGprError, "File does not seem to be GPR formatted. Check the file"
+      #raise NoGprError, "File does not seem to be GPR formatted. Check the file!!"
 
     end   
 
@@ -311,9 +314,6 @@ class ExperimentsController < AuthController
              read.encode!('UTF-8', :invalid => :replace, :undef => :replace)
        read_array = []
              read_array = read.split("\n") 
-
-
-
     # if read.valid_encoding?
        #read_array = read.split("\n")
   #            
@@ -323,7 +323,7 @@ class ExperimentsController < AuthController
       
         mod_array = read_array.map {|e| e.split("\t")}  
         
-              logger.debug @mod_array.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        logger.debug @mod_array.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
 
         element_stabilized = mod_array.map {|element| element.join(",").gsub("\"","").split(",")} 
@@ -447,16 +447,21 @@ class ExperimentsController < AuthController
    f633 <- mergeVectors("f633", counts)
    b633 <- mergeVectors("b633", counts)
 
-    calTSI <- function(dia, f633, b633) {
-
+  calTSI <- function(dia, f633, b633) {
     dia <- as.numeric(dia)
     f633 <- as.numeric(f633)
     b633 <- as.numeric(b633)
-
     tsi <- (f633 - b633) * 3.14 * dia * dia * 1/4
-
     return(tsi)
   } 
+
+
+  calSNR <- function(f633, b633) {
+    f633 <- as.numeric(f633)
+    b633 <- as.numeric(b633)
+    snr <- f633/b633
+    return(snr)
+  }
 
   totalSignalIntensities <- calTSI(dia, f633, b633)
 
@@ -493,7 +498,7 @@ class ExperimentsController < AuthController
 
    EOF
             
-            #passing non UTF-8 char from R to ruby and vice versa throws an error... 
+      #passing non UTF-8 char from R to ruby and vice versa throws an error... 
       #"Error in nchar(var) : invalid multibyte string 1". 
       #here is a workaround.
       #Sys.setlocale('LC_ALL','C')
@@ -539,60 +544,21 @@ class ExperimentsController < AuthController
  def get_paths(id)
      #use ID argument to fetch that particular record.
      #with the help of id fetch the file names from database
-     predict = Predict.find(id)
-     coeffs_file_name = predict.coeffs_file_name
-     rawintens_file_name = predict.rawinten_file_name
+     @gprId = Experiment.find(id).microarraygpr_id
+     @gpr = Microarraygpr.find(@gprId) 
+     gpr_title = @gpr.gpr_title
+     gpr_dir = @gpr.gpr_dir
+     gpr_path = File.join("#{Rails.root}", "#{gpr_dir}", "#{gpr_title}")
 
-     #set the path to the file folder
-     coeffs_path = "#{Rails.root}/public/Predict/coeffs/#{id}"
-     rawintens_path = "#{Rails.root}/public/Predict/rawintens/#{id}"
-     replicate_path = File.join("#{Rails.root}","public","Replicate", "#{id}")
-     
-      
-     #create file paths and return them    
-     coeffs_file = File.join(coeffs_path, coeffs_file_name)
-     rawintens_file = File.join(rawintens_path, rawintens_file_name)
- 
-     #logger.debug rawintens_file.to_s
+     logger.debug "=======================" + gpr_path.to_s + "==========================="
 
-     return coeffs_file, rawintens_file, replicate_path
+     return gpr_path
  end
 
 #===================================================================================================#
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  # DELETE /experiments/1
-  # DELETE /experiments/1.xml
+# DELETE /experiments/1
+# DELETE /experiments/1.xml
   def destroy
     if !signed_in_and_master?
       flash[:notice] = "Sorry. Only technical manager can delete data. Please, contact Roberto SPURIO to do it."
