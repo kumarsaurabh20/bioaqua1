@@ -17,6 +17,9 @@ class ExperimentsController < AuthController
   class UnknownTypeError < StandardError
   end
 
+  class NoGprError < StandardError
+  end
+
   before_filter :correct_user, :only => [:edit, :update, :delete, :destroy]
 
 
@@ -269,23 +272,33 @@ class ExperimentsController < AuthController
 
   #Function to initiate analysis of individual or multiple experiments 
   def analyze_experiment
-    data = params['data'].split(",")
-    logger.debug "=============================" + data.inspect + "=============================="
-    
-    if data.size > 1
-          data.each do |id|
-              @experiment = Experiment.find(id)
-              @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
-          end  
-    else
-          @experiment = Experiment.find(data[0])  
-          @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
-    end      
+   
+    begin
+      data = params['data'].split(",")
+      logger.debug "=============================" + data.inspect + "=============================="
+   
 
- 
-    respond_to do |format|    
-    format.html { redirect_to micro_array_analysis_files_path }
-    end
+      if data.size > 1
+            data.each do |id|
+                @experiment = Experiment.find(id)
+                @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
+            end  
+      else
+            @experiment = Experiment.find(data[0])  
+            @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
+      end  
+
+      respond_to do |format|    
+      format.html { redirect_to micro_array_analysis_files_path }
+      end    
+
+    rescue Exception => e
+
+      e.message
+      e.backtrace
+      raise NoGprError, "File does not seem to be GPR formatted. Check the file"
+
+    end   
 
   end  
 
