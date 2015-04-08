@@ -282,18 +282,300 @@ class ExperimentsController < AuthController
           @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
     end      
 
-
-
-
-
-
-
-    
+ 
     respond_to do |format|    
     format.html { redirect_to micro_array_analysis_files_path }
     end
 
   end  
+
+  #===================================CALCULATE TSI==========================================================
+
+ #method for parsing gpr file and calculating Total intensities from raw intensities
+ def readGpr(file_path)
+   begin      
+       read = IO.read(file_path)
+             read.encode!('UTF-8', :invalid => :replace, :undef => :replace)
+       read_array = []
+             read_array = read.split("\n") 
+
+
+
+    # if read.valid_encoding?
+       #read_array = read.split("\n")
+  #            
+  #      else
+  #    read_array = read.encode!("ASCII-8BIT","ASCII-8BIT", invalid: :replace, :undef => :replace).split("\n")
+  #      end
+      
+        mod_array = read_array.map {|e| e.split("\t")}  
+        
+              logger.debug @mod_array.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
+
+        element_stabilized = mod_array.map {|element| element.join(",").gsub("\"","").split(",")} 
+
+        header_removed = []
+          if element_stabilized [0].include?("ATF")
+             header_removed = element_stabilized.drop_while {|i| i unless i.include?("Block")}
+          else
+             raise NoGprError, "File does not seem to be GPR formatted. Check the file"
+          end
+
+              column_based_array = header_removed.transpose
+
+              @name, @dia, @f633_mean, @b633_mean = getColumns(column_based_array)
+
+              @probeNames, @sorted_list = calTotalSignalIntensity(@name, @dia, @f633_mean, @b633_mean)
+                  
+              #@filterProbes, @sorted_list = sortGprTsiList(@name, @get_tsi_list)
+              #logger.debug @filterProbes.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+              #logger.debug @sorted_list.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"       
+              
+           return @probeNames, @sorted_list
+
+    rescue Exception => e
+              e.message
+              e.backtrace.inspect
+    end 
+
+ end 
+
+ def getColumns(array=[])
+     name, dia, f633_mean, b633_mean = [], [],[],[]
+     begin
+         array.map do |element|     
+             case
+               when element.include?("Name") then name << element
+           #logger.debug name.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+               when element.include?("Dia.") then dia << element
+
+           #logger.debug dia.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+               when element.include?("F633 Mean") then f633_mean << element
+           #logger.debug f633_mean.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
+               when element.include?("B633 Mean") then b633_mean << element  
+           #logger.debug b633_mean.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+     
+             end
+         end
+     
+      rescue Exception => e
+       e.message
+                   e.backtrace.inspect
+      end
+
+    return name, dia, f633_mean, b633_mean 
+ end
+
+ def calTotalSignalIntensity(probeNameList, diameter, foreground, background)
+ 
+   begin 
+
+       names = probeNameList.flatten
+       names.shift
+       filterNames = names.uniq 
+       #logger.debug dia.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
+        dia = diameter.flatten 
+        dia.shift
+       #logger.debug dia.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+        f633 = foreground.flatten
+        f633.shift
+       #logger.debug f633.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"      
+        b633 = background.flatten
+        b633.shift
+       #logger.debug b633.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
+
+        names = partition_array(names)
+  counts = names.length
+  
+        R.assign "counts", counts
+  for i in 1..names.count
+   R.assign "name#{i}", names[i-1]
+  end
+
+     #Formula for calculating Total Signal Intensity
+     #(F633_mean - B633_mean)*3.14*diameter^2*1/4
+     dia = partition_array(dia)
+     for i in 1..dia.count
+      R.assign "dia#{i}", dia[i-1]
+     end
+     #R.assign "dia", dia
+
+     f633 = partition_array(f633)
+     for i in 1..f633.count
+      R.assign "f633#{i}", f633[i-1]
+     end
+     #R.assign "f633", f633
+
+     b633 = partition_array(b633)
+     for i in 1..b633.count
+      R.assign "b633#{i}", b633[i-1]
+     end
+     #R.assign "b633", b633
+
+
+  R.eval <<-EOF
+
+
+    mergeVectors <- function(array, counts) {
+      for (i in c(1:counts)) {
+         if (i == 1) { dummy <- c(get(paste0(array,i))) } 
+         else { dummy <- c(dummy, get(paste0(array,i))) }    
+       }
+      return(dummy)
+    }
+
+   names <- mergeVectors("name", counts)
+   names <- as.character(names)
+   dia <- mergeVectors("dia", counts)
+   f633 <- mergeVectors("f633", counts)
+   b633 <- mergeVectors("b633", counts)
+
+    calTSI <- function(dia, f633, b633) {
+
+    dia <- as.numeric(dia)
+    f633 <- as.numeric(f633)
+    b633 <- as.numeric(b633)
+
+    tsi <- (f633 - b633) * 3.14 * dia * dia * 1/4
+
+    return(tsi)
+  } 
+
+  totalSignalIntensities <- calTSI(dia, f633, b633)
+
+       names <- as.vector(names)
+       totalSignalIntensities <- as.numeric(totalSignalIntensities)
+
+  tab <- cbind(Name=names, F633=totalSignalIntensities)
+  tab <- data.frame(tab)  
+ 
+  allProbes <- as.character(tab[,1])
+  uniqueProbeVec <- unique(allProbes) 
+        uniqueProbeVecFilter <- gsub("\357\277\275\357\277\275\357\277\275M", "", uniqueProbeVec)
+        print(uniqueProbeVecFilter) 
+
+  meanTSI <- list()
+  myData <- list()
+
+  for (i in c(1:length(uniqueProbeVec))) {
+      
+    myData[[i]] <- subset(tab, uniqueProbeVec[i] == tab[ , 1])
+  } 
+
+  for (j in c(1:length(uniqueProbeVec))) {
+
+                newVec <- as.numeric(as.character(myData[[j]][, 2]))
+                replicate <- as.numeric(length(newVec))
+
+    meanTSI[[j]] <- sum(newVec)/replicate
+                
+
+  }
+
+  meanTSI <- unlist(meanTSI)
+
+   EOF
+            
+            #passing non UTF-8 char from R to ruby and vice versa throws an error... 
+      #"Error in nchar(var) : invalid multibyte string 1". 
+      #here is a workaround.
+      #Sys.setlocale('LC_ALL','C')
+      #http://stackoverflow.com/questions/6669911/error-in-nchar-when-reading-in-stata-file-in-r-on-mac
+
+     #Splitting with in R
+     #split(a, ceiling(seq_along(a)/3))
+
+          
+            #tsi = R.pull("totalSignalIntensities")
+           tsiList = R.pull("meanTSI")
+           return filterNames, tsiList
+
+
+   rescue Exception => e
+        e.message
+        e.backtrace.inspect
+   end 
+
+ end
+
+ def partition_array(array=[], size=500)
+    dummy = []
+       begin
+    if array.empty?
+       raise "Input array is empty!!"
+    else
+    array.each_slice(size) {|element| dummy.push(element)}
+    end
+       rescue Exception => e
+       e.message
+       end     
+
+     return dummy 
+ end
+
+      
+
+#==================================INPUT FILE HANDLING============================================
+
+ #method for fetching saved file path based on retrived upload ID from database
+ #ID is required to fetch session specific file.
+ def get_paths(id)
+     #use ID argument to fetch that particular record.
+     #with the help of id fetch the file names from database
+     predict = Predict.find(id)
+     coeffs_file_name = predict.coeffs_file_name
+     rawintens_file_name = predict.rawinten_file_name
+
+     #set the path to the file folder
+     coeffs_path = "#{Rails.root}/public/Predict/coeffs/#{id}"
+     rawintens_path = "#{Rails.root}/public/Predict/rawintens/#{id}"
+     replicate_path = File.join("#{Rails.root}","public","Replicate", "#{id}")
+     
+      
+     #create file paths and return them    
+     coeffs_file = File.join(coeffs_path, coeffs_file_name)
+     rawintens_file = File.join(rawintens_path, rawintens_file_name)
+ 
+     #logger.debug rawintens_file.to_s
+
+     return coeffs_file, rawintens_file, replicate_path
+ end
+
+#===================================================================================================#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   # DELETE /experiments/1
