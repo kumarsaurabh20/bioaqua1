@@ -269,16 +269,30 @@ class ExperimentsController < AuthController
 
   #Function to initiate analysis of individual or multiple experiments 
   def analyze_experiment
-    data = params['data']
-    #redirect_to micro_array_analysis_file_path
+    data = params['data'].split(",")
+    logger.debug "=============================" + data.inspect + "=============================="
     
-    respond_to do |format|
+    if data.size > 1
+          data.each do |id|
+              @experiment = Experiment.find(id)
+              @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
+          end  
+    else
+          @experiment = Experiment.find(data[0])  
+          @micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
+    end      
+
+
+
+
+
+
+
     
-    #render :js => "window.location = '#{micro_array_analysis_files_path}'"  
-      
+    respond_to do |format|    
     format.html { redirect_to micro_array_analysis_files_path }
-        
     end
+
   end  
 
 

@@ -24,11 +24,11 @@
 
 <% @micro_array_analysis_files.each do |micro_array_analysis_file| %>
   <tr>
-    <td><%=h micro_array_analysis_file.microarray %></td>
-    <td><%=h micro_array_analysis_file.MIANE_Standard %></td>
+    <td><%=h micro_array_analysis_file.id %></td>
+    <td><%=h micro_array_analysis_file.MIAME_Standard %></td>
     <td><%=h truncate(micro_array_analysis_file.note, :length => 25, :omission => '... (continued)') %></td>
     <td><%= link_to 'Show', micro_array_analysis_file %></td>
-    <% if auth_ma_user(micro_array_analysis_file.microarray_id) or signed_in_and_master? %>
+    <% if auth_ma_user(micro_array_analysis_file.experiment_id) or signed_in_and_master? %>
       <td><%= link_to 'Edit', edit_micro_array_analysis_file_path(micro_array_analysis_file) %></td>
       <td><%= link_to 'Delete', micro_array_analysis_file, :confirm => 'Are you sure?', :method => :delete %></td>
     <% end %>

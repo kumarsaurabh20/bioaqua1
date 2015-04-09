@@ -25,7 +25,7 @@ class Experiment < ActiveRecord::Base
 
   belongs_to :micro_array_image
 
-  belongs_to :micro_array_analysis_file
+  has_one :micro_array_analysis_file, dependent: :destroy
 
 
   attr_reader :verbose_me
