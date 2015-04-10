@@ -1,9 +1,12 @@
 class ExperimentsController < AuthController
    
+  require 'matrix'
+  require 'csv' 
+  #require 'rinruby'
 
   respond_to :html,:json
   
-  protect_from_forgery :except => [:post_data]
+  #protect_from_forgery :except => [:post_data]
   
   # Don't forget to edit routes if you're using RESTful routing
   # 
@@ -273,7 +276,7 @@ class ExperimentsController < AuthController
   #Function to initiate analysis of individual or multiple experiments 
   def analyze_experiment
    
-    begin
+    #begin
       data = params['data'].split(",")
       logger.debug "=============================" + data.inspect + "=============================="
    
@@ -286,8 +289,11 @@ class ExperimentsController < AuthController
             end  
       else
             @experiment = Experiment.find(data[0]) 
-            path = get_paths(is)
-            @probeNames, @sorted_list = readGpr(path)  
+            path = get_paths(data[0])
+            #logger.debug "&&&&&&&&&&&&&&&&&&&&&" + path.to_s + "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+            @probeNames, @sorted_list = readGpr(path) 
+            logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @probeNames.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"
+            logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_list.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@" 
             #@micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
       end  
 
@@ -295,13 +301,13 @@ class ExperimentsController < AuthController
       format.html { redirect_to micro_array_analysis_files_path }
       end    
 
-    rescue Exception => e
+    #rescue Exception => e
 
-      e.message
-      e.backtrace
+    #  e.message
+    #  e.backtrace
       #raise NoGprError, "File does not seem to be GPR formatted. Check the file!!"
 
-    end   
+    #end   
 
   end  
 
@@ -311,9 +317,17 @@ class ExperimentsController < AuthController
  def readGpr(file_path)
    begin      
        read = IO.read(file_path)
-             read.encode!('UTF-8', :invalid => :replace, :undef => :replace)
-       read_array = []
-             read_array = read.split("\n") 
+       #logger.debug read.to_s + "===================================================="
+
+	if !read.valid_encoding?
+ 	 	read = read.encode("UTF-16be", :invalid=>:replace, :undef => :replace, :replace=>"").encode('UTF-8')
+	end
+
+	#read.encode!('UTF-8', :invalid => :replace, :undef => :replace)
+	#logger.debug read.to_s + "===================================================="
+	read_array = []
+	read_array = read.split("\n") 
+	#logger.debug read_array.to_s + "===================================================="
     # if read.valid_encoding?
        #read_array = read.split("\n")
   #            
@@ -321,31 +335,29 @@ class ExperimentsController < AuthController
   #    read_array = read.encode!("ASCII-8BIT","ASCII-8BIT", invalid: :replace, :undef => :replace).split("\n")
   #      end
       
-        mod_array = read_array.map {|e| e.split("\t")}  
-        
-        logger.debug @mod_array.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
+	mod_array = read_array.map {|e| e.chomp.split("\t")}  
+	#logger.debug mod_array.to_s + "================================================"
 
+	element_stabilized = mod_array.map {|element| element.join(",").gsub("\"","").split(",")} 
+	#logger.debug element_stabilized.to_s + "===================================================="
 
-        element_stabilized = mod_array.map {|element| element.join(",").gsub("\"","").split(",")} 
+	header_removed, column_array = [], []
+	if element_stabilized[0].include?("ATF")
+		header_removed = element_stabilized.drop_while {|i| i unless i.include?("Block")}
+		#logger.debug header_removed.to_s + "===================================================="
+	else
+		raise NoGprError, "File does not seem to be GPR formatted. Check the file"
+	end
 
-        header_removed = []
-          if element_stabilized [0].include?("ATF")
-             header_removed = element_stabilized.drop_while {|i| i unless i.include?("Block")}
-          else
-             raise NoGprError, "File does not seem to be GPR formatted. Check the file"
-          end
+	#logger.debug "@#@#@##@#@#@#@#@#@#@#" + header_removed.kind_of?(Array).to_s + "@#@#@##@#@#@#@#@##@#@#@"	
 
-              column_based_array = header_removed.transpose
+	column_array = header_removed.transpose
+	#logger.debug column_array.to_s + "#########################################################"	
 
-              @name, @dia, @f633_mean, @b633_mean = getColumns(column_based_array)
-
-              @probeNames, @sorted_list = calTotalSignalIntensity(@name, @dia, @f633_mean, @b633_mean)
-                  
-              #@filterProbes, @sorted_list = sortGprTsiList(@name, @get_tsi_list)
-              #logger.debug @filterProbes.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
-              #logger.debug @sorted_list.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"       
-              
-           return @probeNames, @sorted_list
+	@name, @dia, @f633_mean, @b633_mean = getColumns(column_array)
+	@probeNames, @sorted_list = calTotalSignalIntensity(@name, @dia, @f633_mean, @b633_mean)
+               
+	return @probeNames, @sorted_list
 
     rescue Exception => e
               e.message
@@ -364,10 +376,10 @@ class ExperimentsController < AuthController
                when element.include?("Dia.") then dia << element
 
            #logger.debug dia.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
-               when element.include?("F633 Mean") then f633_mean << element
+               when element.include?("F635 Mean") then f633_mean << element
            #logger.debug f633_mean.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-               when element.include?("B633 Mean") then b633_mean << element  
+               when element.include?("B635 Mean") then b633_mean << element  
            #logger.debug b633_mean.to_s + "++++++++++++++++++++++++++++++++++++++++++++++++++++"
      
              end
@@ -464,17 +476,19 @@ class ExperimentsController < AuthController
   }
 
   totalSignalIntensities <- calTSI(dia, f633, b633)
+  snr <- calSNR(f633, b633)
 
-       names <- as.vector(names)
-       totalSignalIntensities <- as.numeric(totalSignalIntensities)
+  names <- as.vector(names)
+  totalSignalIntensities <- as.numeric(totalSignalIntensities)
+  snr <- as.numeric(snr)	
 
   tab <- cbind(Name=names, F633=totalSignalIntensities)
   tab <- data.frame(tab)  
  
   allProbes <- as.character(tab[,1])
   uniqueProbeVec <- unique(allProbes) 
-        uniqueProbeVecFilter <- gsub("\357\277\275\357\277\275\357\277\275M", "", uniqueProbeVec)
-        print(uniqueProbeVecFilter) 
+  uniqueProbeVecFilter <- gsub("\357\277\275\357\277\275\357\277\275M", "", uniqueProbeVec)
+  print(uniqueProbeVecFilter) 
 
   meanTSI <- list()
   myData <- list()

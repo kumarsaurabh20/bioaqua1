@@ -188,7 +188,7 @@ class MicroarraygprsController < AuthController
           flash.now[:notice] = "File not selected. Empty..."
           logger.debug "Microarraygpr create: dowload file empty"  
         else
-            name =  Time.now.strftime("%Y%m%d%H%M%S ") + sanitize_filename(uploaded_io.original_filename)
+            name =  Time.now.strftime("%Y%m%d%H%M%S") + "_" + sanitize_filename(uploaded_io.original_filename)
             logger.debug "File uploaded original name: " + name + ", type: " + uploaded_io.content_type 
             directory = "public/Microarraygprs/"  
             Dir.mkdir(directory) unless File.directory?(directory)

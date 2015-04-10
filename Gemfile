@@ -20,6 +20,7 @@ gem 'columnize'
 #gem 'jrails'
 gem "will_paginate", "~> 3.0.4" 
 gem 'jquery-rails', '~> 2.1'
+gem 'jquery-ui-rails'
 gem 'seed_dump'
 gem 'rinruby'
 
@@ -28,6 +29,9 @@ gem 'rinruby'
 gem 'to_xls', '~> 1.0.0'
 
 gem "therubyracer"
+gem 'uglifier'
+gem 'sass-rails'
+gem 'coffee-rails'
 #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 #gem 'jquery-fileupload-rails'
 #gem 'twitter-bootstrap-rails', :git => 'https://github.com/seyhunak/twitter-bootstrap-rails.git'
@@ -47,7 +51,7 @@ gem "therubyracer"
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
 # gem 'ruby-debug'
-# gem 'ruby-debug19', :require => 'ruby-debug'
+#gem 'ruby-debug19', :require => 'ruby-debug'
 
 # Bundle the extra gems:
 # gem 'bj'
