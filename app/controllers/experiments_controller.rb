@@ -291,9 +291,10 @@ class ExperimentsController < AuthController
             @experiment = Experiment.find(data[0]) 
             path = get_paths(data[0])
             #logger.debug "&&&&&&&&&&&&&&&&&&&&&" + path.to_s + "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-            @probeNames, @sorted_list = readGpr(path) 
+            @probeNames, @sorted_tsi, @sorted_snr = readGpr(path) 
             logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @probeNames.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"
-            logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_list.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@" 
+            logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_tsi.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"
+	    logger.debug "&&&&&&&&&&&&&&&&&&&&&&&&&&&" + @sorted_snr.inspect + "@@@@@@@@@@@@@@@@@@@@@@@@"	 
             #@micro_array_analysis_file = MicroArrayAnalysisFile.create(experiment_id: @experiment.id)
       end  
 
@@ -355,9 +356,9 @@ class ExperimentsController < AuthController
 	#logger.debug column_array.to_s + "#########################################################"	
 
 	@name, @dia, @f633_mean, @b633_mean = getColumns(column_array)
-	@probeNames, @sorted_list = calTotalSignalIntensity(@name, @dia, @f633_mean, @b633_mean)
+	@probeNames, @sorted_tsi, @sorted_snr = calTotalSignalIntensity(@name, @dia, @f633_mean, @b633_mean)
                
-	return @probeNames, @sorted_list
+	return @probeNames, @sorted_tsi, @sorted_snr
 
     rescue Exception => e
               e.message
@@ -482,7 +483,7 @@ class ExperimentsController < AuthController
   totalSignalIntensities <- as.numeric(totalSignalIntensities)
   snr <- as.numeric(snr)	
 
-  tab <- cbind(Name=names, F633=totalSignalIntensities)
+  tab <- cbind(Name=names, F633=totalSignalIntensities, SNR=snr)
   tab <- data.frame(tab)  
  
   allProbes <- as.character(tab[,1])
@@ -492,6 +493,7 @@ class ExperimentsController < AuthController
 
   meanTSI <- list()
   myData <- list()
+  meanSNR <- list()
 
   for (i in c(1:length(uniqueProbeVec))) {
       
@@ -502,13 +504,24 @@ class ExperimentsController < AuthController
 
                 newVec <- as.numeric(as.character(myData[[j]][, 2]))
                 replicate <- as.numeric(length(newVec))
-
-    meanTSI[[j]] <- sum(newVec)/replicate
+		meanTSI[[j]] <- sum(newVec)/replicate
                 
 
   }
 
   meanTSI <- unlist(meanTSI)
+
+
+ for (k in c(1:length(uniqueProbeVec))) {
+
+	snrVec <- as.numeric(as.character(myData[[k]][,3]))
+	snrReplicate <- as.numeric(length(snrVec))
+	meanSNR[[k]] <- sum(snrVec)/snrReplicate
+
+ }
+
+  meanSNR <- unlist(meanSNR)
+
 
    EOF
             
@@ -523,8 +536,9 @@ class ExperimentsController < AuthController
 
           
             #tsi = R.pull("totalSignalIntensities")
-           tsiList = R.pull("meanTSI")
-           return filterNames, tsiList
+	tsiList = R.pull("meanTSI")
+	snrList = R.pull("meanSNR")				
+           return filterNames, tsiList, snrList
 
 
    rescue Exception => e
