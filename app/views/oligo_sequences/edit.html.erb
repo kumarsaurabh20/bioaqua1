@@ -1,4 +1,5 @@
 <%= javascript_include_tag 'viewxml/XMLDisplayBio.js' %>
+<%= javascript_include_tag 'viewxml/XMLDisplay.js' %>
 <%= stylesheet_link_tag 'viewxml/XMLDisplay' %>
 <%= stylesheet_link_tag 'jqWidgets/jqx.base' %>
 <%= stylesheet_link_tag 'jqWidgets/jqx.arctic' %> 
@@ -114,12 +115,14 @@ N (Any base A, C, G, T, or U)   " %><br />
     <div class="field ">
         <%= f.label :taxonomy_id, "Taxonomy identifier" %><br />
         <%= f.hidden_field :taxonomy_id %><br />
+        <%= f.text_field :taxonomy_id, id: "TaxonomyID" %><br />
         <label class="hide" id="ed_tax_id" name="ed_tax_id"><%= @oligo_sequence.taxonomy_id %></label>
         <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=<%=h @oligo_sequence.taxonomy_id %>' title='Show taxonomy identifier into the NCBI web site'  target='_blank'><%=h @oligo_sequence.taxonomy_id %></a></h3>
     </div>
     <div class="field ">
         <%= f.label :taxonomy_name, "Taxonomy name" %><br />
         <%= f.hidden_field :taxonomy_name %><br />
+        <%= f.text_field :taxonomy_name, id: "TaxonomyName" %><br />
         <label class="hide" id="ed_tax_name" name="ed_tax_name"><%= @oligo_sequence.taxonomy_name %></label><br />
         <h3><a href='http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name=<%=h @oligo_sequence.taxonomy_name %>' title='Show taxonomy definition and lineage into the NCBI web site'  target='_blank'><%= @oligo_sequence.taxonomy_name %></a></h3>
     </div>
@@ -153,11 +156,11 @@ N (Any base A, C, G, T, or U)   " %><br />
 
 <div id="treeBox" style="width:200;height:200"></div>
     <textarea id="resbio" class="hide bioarea"  rows="10" cols="100">
-        <%= @tree2 %>
+<!--        <%= @tree2 %>-->
     </textarea> <br />
     <h5><a href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Root" target="_blank">Taxonomy database maintained by NCBI/GenBank</a></h5>
     <br />
-<%= @tree2 %>
+<!--<%= @tree2 %>-->
 
 </td><tr></table>
 
@@ -221,8 +224,10 @@ function SetTaxo2(response) {
     
     try {
         var xmlDoc = response;
+//        console.log(xmlDoc);
         var el2id = $('treeBox').attr('id');        
-    
+        
+        
         LoadXMLDom(el2id, xmlDoc);
 
         try {
@@ -232,13 +237,57 @@ function SetTaxo2(response) {
             }else{
                 xml2String = new XMLSerializer().serializeToString(xmlDoc); // Converts the xml object to string (For rest browsers, mozilla, etc)
             }
-            //var Message =req.getAllResponseHeaders()
+//            var msg =req.getAllResponseHeaders();
 
          
      xml = $.parseXML( xml2String );
-    $('#treeBox').jqxTree( { source:xml, height:'600px', width:'600px'} );
-}
+//     console.log(xml2String);
+    }
         catch (e){alert('error loading xmlDoc: ' + e.message);}
+   try {
+    var node;
+    var childNodes = xmlDoc.documentElement.childNodes;
+    var xmlContents= new Array();
+    var xmlMap= new Map();
+    for(var i = 0; i < childNodes.length; i++)
+       {
+        node = childNodes[i];
+        if(node.nodeType !== Node.TEXT_NODE)  {
+           //console.log(node.getElementsByTagName('ScientificName')[0].textContent);
+         // add Scientific Name to array
+          xmlContents.push(node.getElementsByTagName('ScientificName')[0].textContent);
+         // store TaxId and Scientific Name in Map object
+          xmlMap.set(node.getElementsByTagName('ScientificName')[0].textContent, 
+            node.getElementsByTagName('TaxId')[0].textContent);
+       }
+     }
+//       console.log("Scientific Name(s) in array: "+ xmlContents);
+
+    $('#treeBox').jqxTree( { source:xmlContents, height:'600px', width:'600px', checkboxes: true} ); 
+    // Adding an onchange event listener for the checkboxes in the jqxTree.
+    $('#treeBox').on('checkChange', function (evt) {
+       var args = evt.args;
+       var element = args.element;
+       var label= args.label;
+       var checked = args.checked;
+       if(checked) {
+          // get the selected scientific name.
+          var scientific_name = $(element).text();
+          // Get the TaxonomyID from the Map object, using this scientific name (key).
+          var txId= xmlMap.get(scientific_name);
+
+//          console.log("jqxTree: item selected: Scientific Name: "+ scientific_name +", corresponding taxonomy_id from Map: "+ txId);
+
+          // Add the scientific name to the jquery textarea.
+          $('#TaxonomyName').val(scientific_name);
+          $('#TaxonomyID').val(txId);
+       }
+//       else { // uncheck the other checkboxes.
+//        $('#treeBox').jqxTree('uncheckItem', event.args.element);
+//       }
+      });
+     }
+        catch (err){alert('error with jqxTree: ' + err.message);}
 
     }
     catch (e){alert('error loading XMLDisplay: ' + e.message);}
