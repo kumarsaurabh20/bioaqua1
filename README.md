@@ -1,3 +1,5 @@
+Singh, K.S.; Thual, D.; Spurio, R.; Cannata, N.	SaDA: From Sampling to Data Analysis—An Extensible Open Source Infrastructure for Rapid, Robust and Automated Management and Analysis of Modern Ecological High-Throughput Microarray Data. Int. J. Environ. Res. Public Health 2015, 12, 6352-6366
+
 MicroAQUA internal website frameowrk www.microaqua.eu
 
 Monitoring the quality of drinking water is of paramount importance for public health.
